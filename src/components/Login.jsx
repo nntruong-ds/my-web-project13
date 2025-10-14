@@ -16,7 +16,6 @@ export default function Login() {
                     />
                 </div>
 
-                {/* Form bên phải */}
                 <div className="login-right">
                     <img
                         src={require("./css/ava2.png")}
