@@ -19,7 +19,6 @@
     height: auto;
 }
 
-/* Tiêu đề công ty */
 .company-title {
     color: #0066cc;
     font-size: 22px;
@@ -207,3 +206,15 @@
     font-size: 17px;
     color: #555;
 }
+.login-box {
+    background: url("./phongbat.png") no-repeat center center/cover;
+    background-blend-mode: lighten;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 35px 45px;
+    max-width: 1050px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
