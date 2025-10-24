@@ -1,0 +1,122 @@
+body{
+    font-family: sans-serif;
+    margin: 0;
+}
+.wrapper {
+    display: flex;
+    height: 100vh;
+    border: 1px solid #cccccc;
+}
+
+.sidebar{
+    width: 350px;
+    height: 897px;
+    background-color:  #0066CC14;
+    display: flex;
+    flex-direction: column;
+}
+.logo{
+    text-align: center;
+    padding-top: 10px;
+}
+.logo img{
+    width: 60px;
+}
+.sidebar ul{
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    cursor: pointer;
+}
+.sidebar ul li img{
+    width: 30px;
+    height: 30px;
+}
+.sidebar ul li:hover{
+    border: 1px solid #2a78e4;
+    border-radius: 5px;
+}
+.sidebar ul li.active{
+    color: black;
+}
+a {
+    text-decoration: none;
+    color: black;
+}
+li a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+li a:hover {
+    background-color: #eaf1fb;
+}
+/* Tạo giao diện content */
+.content{
+    width: 75%;
+}
+.content-header{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #0066CC0F;
+}
+.main-content{
+    text-align: center;
+    font-size: 20px;
+}
+hr{
+    width: 90%;
+}
+.form-content{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+form{
+    width: 90%;
+    height: 500px;
+    margin: 20px;
+    border: 1px solid black;
+    border-radius: 5px;
+    font-style: italic;
+}
+label{
+    display: block;
+    font-weight: normal;
+    margin: 20px 20px 20px 20px;
+}
+input{
+    margin: 10px 20px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: #D9D9D999;
+    padding: 10px 20px;
+    width: 90%;
+}
+#nd{
+    height: 100px;
+}
+#btn{
+    display: flex;
+    justify-content: center;
+}
+button{
+    background-color: #0066CC;
+    border-radius: 5px;
+    outline: none;
+    background: #0066CCC9;
+    color: white;
+    font-size: 20px;
+    font-style: italic;
+    width: 199px;
+    height: 47px;
+}
