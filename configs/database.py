@@ -1,15 +1,23 @@
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, declarative_base, Session
+from fastapi import Depends
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///./users.db"
+# MySQL localhost, không password
+DATABASE_URL = "mysql+pymysql://root:@localhost:3306/myweb"
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
+engine = create_engine(DATABASE_URL, echo=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
 Base = declarative_base()
 
-# Hàm cung cấp session cho Depends
+# Khởi tạo DB
+def init_db():
+    try:
+        Base.metadata.create_all(bind=engine)
+        print("✅ Kết nối database 'myweb' thành công và tạo bảng nếu chưa có!")
+    except Exception as e:
+        print("❌ Lỗi kết nối database:", e)
+
+# Dependency để dùng trong controller
 def get_db():
     db = SessionLocal()
     try:
