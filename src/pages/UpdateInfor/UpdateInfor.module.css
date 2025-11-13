@@ -1,0 +1,103 @@
+.title {
+    text-align: center;
+    color: black;
+    font-size: 28px;
+    font-weight: 700;
+    margin-top: 10px;
+    letter-spacing: 1px;
+}
+
+hr {
+    width: 80%;
+    margin: 15px auto 30px;
+    border: 1px solid #bdbdbd;
+    border-radius: 5px;
+}
+
+/* form */
+.form_container {
+    width: 70%;
+    background: #ffffff;
+    margin: auto;
+    border: 1px solid black;
+    border-radius: 5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    padding: 30px 40px;
+    transition: all 0.3s ease;
+}
+
+.form_container:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.tittle_form {
+    background-color: #90caf9;
+    color: black;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin-bottom: 25px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Chia 2 cột */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.form_row {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.form_group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #333;
+    font-size: 14px;
+}
+
+input {
+    padding: 10px 12px;
+    border: 1px solid #bdbdbd;
+    border-radius: 5px;
+    font-size: 15px;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+input:focus {
+    border-color: #1976d2;
+    box-shadow: 0 0 5px rgba(25, 118, 210, 0.4);
+}
+
+/* Nút cập nhật */
+button {
+    display: block;
+    margin: 30px auto 0;
+    background-color: #1976d2;
+    color: white;
+    border: none;
+    padding: 12px 35px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.25s ease;
+}
+
+button:hover {
+    background-color: #0d47a1;
+}
