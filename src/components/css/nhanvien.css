@@ -1,0 +1,114 @@
+/* CONTTAINER CĂN GIỮA */
+.nv-container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 40px 20px;
+    font-family: "Segoe UI", sans-serif;
+}
+
+/* BOX THÔNG TIN */
+.nv-info-box {
+    display: flex;
+    align-items: center;
+    background: #e8eff7;
+    padding: 25px 35px;
+    border-radius: 14px;
+    gap: 35px;
+}
+
+/* AVATAR */
+.nv-avatar-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nv-avatar {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* TEXT PROFILE */
+.nv-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.nv-name {
+    margin: 0;
+    margin-bottom: 6px;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+/* TIÊU ĐỀ */
+.nv-section-title {
+    margin-top: 40px;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+/* GRID TÍNH NĂNG */
+.nv-feature-grid {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px 20px;
+    text-align: center;
+    justify-items: center;
+}
+
+/* ITEM */
+.nv-feature-item {
+    cursor: pointer;
+    padding: 10px;
+    transition: 0.2s;
+}
+
+.nv-feature-item img {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    transition: 0.2s;
+}
+
+.nv-feature-item p {
+    margin-top: 10px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.nv-feature-item:hover img {
+    transform: scale(1.08);
+}
+
+/* NGĂN TRÀN */
+* {
+    box-sizing: border-box;
+}
+.nv-header {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+}
+
+.btn-logout {
+    padding: 10px 18px;
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.btn-logout:hover {
+    background: #e60000;
+}
