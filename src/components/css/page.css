@@ -1,0 +1,41 @@
+.page-container {
+    width: 100%;
+    padding: 30px 50px;
+    font-family: "Segoe UI", sans-serif;
+}
+
+/* Header giống Sinh Nhật */
+.page-header {
+    display: flex;
+    align-items: center;
+    background: #e8eff7;
+    padding: 12px 18px;
+    border-radius: 8px;
+    justify-content: space-between;
+}
+
+.page-back {
+    font-size: 22px;
+    background: white;
+    border: none;
+    cursor: pointer;
+    padding: 5px 12px;
+    border-radius: 6px;
+}
+
+.page-title {
+    flex: 1;
+    text-align: center;
+    margin-right: 40px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* Khung trắng chứa nội dung */
+.page-box {
+    margin-top: 20px;
+    padding: 25px;
+    border-radius: 10px;
+    background: white;
+    border: 1px solid #d6d6d6;
+}

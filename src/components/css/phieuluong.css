@@ -1,0 +1,75 @@
+.pl-container {
+    padding: 40px 60px;
+    font-family: "Segoe UI", sans-serif;
+}
+
+/* Header */
+.pl-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.pl-back {
+    background: #fff;
+    border: 1px solid #d0d7e2;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.pl-title {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+/* Box */
+.pl-box {
+    width: 100%;
+    max-width: 1300px;
+    background: #ffffff;
+    border: 1px solid #d7e3f4;
+    border-radius: 12px;
+    padding: 30px 40px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+/* Các dòng */
+.pl-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+}
+
+.pl-label {
+    font-weight: 600;
+    color: #000;
+}
+
+.pl-value {
+    font-weight: 500;
+}
+
+/* Dòng cuối */
+.pl-final-row {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #dfe6f3;
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+}
+
+.pl-final-label {
+    font-weight: 700;
+}
+
+.pl-final-value {
+    font-weight: 700;
+    color: #1e62d0;
+}

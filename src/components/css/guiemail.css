@@ -1,0 +1,70 @@
+.email-container {
+    width: 90%;
+    max-width: 1000px;
+    margin: 40px auto;
+}
+
+/* Nút Back đặt lên trên góc trái */
+.email-back {
+    margin-bottom: 25px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background: white;
+    cursor: pointer;
+    font-size: 15px;
+    transition: 0.2s;
+}
+
+.email-back:hover {
+    background: #eee;
+}
+
+.email-title {
+    text-align: center;
+    font-size: 26px;
+    margin-bottom: 30px;
+    font-weight: 700;
+}
+
+.email-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.email-form input,
+.email-form textarea {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+}
+
+.email-form textarea {
+    height: 160px;
+    resize: vertical;
+}
+
+.email-submit {
+    margin-top: 20px;
+    padding: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    background: #4287f5;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.email-submit:hover {
+    background: #1f6de0;
+}
+
+.red {
+    color: red;
+}
