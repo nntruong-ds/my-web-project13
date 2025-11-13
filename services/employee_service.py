@@ -9,10 +9,10 @@ def get_profile(db: Session, username: str):
     ).fetchone()
     if not profile:
         raise HTTPException(status_code=404, detail="Nhân viên không tồn tại")
-    return dict(profile)
+    return dict(profile._mapping)  # chuẩn hơn fetchone()._mapping
+
 
 def update_profile(db: Session, username: str, email: str = None, so_dien_thoai: str = None, dia_chi: str = None):
-    # Kiểm tra tồn tại nhân viên
     user = db.execute(
         text("SELECT * FROM nhan_vien WHERE ma_nhan_vien=:username"),
         {"username": username}
@@ -20,7 +20,7 @@ def update_profile(db: Session, username: str, email: str = None, so_dien_thoai:
     if not user:
         raise HTTPException(status_code=404, detail="Nhân viên không tồn tại")
 
-    # Build dictionary các trường update
+    # Chuẩn bị các trường cập nhật
     update_fields = {}
     if email:
         update_fields["email"] = email
@@ -32,9 +32,10 @@ def update_profile(db: Session, username: str, email: str = None, so_dien_thoai:
     if not update_fields:
         raise HTTPException(status_code=400, detail="Không có trường nào để cập nhật")
 
-    # Build SQL động
+    # Ghép câu lệnh SQL động
     set_clause = ", ".join(f"{key}=:{key}" for key in update_fields.keys())
     update_fields["username"] = username
+
     db.execute(
         text(f"UPDATE nhan_vien SET {set_clause} WHERE ma_nhan_vien=:username"),
         update_fields
@@ -46,4 +47,4 @@ def update_profile(db: Session, username: str, email: str = None, so_dien_thoai:
         text("SELECT * FROM nhan_vien WHERE ma_nhan_vien=:username"),
         {"username": username}
     ).fetchone()
-    return dict(updated_user)
+    return dict(updated_user._mapping)
