@@ -4,9 +4,9 @@ from app.schemas.department_schema import DepartmentCreate, DepartmentResponse
 
 class DepartmentController:
     @staticmethod
-    def  create_department(db: Session, dept_data: DepartmentCreate) -> DepartmentResponse:
+    def  create_department(db: Session, data: DepartmentCreate) -> DepartmentResponse:
         try:
-            return DepartmentService.create_department(db, dept_data)
+            return DepartmentService.create_department(db, data)
         except ValueError as e:
             raise Exception(str(e))
         

@@ -4,15 +4,23 @@ from sqlalchemy.orm import sessionmaker
 import os
 from dotenv import load_dotenv
 
-load_dotenv()  # Đọc file .env
+# load_dotenv()  # Đọc file .env
 
-DATABASE_URL = os.getenv("DATABASE_URL")
+# DATABASE_URL = os.getenv("DATABASE_URL")
 
-# DATABASE_URL= "sqlite:///./test.db"
+DATABASE_URL= "sqlite:///./test.db"
 
-engine = create_engine(DATABASE_URL)
+engine = create_engine(DATABASE_URL, echo=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
+
+# Khởi tạo DB
+def init_db():
+    try:
+        Base.metadata.create_all(bind=engine)
+        print("✅ Kết nối database thành công và tạo bảng nếu chưa có!")
+    except Exception as e:
+        print("❌ Lỗi kết nối database:", e)
 
 # Tạo session mới cho mỗi request
 def get_db():

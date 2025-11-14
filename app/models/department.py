@@ -1,13 +1,17 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, func
 from sqlalchemy.orm import relationship
 from app.configs.database import Base
 
 class Department(Base):
     __tablename__ = "phong_ban"
 
-    department_id = Column(Integer, primary_key=True, index=True)
+    department_id = Column(String(20), primary_key=True, index=True)
     department_name = Column(String(100), unique=True, nullable=False)
-    describe = Column(String(255), default="")
+    # head_id = Column(String(11), ForeignKey("nhan_vien.manv"), nullable=True)
+    date_of_creation = Column(DateTime, server_default=func.now(), nullable=False)
+    branch_id = Column(Integer, nullable=False)
 
-    # Quan hệ 1-n: 1 phòng ban có nhiều nhân viên
-    # nhanviens = relationship("nhanvien", back_populates="phongban")
+    # head_department = relationship("Employee", back_populates="phong_quan_ly", lazy="joined")
+
+    def __repr__(self):
+        return f"<PhongBan(mapb='{self.department_id}', ten_phong='{self.department_name}')>"
