@@ -1,21 +1,24 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
 from typing import Optional
+from datetime import date
 
-# Thông tin hồ sơ nhân viên trả về cho frontend
 class EmployeeProfile(BaseModel):
     ma_nhan_vien: str
     ho_ten: Optional[str]
-    email: Optional[EmailStr]
-    so_dien_thoai: Optional[str]
-    dia_chi: Optional[str]
-    vai_tro: Optional[str]
+    email: Optional[str]
+    phong_ban_id: Optional[int]
+    chuc_vu_id: Optional[str]
+    ngay_vao_lam: Optional[date]
+    trang_thai: Optional[str]
+    chinhanh_id: Optional[int]
 
     class Config:
-        orm_mode = True  # Cho phép đọc từ SQLAlchemy hoặc dict
+        from_attributes = True
 
 
-# Thông tin cập nhật hồ sơ
-class EmployeeUpdateRequest(BaseModel):
-    email: Optional[EmailStr] = None
-    so_dien_thoai: Optional[str] = None
-    dia_chi: Optional[str] = None
+class EmployeeUpdate(BaseModel):
+    ho_ten: Optional[str] = None
+    email: Optional[str] = None
+    phong_ban_id: Optional[int] = None  # Nếu bạn muốn cho sửa
+    trang_thai: Optional[str] = None     # Nếu không cho sửa thì xoá dòng này
+
