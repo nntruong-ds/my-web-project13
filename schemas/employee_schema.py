@@ -19,6 +19,7 @@ class EmployeeProfile(BaseModel):
 class EmployeeUpdate(BaseModel):
     ho_ten: Optional[str] = None
     email: Optional[str] = None
-    phong_ban_id: Optional[int] = None  # Nếu bạn muốn cho sửa
-    trang_thai: Optional[str] = None     # Nếu không cho sửa thì xoá dòng này
+    phong_ban_id: Optional[int] = None
+    trang_thai: Optional[str] = None
+
 
