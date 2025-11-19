@@ -1,13 +1,52 @@
 import React, { useState } from "react";
 import "./css/hoso.css";
-import {useNavigate, useParams} from "react-router-dom";
-import employees from "../data/employees";
+import { useNavigate, useParams } from "react-router-dom";
+import employeesData from "../data/employees";
 
 export default function HoSo() {
     const navigate = useNavigate();
     const { id } = useParams();
+
+    // Load từ localStorage
+    const storedData = localStorage.getItem("employees");
+    const employees = storedData ? JSON.parse(storedData) : employeesData;
+
     const user = employees.find(u => u.id === Number(id));
+
+    // Hooks phải đặt trước return
+    const [formData, setFormData] = useState(user || {});
+    const [editing, setEditing] = useState(false);
+
     if (!user) return <h2>Không tìm thấy nhân viên</h2>;
+
+    // Thay đổi input
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    // Upload avatar
+    const handleAvatarChange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = () => {
+            setFormData(prev => ({ ...prev, avatar: reader.result }));
+        };
+        reader.readAsDataURL(file);
+    };
+
+    // Cập nhật và lưu localStorage
+    const handleUpdate = () => {
+        const newData = employees.map(emp =>
+            emp.id === Number(id) ? formData : emp
+        );
+
+        localStorage.setItem("employees", JSON.stringify(newData));
+        alert("Cập nhật thành công!");
+        setEditing(false);
+    };
 
     return (
         <div className="hs-container">
@@ -20,8 +59,8 @@ export default function HoSo() {
                 <h2>Hồ sơ của bạn</h2>
 
                 <div className="hs-buttons">
-                    <button className="hs-update">Cập nhật</button>
-                    <button className="hs-edit">Chỉnh sửa</button>
+                    <button className="hs-update" onClick={handleUpdate}>Cập nhật</button>
+                    <button className="hs-edit" onClick={() => setEditing(true)}>Chỉnh sửa</button>
                 </div>
             </div>
 
@@ -34,49 +73,64 @@ export default function HoSo() {
                     {/* LEFT FORM */}
                     <div className="hs-left">
                         <label>ID:</label>
-                        <input type="text" value={user.id} disabled />
+                        <input name="id" value={formData.id} disabled />
 
                         <label>Họ và tên:</label>
-                        <input type="text" value={user.name} disabled />
+                        <input name="name" value={formData.name} disabled={!editing} onChange={handleChange} />
 
                         <label>Ngày sinh:</label>
-                        <input type="text" value={user.birthday} disabled />
+                        <input name="birthday" value={formData.birthday} disabled={!editing} onChange={handleChange} />
 
                         <label>Giới tính:</label>
-                        <input type="text" value={user.sex} disabled />
+                        <input name="sex" value={formData.sex} disabled={!editing} onChange={handleChange} />
 
                         <label>Địa chỉ:</label>
-                        <input type="text" value={user.address} disabled />
+                        <input name="address" value={formData.address} disabled={!editing} onChange={handleChange} />
 
                         <label>Email:</label>
-                        <input type="text" value={user.email} disabled />
+                        <input name="email" value={formData.email} disabled={!editing} onChange={handleChange} />
 
                         <div className="hs-row">
                             <div className="hs-col">
                                 <label>CCCD:</label>
-                                <input type="text" value="0123456789" readOnly />
+                                <input name="cccd" value={formData.cccd  || ""} disabled={!editing} onChange={handleChange} />
                             </div>
-
                             <div className="hs-col">
-                                <label>SDT:</label>
-                                <input type="text" value="0987654321" readOnly />
+                                <label>SĐT:</label>
+                                <input name="phone" value={formData.phone || ""} disabled={!editing} onChange={handleChange} />
                             </div>
                         </div>
 
                         <div className="hs-row">
                             <div className="hs-col">
                                 <label>Trạng thái:</label>
-                                <input type="text" value="Đang làm việc" readOnly />
+                                <input name="status" value={formData.status || ""} disabled={!editing} onChange={handleChange} />
                             </div>
-
                             <div className="hs-col">
                                 <label>Ngày vào làm:</label>
-                                <input type="text" value="01/01/2024" readOnly />
+                                <input name="ngayvl" value={formData.ngayvl || ""} disabled={!editing} onChange={handleChange} />
                             </div>
                         </div>
                     </div>
+
+                    {/* RIGHT - AVATAR */}
                     <div className="hs-right">
-                        <img src={user.avatar} alt="avatar" className="hs-avatar" />
+                        <img
+                            src={formData.avatar}
+                            alt="avatar"
+                            className="hs-avatar"
+                            onClick={() => editing && document.getElementById("uploadAvatar").click()}
+                            style={{ cursor: editing ? "pointer" : "default" }}
+                        />
+
+                        <input
+                            id="uploadAvatar"
+                            type="file"
+                            accept="image/*"
+                            style={{ display: "none" }}
+                            disabled={!editing}
+                            onChange={handleAvatarChange}
+                        />
                     </div>
                 </div>
             </div>

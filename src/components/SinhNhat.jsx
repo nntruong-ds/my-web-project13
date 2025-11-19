@@ -1,10 +1,11 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import employees from "../data/employees";
 import "./css/sinhnhat.css";
 
 export default function SinhNhat() {
     const navigate = useNavigate();
+    const { id } = useParams();  // Lấy ID người đang đăng nhập
 
     return (
         <div className="sn-container">
@@ -24,27 +25,27 @@ export default function SinhNhat() {
                         <th>Nhắn tin</th>
                     </tr>
                     </thead>
-
                     <tbody>
                     {employees.map((emp, index) => (
                         <tr key={index}>
                             <td>{emp.name}</td>
                             <td>{emp.birthday}</td>
                             <td>
-                                <a href={`mailto:${emp.email}`}>
-                                    <img
-                                        src={require("./css/mailicon.png")}
-                                        className="sn-mail-icon"
-                                        alt="email"
-                                    />
-                                </a>
+                                <img
+                                    src={require("./css/mailicon.png")}
+                                    className="sn-mail-icon"
+                                    alt="email"
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() =>
+                                        navigate(`/employee/${id}/email?to=${emp.email}`)
+                                    }
+                                />
                             </td>
                         </tr>
                     ))}
                     </tbody>
                 </table>
-
-                <p className="sn-note">Bấm vào "Ảnh" trong mục "Nhắn tin" để gửi lời chúc mừng sinh nhật.</p>
+                <p className="sn-note">Bấm vào ảnh để gửi lời chúc mừng sinh nhật.</p>
             </div>
         </div>
     );

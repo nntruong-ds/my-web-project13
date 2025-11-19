@@ -4,7 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ca6e388-9477-4850-9b2d-ccd37aecb620" name="Changes" comment="" />
+    <list default="true" id="0ca6e388-9477-4850-9b2d-ccd37aecb620" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Employee.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Employee.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/GuiEmail.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/GuiEmail.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/HoSo.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/HoSo.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/QuenPass.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/QuenPass.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/SinhNhat.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SinhNhat.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/css/guiemail.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/css/guiemail.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/css/hoso.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/css/hoso.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/css/quenpass.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/css/quenpass.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/employees.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/employees.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -27,7 +39,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;frontend/vdquy&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/thudo/my-wed-project13&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -59,6 +71,8 @@
       <workItem from="1760513867110" duration="3567000" />
       <workItem from="1760517716496" duration="483000" />
       <workItem from="1760518211908" duration="2002000" />
+      <workItem from="1763055734147" duration="572000" />
+      <workItem from="1763562076486" duration="6476000" />
     </task>
     <servers />
   </component>
