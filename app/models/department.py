@@ -13,6 +13,10 @@ class Department(Base):
 
     ds_nhan_vien = relationship("Employee", back_populates="phong_truc_thuoc", foreign_keys="Employee.phong_ban_id")
 
+    @property
+    def so_luong_nhan_vien(self):
+        return len(self.ds_nhan_vien)
+
     truong_phong = relationship("Employee", back_populates="phong_quan_ly", foreign_keys=[truong_phong_id], lazy="joined")
 
     def __repr__(self):

@@ -11,7 +11,7 @@ class DepartmentService:
     
     # Thêm phòng ban mới
     @staticmethod
-    def create_department(db: Session, data: DepartmentCreate) -> DepartmentResponse:
+    def create_department(db: Session, data: DepartmentCreate):
         department = Department(mapb = data.mapb, 
                                 ten_phong = data.ten_phong,
                                 truong_phong_id = data.truong_phong_id,
@@ -44,7 +44,7 @@ class DepartmentService:
 
         db.commit()
         db.refresh(department)
-        return DepartmentResponse.model_validate(department)
+        return department
     
     # Xóa phòng ban
     @staticmethod
@@ -59,11 +59,10 @@ class DepartmentService:
 
     # Lấy thông tin phòng ban
     @staticmethod
-    def get_department_info(db: Session, mapb: str) -> DepartmentResponse:
-        department = DepartmentService.get_department_by_mapb(db, mapb)
-        return DepartmentResponse.model_validate(department)
-
-    # Lấy 1 phòng ban theo mapb
-    @staticmethod
     def get_department_by_mapb(db: Session, mapb: str):
-        return db.query(Department).filter(Department.mapb == mapb).first()
+        department = db.query(Department).filter(Department.mapb == mapb).first()
+        
+        if not department:
+            return None
+
+        return DepartmentResponse.model_validate(department)

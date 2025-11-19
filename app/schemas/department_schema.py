@@ -23,12 +23,7 @@ class DepartmentUpdate(BaseModel):
 class DepartmentResponse(DepartmentBase):
     truong_phong_id: Optional[str] = None
     ngay_tao: Union[datetime, str]
-
-    @field_validator('ngay_tao')
-    def format_ngay_tao(cls, v):
-        if v:
-            return v.strftime("%d/%m/%Y %H:%M") 
-        return v
+    so_luong_nhan_vien: int
 
     class Config:
         from_attributes = True
