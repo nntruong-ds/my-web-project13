@@ -39,3 +39,16 @@ class DepartmentController:
             raise HTTPException(status_code=404, detail="Department not found")
 
         return {"message": "Department deleted successfully"}
+    
+    # Xem thông tin phòng ban
+    @staticmethod
+    def get_department_info(db:Session, id: str):
+        department = DepartmentService.get_department_info(db, id)
+        
+        if not department:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Không tìm thấy phòng ban có mã {id}"
+            )
+        
+        return department

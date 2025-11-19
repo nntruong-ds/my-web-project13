@@ -24,8 +24,8 @@ class DepartmentService:
 
     # Cập nhật thông tin phòng ban
     @staticmethod
-    def update_department(db: Session, id: str, data: DepartmentUpdate):
-        department = DepartmentService.get_department(db, id)
+    def update_department(db: Session, mapb: str, data: DepartmentUpdate):
+        department = DepartmentService.get_department_by_mapb(db, mapb)
         if not department:
             return None
         
@@ -44,12 +44,12 @@ class DepartmentService:
 
         db.commit()
         db.refresh(department)
-        return department
+        return DepartmentResponse.model_validate(department)
     
     # Xóa phòng ban
     @staticmethod
-    def delete_department(db: Session, id: str):
-        department = DepartmentService.get_department(db, id)
+    def delete_department(db: Session, mapb: str):
+        department = DepartmentService.get_department_by_mapb(db, mapb)
         if not department:
             return None
         
@@ -57,7 +57,13 @@ class DepartmentService:
         db.commit()
         return True
 
+    # Lấy thông tin phòng ban
+    @staticmethod
+    def get_department_info(db: Session, mapb: str) -> DepartmentResponse:
+        department = DepartmentService.get_department_by_mapb(db, mapb)
+        return DepartmentResponse.model_validate(department)
+
     # Lấy 1 phòng ban theo mapb
     @staticmethod
-    def get_department(db: Session, id: str):
-        return db.query(Department).filter(Department.mapb == id).first()
+    def get_department_by_mapb(db: Session, mapb: str):
+        return db.query(Department).filter(Department.mapb == mapb).first()

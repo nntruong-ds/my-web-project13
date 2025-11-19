@@ -28,3 +28,8 @@ def update_department(mapb: str, data: DepartmentUpdate, db: Session = Depends(g
 @router.delete("/{mapb}", status_code=status.HTTP_200_OK)
 def delete_department(mapb: str, db: Session = Depends(get_db)):
     return DepartmentController.delete_department(db, mapb)
+
+#Xem thông tin phòng ban
+@router.get("/{mapb}", response_model=DepartmentResponse)
+def get_department_info(mapb: str, db: Session = Depends(get_db)):
+    return DepartmentController.get_department_info(db, mapb)
