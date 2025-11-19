@@ -1,24 +1,63 @@
 from sqlalchemy.orm import Session
 from app.models.department import Department
-from app.schemas.department_schema import DepartmentCreate, DepartmentResponse
+from app.schemas.department_schema import *
 
 class DepartmentService:
-
-    # Tạo phòng ban mới
-    @staticmethod
-    def create_department(db: Session, data: DepartmentCreate) -> DepartmentResponse:
-        department = Department(department_id = data.department_id, 
-                                department_name = data.department_name,
-                                # head_id = data.head_id,
-                                branch_id = data.branch_id)
-    
-        db.add(department)
-        db.commit()
-        db.refresh(department)
-        return DepartmentResponse.from_orm(department)
-    
     # Lấy danh sách phòng ban
     @staticmethod
     def get_all_departments(db: Session):
         departments = db.query(Department).all()
-        return [DepartmentResponse.from_orm(d) for d in departments]
+        return [DepartmentResponse.model_validate(d) for d in departments]
+    
+    # Thêm phòng ban mới
+    @staticmethod
+    def create_department(db: Session, data: DepartmentCreate) -> DepartmentResponse:
+        department = Department(mapb = data.mapb, 
+                                ten_phong = data.ten_phong,
+                                truong_phong_id = data.truong_phong_id,
+                                ma_cn = data.ma_cn)
+    
+        db.add(department)
+        db.commit()
+        db.refresh(department)
+        return DepartmentResponse.model_validate(department)
+
+    # Cập nhật thông tin phòng ban
+    @staticmethod
+    def update_department(db: Session, id: str, data: DepartmentUpdate):
+        department = DepartmentService.get_department(db, id)
+        if not department:
+            return None
+        
+        # Cập nhật từng thông tin được gửi lên
+        if data.ten_phong is not None:
+            department.ten_phong = data.ten_phong
+
+        if data.truong_phong_id is not None:
+            department.truong_phong_id = data.truong_phong_id
+
+        if data.ngay_tao is not None:
+            department.ngay_tao = data.ngay_tao
+
+        if data.ma_cn is not None:
+            department.ma_cn = data.ma_cn
+
+        db.commit()
+        db.refresh(department)
+        return department
+    
+    # Xóa phòng ban
+    @staticmethod
+    def delete_department(db: Session, id: str):
+        department = DepartmentService.get_department(db, id)
+        if not department:
+            return None
+        
+        db.delete(department)
+        db.commit()
+        return True
+
+    # Lấy 1 phòng ban theo mapb
+    @staticmethod
+    def get_department(db: Session, id: str):
+        return db.query(Department).filter(Department.mapb == id).first()

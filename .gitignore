@@ -1,5 +1,16 @@
+# Bỏ qua thư mục môi trường ảo
 venv/
-__pycache__/
+env/
 .env
-*.pyc
+
+# Bỏ qua file biên dịch của Python
+__pycache__/
+*.py[cod]
+
+# Bỏ qua file settings của IDE (VS Code, Pycharm)
+.vscode/
+.idea/
+
+# Bỏ qua file database SQLite (nếu có dùng lại)
 *.db
+*.sqlite3
