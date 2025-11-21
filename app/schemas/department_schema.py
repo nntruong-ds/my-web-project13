@@ -23,6 +23,11 @@ class DepartmentUpdate(BaseModel):
 class DepartmentResponse(DepartmentBase):
     truong_phong_id: Optional[str] = None
     ngay_tao: Union[datetime, str]
+
+    # Hiển thị tên trưởng phòng
+    ten_truong_phong: Optional[str] = None
+
+    # Hiển thị số lượng nhân viên của phòng
     so_luong_nhan_vien: int
 
     class Config:

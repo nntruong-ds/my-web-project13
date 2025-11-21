@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from app.models.employee import Employee
 from app.services.department_service import DepartmentService
+from app.services.branch_service import BranchService
 from app.schemas.employee_schema import *
 
 class EmployeeService:
@@ -20,8 +21,14 @@ class EmployeeService:
         if data.phong_ban_id is not None:
             department = DepartmentService.get_department_by_id(db, data.phong_ban_id)
             if not department:
-                raise ValueError(f"Mã phòng ban '{data.phong_ban_id}' không tồn tại.")
+                raise ValueError(f"Phòng ban '{data.phong_ban_id}' không tồn tại.")
             employee.phong_ban_id = data.phong_ban_id
+
+        if data.chinhanh_id is not None:
+            branch = BranchService.get_branch_by_id(db, data.chinhanh_id)
+            if not branch:
+                raise ValueError(f"Chi nhánh '{data.chinhanh_id}' không tồn tại.")
+            employee.chinhanh_id = data.chinhanh_id
             
         if data.ho_ten is not None:
             employee.ho_ten = data.ho_ten
@@ -37,9 +44,6 @@ class EmployeeService:
             
         if data.trang_thai is not None:
             employee.trang_thai = data.trang_thai
-
-        if data.chinhanh_id is not None:
-            employee.chinhanh_id = data.chinhanh_id
 
         db.commit()
         db.refresh(employee)
