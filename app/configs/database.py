@@ -21,6 +21,7 @@ def init_db():
     try:
         from app.models.department import Department
         from app.models.employee import Employee
+        from app.models.branch import Branch
 
         Base.metadata.create_all(bind=engine)
         print("✅ Kết nối database thành công và tạo bảng nếu chưa có!")

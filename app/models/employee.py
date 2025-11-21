@@ -23,7 +23,7 @@ class Employee(Base):
     phong_quan_ly = relationship("Department", back_populates="truong_phong", foreign_keys="Department.truong_phong_id", uselist=False)
 
     # Relationship: Nhân viên thuộc về 1 chi nhánh
-    chi_nhanh_truc_thuoc = relationship("Branch", back_populates="ds_nhan_vien", foreign_keys=[chinhanh_id])
+    chi_nhanh_lam_viec = relationship("Branch", back_populates="ds_nhan_vien", foreign_keys=[chinhanh_id])
 
     def __repr__(self):
         return f"<NhanVien(manv='{self.ma_nhan_vien}', ho_ten='{self.ho_ten}')>"

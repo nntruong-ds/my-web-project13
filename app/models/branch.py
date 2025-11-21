@@ -22,14 +22,14 @@ class Branch(Base):
         return self.giam_doc.ho_ten if self.giam_doc else None
 
     # Relationship 1-nhiều (1 chi nhánh có nhiều nhân viên)
-    ds_nhan_vien = relationship("Employee", back_populates="chi_nhanh", foreign_keys="Employee.chinhanh_id")
+    ds_nhan_vien = relationship("Employee", back_populates="chi_nhanh_lam_viec", foreign_keys="Employee.chinhanh_id")
 
     @property
     def so_luong_nhan_vien(self):
         return len(self.ds_nhan_vien)
 
     # Relationship 1-nhiều (1 chi nhánh có nhiều phòng ban)
-    ds_phong_ban = relationship("Department", back_populates="chi_nhanh", foreign_keys="Department.ma_cn")
+    ds_phong_ban = relationship("Department", back_populates="chi_nhanh_truc_thuoc", foreign_keys="Department.ma_cn")
 
     @property
     def so_luong_phong_ban(self):

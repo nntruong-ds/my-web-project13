@@ -4,10 +4,9 @@ from app.services.employee_service import EmployeeService
 from app.schemas.employee_schema import *
 
 class EmployeeController:
-    # Xem hồ sơ nhân viên
     @staticmethod
-    def get_profile_employee(db: Session, id: str) -> EmployeeResponse:
-        employee = EmployeeService.get_profile_employee(db, id)
+    def get_employee(db: Session, id: str):
+        employee = EmployeeService.get_employee_by_id(db, id)
 
         if not employee:
             raise HTTPException(
@@ -17,11 +16,10 @@ class EmployeeController:
         
         return employee
 
-    # Cập nhật hồ sơ nhân viên
     @staticmethod
     def update_employee(db: Session, id: str, data: EmployeeUpdate):
         try:
-            employee = EmployeeService.update_employee(db, id, data)
+            employee = EmployeeService.update_profile_employee(db, id, data)
             
             if employee is None:
                 raise HTTPException(

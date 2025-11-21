@@ -20,6 +20,14 @@ class DepartmentService:
         departments = query.all()
         return [DepartmentResponse.model_validate(d) for d in departments]
     
+    # Lấy thông tin phòng ban
+    @staticmethod
+    def get_department_by_id(db: Session, id: str):
+        department = DepartmentService.get_department_orm(db, id)
+        if not department:
+            return None
+        return DepartmentResponse.model_validate(department)
+
     # Thêm phòng ban mới
     @staticmethod
     def create_department(db: Session, data: DepartmentCreate):
@@ -79,11 +87,3 @@ class DepartmentService:
     @staticmethod
     def get_department_orm(db: Session, id: str):
         return db.query(Department).filter(Department.mapb == id).first()
-    
-    # Lấy thông tin phòng ban
-    @staticmethod
-    def get_department_by_id(db: Session, id: str):
-        department = DepartmentService.get_department_orm(db, id)
-        if not department:
-            return None
-        return DepartmentResponse.model_validate(department)

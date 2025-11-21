@@ -8,15 +8,10 @@ class BranchService:
     @staticmethod
     def get_all_branches(db: Session):
         return [BranchResponse.model_validate(b) for b in db.query(Branch).all()]
-
-    # Truy vấn chi nhánh theo ma_chi_nhanh
-    @staticmethod
-    def get_branch_orm(db: Session, macn: int):
-        return db.query(Branch).filter(Branch.ma_chi_nhanh == macn).first()
     
     # Lấy thông tin chi nhánh
     @staticmethod
-    def get_department_by_id(db: Session, id: str):
+    def get_branch_by_id(db: Session, id: str):
         department = BranchService.get_branch_orm(db, id)
         if not department:
             return None
@@ -47,6 +42,7 @@ class BranchService:
         db.refresh(new_branch)
         return BranchResponse.model_validate(new_branch)
 
+    # Cập nhật thông tin chi nhánh
     @staticmethod
     def update_branch(db: Session, branch_id: int, data: BranchUpdate):
         # Check chi nhánh có tồn tại không
@@ -92,3 +88,8 @@ class BranchService:
         db.delete(branch)
         db.commit()
         return True
+    
+    # Truy vấn chi nhánh theo ma_chi_nhanh
+    @staticmethod
+    def get_branch_orm(db: Session, macn: int):
+        return db.query(Branch).filter(Branch.ma_chi_nhanh == macn).first()

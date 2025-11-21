@@ -7,25 +7,27 @@ from app.schemas.employee_schema import *
 class EmployeeService:
     # Xem hồ sơ nhân viên
     @staticmethod
-    def get_profile_employee(db: Session, id: str) -> EmployeeResponse:
-        employee = db.query(Employee).filter(Employee.ma_nhan_vien == id).first()
+    def get_employee_by_id(db: Session, id: str):
+        employee = EmployeeService.get_employee_orm(db, id)
         return EmployeeResponse.model_validate(employee)
 
     # Cập nhật hồ sơ nhân viên
     @staticmethod
-    def update_employee(db: Session, id: str, data: EmployeeUpdate):
-        employee = EmployeeService.get_profile_employee(db, id)
+    def update_profile_employee(db: Session, id: str, data: EmployeeUpdate):
+        employee = EmployeeService.get_employee_orm(db, id)
         if not employee:
             return None
         
+        # Check phòng ban có tồn tại không
         if data.phong_ban_id is not None:
-            department = DepartmentService.get_department_by_id(db, data.phong_ban_id)
+            department = DepartmentService.get_department_orm(db, data.phong_ban_id)
             if not department:
                 raise ValueError(f"Phòng ban '{data.phong_ban_id}' không tồn tại.")
             employee.phong_ban_id = data.phong_ban_id
 
+        # Check chi nhánh có tồn tại không
         if data.chinhanh_id is not None:
-            branch = BranchService.get_branch_by_id(db, data.chinhanh_id)
+            branch = BranchService.get_branch_orm(db, data.chinhanh_id)
             if not branch:
                 raise ValueError(f"Chi nhánh '{data.chinhanh_id}' không tồn tại.")
             employee.chinhanh_id = data.chinhanh_id
@@ -49,3 +51,8 @@ class EmployeeService:
         db.refresh(employee)
         
         return employee
+    
+    # Truy vấn nhân viên theo id
+    @staticmethod
+    def get_employee_orm(db:Session, id: str):
+        return db.query(Employee).filter(Employee.ma_nhan_vien == id).first()
