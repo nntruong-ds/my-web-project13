@@ -1,9 +1,9 @@
 .sidebar{
-    width: 350px;
-    height: 897px;
-    background-color: blue;
-    display: flex;
-    flex-direction: column;
+    width: 250px;
+    height: 100vh;
+    overflow-y: auto;
+    background: #2EA1FF;
+    padding: 10px;
 }
 .logo{
     text-align: center;
@@ -11,6 +11,7 @@
 }
 .logo img{
     width: 60px;
+    border-radius: 5px;
 }
 .sidebar ul{
     padding: 0;
@@ -47,6 +48,13 @@ li a {
     gap: 10px;
     cursor: pointer;
 }
-li a:hover {
-    background-color: none;
+li:hover {
+    background-color: blue;
+}
+.menu-parent:hover {
+    background-color: blue;
+}
+span{
+    font-weight: bold;
+    color: white;
 }

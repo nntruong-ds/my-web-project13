@@ -1,0 +1,58 @@
+.content{
+    border: 1px solid #0066CC;
+}
+.header{
+    background: #0066CC4A;
+    margin: 0px;
+    padding: 10px;
+    font-style: italic;
+    font-size: 20px;
+    text-align: center;
+}
+.container1{
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 70% 30%; /* 2 cột */
+    gap: 20px;
+}
+.func{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px;
+    margin: 10px;
+}
+.search{
+    width: 55%;
+}
+.row{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding: 10px;
+}
+.fullInput {
+    width: 71%;
+}
+.search button{
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+}
+
+.other {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+}
+
+.action {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 12px 0;
+    gap: 10px;
+}
+.action button{
+    margin: 5px;
+}
