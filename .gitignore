@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
@@ -91,18 +91,22 @@ web_modules/
 .yarn-integrity
 
 # dotenv environment variable files
+=======
+# Bỏ qua thư mục môi trường ảo
+venv/
+env/
+>>>>>>> backend/dvthiem
 .env
-.env.*
-!.env.example
 
-# parcel-bundler cache (https://parceljs.org/)
-.cache
-.parcel-cache
+# Bỏ qua file biên dịch của Python
+__pycache__/
+*.py[cod]
 
-# Next.js build output
-.next
-out
+# Bỏ qua file settings của IDE (VS Code, Pycharm)
+.vscode/
+.idea/
 
+<<<<<<< HEAD
 # Nuxt.js build / generate output
 .nuxt
 dist
@@ -163,3 +167,8 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 >>>>>>> 3ed81048573cc727f7dbc79267af839bd4ec02b0
+=======
+# Bỏ qua file database SQLite (nếu có dùng lại)
+*.db
+*.sqlite3
+>>>>>>> backend/dvthiem
