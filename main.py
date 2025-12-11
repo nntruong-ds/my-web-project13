@@ -1,14 +1,13 @@
 from fastapi import FastAPI
-from Backend.routers import auth_router
-from Backend.configs.database import Base, engine
-app = FastAPI()
+from app.routers import auth_router, employee_router
+from app.configs.database import init_db
 
-# Tạo bảng
-Base.metadata.create_all(bind=engine)
+# Khởi tạo app FastAPI
+app = FastAPI(title="Employee Management API")
 
-# Đăng ký router
-app.include_router(auth_router.router)
+# Khởi tạo database
+init_db()
 
-@app.get("/")
-def home():
-    return {"msg": "Welcome to Employee Management API"}
+# Include router
+app.include_router(auth_router.router, prefix="/auth")
+app.include_router(employee_router.router)
