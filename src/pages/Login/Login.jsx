@@ -1,75 +1,61 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Login.module.css";
-import response from "assert";
+import styles from "./Login.module.css";
+import { loginApi } from "../../api/auth";
 
 export default function Login() {
     const [showPassword, setShowPassword] = useState(false);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const res = await fetch("http://localhost:3000/auth/login", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({username, password})
-            });
-            const data = await res.json();
-            if (!response.ok) {
-                alert(data.detail || "Sai tài khoản hoặc mật khẩu!");
-                return;
-            }
+            const res = await loginApi(username, password);
 
-            // Lưu token + role
-            localStorage.setItem("token", data.access_token);
-            localStorage.setItem("role", data.role);
-            localStorage.setItem("user_id", data.user_id);
+            localStorage.setItem("token", res.access_token);
+            localStorage.setItem("role", res.role);
 
-            // Điều hướng theo quyền
-            if (data.role === "admin") {
-                navigate("/admin");
-            } else {
-                navigate(`/employee/${data.user_id}`);
-            }
-        } catch (error) {
-            console.error(err);
-            alert("Không thể kết nối server!");
+            if (res.role === "admin") navigate("/overview");
+            else if (res.role === "manager") navigate("/manager");
+            else navigate(`/employee/${res.user_id}`);
+
+        } catch (err) {
+            alert(err.message);
         }
-
     };
 
     return (
-        <div className="login-container">
-            <div className="login-box">
-                <h1 className="company-title">
+        <div className={styles.loginContainer}>
+            <div className={styles.loginBox}>
+                <h1 className={styles.companyTitle}>
                     CÔNG TY CỔ PHẦN NĂM THÀNH VIÊN A+88
                 </h1>
 
-                <div className="login-body">
-                    <div className="login-left">
+                <div className={styles.loginBody}>
+                    <div className={styles.loginLeft}>
                         <img
                             src="/image/anhnhom.png"
                             alt="illustration"
-                            className="login-img"
+                            className={styles.loginImg}
                         />
                     </div>
 
-                    <div className="login-right">
+                    <div className={styles.loginRight}>
                         <img
                             src="/image/ava2.png"
                             alt="avatar"
-                            className="login-avatar"
+                            className={styles.loginAvatar}
                         />
-                        <h2 className="login-title">ĐĂNG NHẬP</h2>
+                        <h2 className={styles.loginTitle}>ĐĂNG NHẬP</h2>
 
-                        <form className="login-form" onSubmit={handleLogin}>
-                            <div className="input-field">
+                        <form className={styles.loginForm} onSubmit={handleLogin}>
+                            <div className={styles.inputField}>
                                 <img
                                     src="/image/usericon.png"
                                     alt="user"
-                                    className="input-icon"
+                                    className={styles.inputIcon}
                                 />
                                 <input
                                     type="text"
@@ -80,11 +66,11 @@ export default function Login() {
                                 />
                             </div>
 
-                            <div className="input-field">
+                            <div className={styles.inputField}>
                                 <img
                                     src="/image/keyicon.png"
                                     alt="key"
-                                    className="input-icon"
+                                    className={styles.inputIcon}
                                 />
                                 <input
                                     type={showPassword ? "text" : "password"}
@@ -94,17 +80,19 @@ export default function Login() {
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
                                 <span
-                                    className="toggle-password"
+                                    className={styles.togglePassword}
                                     onClick={() => setShowPassword(!showPassword)}
                                 >
                                     {showPassword ? "🙈" : "👁️"}
                                 </span>
                             </div>
 
-                            <button type="submit">Log in</button>
+                            <button type="submit" className={styles.loginButton}>
+                                Log in
+                            </button>
                         </form>
 
-                        <a href="/forgot" className="forgot-link">
+                        <a href="/forgot" className={styles.forgotLink}>
                             Forgot password?
                         </a>
                     </div>
