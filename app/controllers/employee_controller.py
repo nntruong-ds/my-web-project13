@@ -34,3 +34,26 @@ class EmployeeController:
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail=str(e)
             )
+        
+    @staticmethod
+    def get_list(db: Session, macn: int = None, mapb: str = None, chucvu: str = None, keyword: str = None):
+        return EmployeeService.get_list_employees(db, macn, mapb, chucvu, keyword)
+
+    @staticmethod
+    def create(db: Session, data: EmployeeCreate):
+        try:
+            return EmployeeService.create_employee(db, data)
+        except ValueError as e:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST, 
+                detail=str(e))
+
+    @staticmethod
+    def delete(db: Session, manv: str):
+        result = EmployeeService.delete_employee(db, manv)
+        if not result:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Nhân viên không tồn tại")
+        
+        return {"message": "Xóa nhân viên thành công"}

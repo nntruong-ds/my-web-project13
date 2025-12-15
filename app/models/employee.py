@@ -13,7 +13,10 @@ class Employee(Base):
     phong_ban_id = Column(String(20), ForeignKey("phong_ban.mapb"))
     chuc_vu_id = Column(String(11), nullable=False)
     ngay_vao_lam = Column(Date)
-    trang_thai = Column(Enum(TrangThaiNhanVien, values_callable=lambda obj: [e.value for e in obj]), nullable=False, default=TrangThaiNhanVien.DANG_LAM, server_default=TrangThaiNhanVien.DANG_LAM.value)
+    trang_thai = Column(Enum(TrangThaiNhanVien, values_callable=lambda obj: [e.value for e in obj]),
+                        nullable=False,
+                        default=TrangThaiNhanVien.DANG_LAM,
+                        server_default=TrangThaiNhanVien.DANG_LAM.value)
     chinhanh_id = Column(Integer, ForeignKey("chi_nhanh.ma_chi_nhanh"), nullable=False)
 
     # Relationship: Nhân viên thuộc về 1 phòng ban
@@ -21,6 +24,9 @@ class Employee(Base):
 
     # Relationship: 1 trưởng phòng quản lý 1 phòng ban
     phong_quan_ly = relationship("Department", back_populates="truong_phong", foreign_keys="Department.truong_phong_id", uselist=False)
+
+    # Relationship: 1 giám đốc quản lý 1 chi nhánh
+    chi_nhanh_quan_ly = relationship("Branch", back_populates="giam_doc", foreign_keys="Branch.id_gdoc", uselist=False)
 
     # Relationship: Nhân viên thuộc về 1 chi nhánh
     chi_nhanh_lam_viec = relationship("Branch", back_populates="ds_nhan_vien", foreign_keys=[chinhanh_id])

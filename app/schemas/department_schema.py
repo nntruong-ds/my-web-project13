@@ -27,6 +27,9 @@ class DepartmentResponse(DepartmentBase):
     # Hiển thị tên trưởng phòng
     ten_truong_phong: Optional[str] = None
 
+    # Hiển thị tên chi nhánh
+    ten_chi_nhanh: str
+
     # Hiển thị số lượng nhân viên của phòng
     so_luong_nhan_vien: int
 

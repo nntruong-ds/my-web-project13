@@ -18,5 +18,5 @@ def root():
     return {"message": "Chao mung ban den voi He thong quan ly nhan su cua chung ta"}
 
 # Cấu hình chạy server (nếu chạy trực tiếp file này)
-# if __name__ == "__main__":
-#     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)

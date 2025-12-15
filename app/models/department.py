@@ -30,5 +30,10 @@ class Department(Base):
     # Relationship: Phòng ban thuộc về 1 chi nhánh
     chi_nhanh_truc_thuoc = relationship("Branch", back_populates="ds_phong_ban", foreign_keys=[ma_cn])
 
+    # Lấy tên chi nhánh
+    @property
+    def ten_chi_nhanh(self):
+        return self.chi_nhanh_truc_thuoc.ten_chi_nhanh
+
     def __repr__(self):
         return f"<PhongBan(mapb='{self.mapb}', ten_phong='{self.ten_phong}')>"

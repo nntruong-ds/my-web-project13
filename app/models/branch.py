@@ -14,7 +14,7 @@ class Branch(Base):
     ngay_thanh_lap = Column(Date)
 
     # Relationship: Một chi nhánh có 1 Giám đốc
-    giam_doc = relationship("Employee", foreign_keys=[id_gdoc], lazy="joined")
+    giam_doc = relationship("Employee", back_populates="chi_nhanh_quan_ly", foreign_keys=[id_gdoc], lazy="joined")
 
     @property
     def ten_giam_doc(self):
