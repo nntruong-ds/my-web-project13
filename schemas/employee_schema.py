@@ -6,6 +6,7 @@ class EmployeeProfile(BaseModel):
     ma_nhan_vien: str
     ho_ten: Optional[str]
     email: Optional[str]
+    ngay_sinh: Optional[date]
     phong_ban_id: Optional[int]
     chuc_vu_id: Optional[str]
     ngay_vao_lam: Optional[date]
@@ -19,7 +20,7 @@ class EmployeeProfile(BaseModel):
 class EmployeeUpdate(BaseModel):
     ho_ten: Optional[str] = None
     email: Optional[str] = None
-    phong_ban_id: Optional[int] = None
-    trang_thai: Optional[str] = None
-
+    ngay_sinh: Optional[date] = None
+    phong_ban_id: Optional[int] = None  
+    trang_thai: Optional[str] = None     
 
