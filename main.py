@@ -18,8 +18,9 @@ app.include_router(birthday_router.router)
 # Email
 app.include_router(email_router.router)
 
-# Attendance (Chấm công)
+# Chấm công
 app.include_router(cham_cong_router.router)
 
 # Salary
 app.include_router(salary_router.router)
+
