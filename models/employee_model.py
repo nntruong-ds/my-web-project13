@@ -6,6 +6,7 @@ class Employee(Base):
 
     ma_nhan_vien = Column(String(20), primary_key=True)
     ho_ten = Column(String(100))
+    ngay_sinh = Column(Date, nullable=True)
     email = Column(String(100))
     phong_ban_id = Column(Integer, nullable=True)
     chuc_vu_id = Column(String(20))
