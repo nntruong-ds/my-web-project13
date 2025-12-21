@@ -24,4 +24,3 @@ def forgot_password(data: ForgotPasswordRequest, db: Session = Depends(get_db)):
 @router.post("/reset-password")
 def reset_password(data: ResetPasswordRequest, db: Session = Depends(get_db)):
     return auth_service.reset_password(data, db)
-
