@@ -45,7 +45,7 @@ def forgot_password(data, db: Session):
     otp_cache[user.TenDangNhap] = otp
 
     # Gửi email OTP (debug=True sẽ in ra console)
-    send_reset_email(nhanvien.email, otp, debug=True)
+    send_reset_email(nhanvien.email, otp, debug=False)
     return {"message": "OTP đã được gửi đến email nhân viên"}
 
 def reset_password(data, db: Session):
