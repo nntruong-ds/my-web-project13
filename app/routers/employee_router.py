@@ -13,11 +13,6 @@ router = APIRouter(prefix="/employees", tags=["Employees"])
 def get_employee_detail(id: str, db: Session = Depends(get_db)):
     return EmployeeController.get_employee(db, id)
 
-# API: Cập nhật thông tin nhân viên
-@router.put("/{ma_nhan_vien}", response_model=EmployeeResponse)
-def update_employee(id: str, data: EmployeeUpdate, db: Session = Depends(get_db)):
-    return EmployeeController.update_employee(db, id, data)
-
 # API Lấy danh sách (Search & Filter)
 # URL sẽ dạng: /employees?macn=1&keyword=Nguyen
 @router.get("/", response_model=list[EmployeeResponse])
@@ -34,6 +29,11 @@ def get_employees(
 @router.post("/", response_model=EmployeeResponse)
 def create_employee(data: EmployeeCreate, db: Session = Depends(get_db)):
     return EmployeeController.create(db, data)
+
+# API: Cập nhật thông tin nhân viên
+@router.put("/{ma_nhan_vien}", response_model=EmployeeResponse)
+def update_employee(id: str, data: EmployeeUpdate, db: Session = Depends(get_db)):
+    return EmployeeController.update_employee(db, id, data)
 
 # API Xóa (DELETE)
 @router.delete("/{ma_nhan_vien}")

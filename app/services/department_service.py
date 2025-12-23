@@ -7,10 +7,25 @@ from app.services.branch_service import BranchService
 from sqlalchemy.orm import joinedload
 
 class DepartmentService:
+    # Truy vấn phòng ban theo mapb
+    @staticmethod
+    def get_department_orm(db: Session, id: str):
+        return db.query(Department).filter(Department.mapb == id).first()
+    
+    # Lấy thông tin phòng ban
+    @staticmethod
+    def get_department_by_id(db: Session, id: str):
+        department = DepartmentService.get_department_orm(db, id)
+        if not department:
+            return None
+        return DepartmentResponse.model_validate(department)
+
     # Lấy danh sách phòng ban
     @staticmethod
     def get_all_departments(db: Session, macn: int = None):
         query = db.query(Department)
+
+        # Hiển thị tên trưởng phòng và số lượng nhân viên
         query = query.options(
             joinedload(Department.truong_phong), 
             joinedload(Department.ds_nhan_vien)
@@ -22,14 +37,6 @@ class DepartmentService:
         departments = query.all()
         return [DepartmentResponse.model_validate(d) for d in departments]
     
-    # Lấy thông tin phòng ban
-    @staticmethod
-    def get_department_by_id(db: Session, id: str):
-        department = DepartmentService.get_department_orm(db, id)
-        if not department:
-            return None
-        return DepartmentResponse.model_validate(department)
-
     # Thêm phòng ban mới
     @staticmethod
     def create_department(db: Session, data: DepartmentCreate):
@@ -73,49 +80,46 @@ class DepartmentService:
         department = DepartmentService.get_department_orm(db, mapb)
         if not department:
             return None
-                
-        # Nếu người dùng gửi mã chi nhánh mới thì dùng mã chi nhánh mới, không thì dùng mã chi nhánh cũ
-        target_branch_id = data.ma_cn if data.ma_cn is not None else department.ma_cn
         
-        # Nếu người dùng gửi mã trưởng phòng mới thì dùng mã trưởng phòng mới, không thì dùng mã trưởng phòng cũ
-        target_manager_id = data.truong_phong_id if data.truong_phong_id is not None else department.truong_phong_id
+        # Lấy dict các trường có gửi lên (loại bỏ các trường None)
+        # exclude_unset=True: Chỉ lấy những gì user gửi
+        update_data = data.model_dump(exclude_unset=True)
+                
+        # Nếu người dùng gửi mã mới thì dùng mã chi nhánh mới, không thì dùng mã cũ
+        target_branch_id = update_data.get("ma_cn", department.ma_cn)
+        target_manager_id = update_data.get("truong_phong_id", department.truong_phong_id)
 
-        # Nếu có sự thay đổi về Chi nhánh hoặc Trưởng phòng, ta cần check lại tính hợp lệ
-        if data.ma_cn is not None or data.truong_phong_id is not None:
-            
-            # Check chi nhánh tồn tại (nếu có gửi lên)
-            if data.ma_cn is not None:
-                if not BranchService.get_branch_by_id(db, data.ma_cn):
-                    raise ValueError(f"Chi nhánh '{data.ma_cn}' không tồn tại.")
+        # Kiểm tra Chi nhánh tồn tại (nếu có cập nhật chi nhánh mới)
+        if "ma_cn" in update_data:
+            if not BranchService.get_branch_by_id(db, target_branch_id):
+                raise ValueError(f"Chi nhánh '{target_branch_id}' không tồn tại.")
 
-            # Check logic Trưởng phòng thuộc Chi nhánh
-            if target_manager_id: # Nếu phòng ban này có trưởng phòng
+        # Kiểm tra logic Trưởng phòng (nếu có thay đổi Trưởng phòng HOẶC Chi nhánh)
+        if "truong_phong_id" in update_data or "ma_cn" in update_data:
+            if target_manager_id:
                 manager = db.query(Employee).filter(Employee.ma_nhan_vien == target_manager_id).first()
-
+                
                 # Check trưởng phòng tồn tại
                 if not manager:
-                     raise ValueError(f"Nhân viên {target_manager_id} không tồn tại!")
+                    raise ValueError(f"Nhân viên '{target_manager_id}' không tồn tại.")
                 
-                # Check trưởng phòng mới đã cùng chi nhánh với phòng ban chưa
+                # Check Trưởng phòng phải thuộc cùng Chi nhánh với phòng ban
                 if manager.chinhanh_id != target_branch_id:
-                     raise ValueError(f"Mâu thuẫn: Nhân viên {manager.ho_ten} thuộc chi nhánh {manager.chinhanh_id}, nhưng phòng ban lại thuộc chi nhánh {target_branch_id}.")
+                    raise ValueError(f"Nhân viên {manager.ho_ten} thuộc chi nhánh {manager.chinhanh_id}, không cùng chi nhánh với phòng ban ({target_branch_id}).")
 
                 # Check trùng trưởng phòng (Chỉ check nếu bổ nhiệm người MỚI)
-                if data.truong_phong_id is not None: 
+                if "truong_phong_id" in update_data:
                     # Tìm xem ông này có làm trưởng phòng ở đâu khác không (trừ chính phòng này ra)
                     head = db.query(Department).filter(
                         Department.truong_phong_id == target_manager_id,
-                        Department.mapb != mapb # Trừ bản thân phòng đang sửa
+                        Department.mapb != mapb
                     ).first()
-                    
                     if head:
-                        raise ValueError(f"Ông {head.ten_truong_phong} đang làm Trưởng phòng bên '{head.ten_phong}'.")
+                        raise ValueError(f"Ông/Bà {head.ten_truong_phong} đang làm Trưởng phòng tại '{head.ten_phong}'.")
 
         # Cập nhật dữ liệu
-        if data.ma_cn is not None: department.ma_cn = data.ma_cn
-        if data.ten_phong is not None: department.ten_phong = data.ten_phong
-        if data.truong_phong_id is not None: department.truong_phong_id = data.truong_phong_id
-        if data.ngay_tao is not None: department.ngay_tao = data.ngay_tao
+        for key, value in update_data.items():
+            setattr(department, key, value)
 
         db.commit()
         db.refresh(department)
@@ -131,8 +135,3 @@ class DepartmentService:
         db.delete(department)
         db.commit()
         return True
-
-    # Truy vấn phòng ban theo mapb
-    @staticmethod
-    def get_department_orm(db: Session, id: str):
-        return db.query(Department).filter(Department.mapb == id).first()

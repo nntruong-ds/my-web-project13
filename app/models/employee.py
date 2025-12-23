@@ -3,7 +3,6 @@ from app.configs.database import Base
 from sqlalchemy.orm import relationship
 from app.models.enums import TrangThaiNhanVien
 
-
 class Employee(Base):
     __tablename__ = "nhan_vien"
 

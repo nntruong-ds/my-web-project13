@@ -2,8 +2,24 @@ import uvicorn
 from fastapi import FastAPI
 from app.configs.database import init_db
 from app.routers import department_router, employee_router, branch_router
+from sqlalchemy.exc import IntegrityError
+from app.utils.exception_handlers import (
+    value_error_handler, 
+    database_error_handler, 
+    general_exception_handler
+)
 
 app = FastAPI(title="Hệ thống Quản lý Nhân sự")
+
+# --- ĐĂNG KÝ GLOBAL HANDLER ---
+# 1. Bắt ValueError (Logic sai)
+app.add_exception_handler(ValueError, value_error_handler)
+
+# 2. Bắt IntegrityError (Lỗi DB - Trùng lặp)
+app.add_exception_handler(IntegrityError, database_error_handler)
+
+# 3. Bắt tất cả lỗi còn lại (Exception là cha của mọi lỗi)
+app.add_exception_handler(Exception, general_exception_handler)
 
 # Khởi tạo DB (tạo bảng nếu chưa có)
 init_db()
