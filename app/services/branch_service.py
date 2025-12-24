@@ -11,7 +11,7 @@ class BranchService:
 
     # Lấy thông tin chi nhánh
     @staticmethod
-    def get_branch_by_id(db: Session, id: str):
+    def get_branch_by_id(db: Session, id: int):
         branch = BranchService.get_branch_orm(db, id)
         if not branch:
             return None

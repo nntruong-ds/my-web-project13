@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, Query, APIRouter, Depends, UploadFile, File
 from typing import Optional
 from sqlalchemy.orm import Session
 from app.configs.database import get_db
@@ -39,3 +39,10 @@ def update_employee(id: str, data: EmployeeUpdate, db: Session = Depends(get_db)
 @router.delete("/{ma_nhan_vien}")
 def delete_employee(ma_nhan_vien: str, db: Session = Depends(get_db)):
     return EmployeeController.delete(db, ma_nhan_vien)
+
+# API Thêm nhân viên từ excel
+@router.post("/import-excel")
+async def import_employees(file: UploadFile = File(...), db: Session = Depends(get_db)):
+    # Đọc nội dung file gửi lên
+    contents = await file.read()
+    return EmployeeController.import_excel(db, contents)

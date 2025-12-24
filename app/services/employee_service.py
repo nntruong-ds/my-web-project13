@@ -1,11 +1,17 @@
 from sqlalchemy.orm import Session, joinedload
 from sqlalchemy import or_
+import pandas as pd
+from io import BytesIO
+
 from app.models.employee import Employee
 from app.models.department import Department
 from app.models.branch import Branch
+from app.models.enums import TrangThaiNhanVien
+
 from app.services.department_service import DepartmentService
 from app.services.branch_service import BranchService
 from app.schemas.employee_schema import *
+
 
 class EmployeeService:
     # Truy vấn nhân viên theo id
@@ -162,3 +168,49 @@ class EmployeeService:
         db.delete(employee)
         db.commit()
         return True
+    
+    # Thêm nhân viên từ file Excel
+    @staticmethod
+    def import_from_excel(db: Session, file_content: bytes):
+        # Đọc file Excel từ bộ nhớ
+        try:
+            df = pd.read_excel(BytesIO(file_content))
+        except Exception:
+            raise ValueError("Định dạng file Excel không hợp lệ hoặc bị hỏng.")
+
+        # Định nghĩa danh sách các cột bắt buộc (khớp với Excel của bạn)
+        required_columns = ['ma_nhan_vien', 'ho_ten', 'email', 'chuc_vu_id', 'chinhanh_id', 'ngay_sinh']
+        for col in required_columns:
+            if col not in df.columns:
+                raise ValueError(f"Thiếu cột bắt buộc trong file Excel: {col}")
+
+        import_results = {"success": 0, "errors": []}
+
+        # Duyệt từng dòng để xử lý
+        for index, row in df.iterrows():
+            try:
+                # Chuyển đổi dữ liệu dòng thành Schema EmployeeCreate
+                employee_data = EmployeeCreate(
+                    ma_nhan_vien=str(row['ma_nhan_vien']),
+                    ho_ten=str(row['ho_ten']),
+                    email=str(row['email']),
+                    chuc_vu_id=str(row['chuc_vu_id']),
+                    chinhanh_id=int(row['chinhanh_id']),
+                    ngay_sinh=row['ngay_sinh'],
+                    # Kiểm tra: nếu cột trang_thai tồn tại và không rỗng thì lấy, 
+                    phong_ban_id=str(row['phong_ban_id']) if pd.notna(row.get('phong_ban_id')) else None,
+                    ngay_vao_lam=row['ngay_vao_lam'] if pd.notna(row.get('ngay_vao_lam')) else None,
+                    trang_thai=str(row['trang_thai']) if pd.notna(row.get('trang_thai')) else TrangThaiNhanVien.DANG_LAM
+                )
+
+                # Gọi hàm tạo nhân viên đã có sẵn để tận dụng các logic kiểm tra (trùng mã, chi nhánh tồn tại...)
+                EmployeeService.create_employee(db, employee_data)
+                import_results["success"] += 1
+
+            except ValueError as e:
+                # Nếu dòng bị lỗi (trùng mã, sai chi nhánh...), ghi lại lỗi và tiếp tục dòng sau
+                import_results["errors"].append(f"Dòng {index + 2}: {str(e)}")
+            except Exception as e:
+                import_results["errors"].append(f"Dòng {index + 2}: Lỗi không xác định")
+
+        return import_results

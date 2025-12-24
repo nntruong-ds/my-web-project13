@@ -17,6 +17,7 @@ class Employee(Base):
                         default=TrangThaiNhanVien.DANG_LAM,
                         server_default=TrangThaiNhanVien.DANG_LAM.value)
     chinhanh_id = Column(Integer, ForeignKey("chi_nhanh.ma_chi_nhanh"), nullable=False)
+    ngay_sinh = Column(Date, nullable=False)
 
     # Relationship: Nhân viên thuộc về 1 phòng ban
     phong_truc_thuoc = relationship("Department", back_populates="ds_nhan_vien", foreign_keys=[phong_ban_id])

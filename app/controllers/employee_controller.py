@@ -40,3 +40,7 @@ class EmployeeController:
     @staticmethod
     def get_list(db: Session, macn: int = None, mapb: str = None, chucvu: str = None, keyword: str = None):
         return EmployeeService.get_list_employees(db, macn, mapb, chucvu, keyword)
+    
+    @staticmethod
+    def import_excel(db: Session, file_content: bytes):
+        return EmployeeService.import_from_excel(db, file_content)

@@ -11,6 +11,7 @@ class EmployeeBase(BaseModel):
     chuc_vu_id: str
     trang_thai: TrangThaiNhanVien = TrangThaiNhanVien.DANG_LAM
     chinhanh_id: int
+    ngay_sinh: date
 
 # Schema khi tạo mới (request)
 class EmployeeCreate(EmployeeBase):
@@ -24,7 +25,7 @@ class EmployeeUpdate(BaseModel):
     phong_ban_id: Optional[str] = None
     chuc_vu_id: Optional[str] = None
     ngay_vao_lam: Optional[date] = None
-    trang_thai: Optional[TrangThaiNhanVien] = TrangThaiNhanVien.DANG_LAM
+    trang_thai: None
     chinhanh_id: Optional[int] = None
 
 # Schema khi trả dữ liệu ra (response)
