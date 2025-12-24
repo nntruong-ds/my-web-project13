@@ -1,20 +1,56 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException, Header
+from app.utils.jwt_handler import verify_access_token
 from sqlalchemy.orm import Session
+
 from app.configs.database import get_db
-from app.schemas.cham_cong_schema import CheckInSchema, CheckOutSchema
-from app.services.cham_cong_service import check_in, check_out
-from app.services.bang_cong_service import tinh_bang_cong
+from app.utils.deps import get_current_user
+from app.services.cham_cong_service import (
+    check_in,
+    check_out,
+    get_cham_cong
+)
 
-router = APIRouter(prefix="/attendance", tags=["Attendance"])
+router = APIRouter(prefix="/cham-cong", tags=["ChamCong"])
 
-@router.post("/checkin")
-def api_check_in(data: CheckInSchema, db: Session = Depends(get_db)):
-    return check_in(db, data.ma_nhan_vien)
 
-@router.post("/checkout")
-def api_check_out(data: CheckOutSchema, db: Session = Depends(get_db)):
-    return check_out(db, data.ma_nhan_vien)
+@router.post("/check-in")
+def check_in_api(
+    db: Session = Depends(get_db),
+    current_user = Depends(get_current_user)
+):
+    try:
+        return check_in(db, current_user.TenDangNhap)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
-@router.get("/summary")
-def api_summary(ma_nhan_vien: str, month: int, year: int, db: Session = Depends(get_db)):
-    return tinh_bang_cong(db, ma_nhan_vien, month, year)
+
+@router.post("/check-out")
+def check_out_api(
+    db: Session = Depends(get_db),
+    current_user = Depends(get_current_user)
+):
+    try:
+        return check_out(db, current_user.TenDangNhap)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@router.get("")
+def get_cham_cong_api(
+    ma_nhan_vien: str,
+    thang: int,
+    nam: int,
+    db: Session = Depends(get_db)
+):
+    return get_cham_cong(db, ma_nhan_vien, thang, nam)
+
+@router.get("/me")
+def get_cham_cong_me(
+    thang: int,
+    nam: int,
+    current_user = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    ma_nv = current_user.TenDangNhap
+    return get_cham_cong(db, ma_nv, thang, nam)
+
