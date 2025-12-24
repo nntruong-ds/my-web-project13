@@ -1,72 +1,156 @@
-from datetime import datetime, time
-from fastapi import HTTPException
+from datetime import date, datetime, time
 from sqlalchemy.orm import Session
-from app.models.cham_cong import ChamCong
+from sqlalchemy import text, extract
 
-# Giờ chuẩn công ty
-GIO_VAO_CHUAN = time(8, 0, 0)
-GIO_RA_CHUAN = time(17, 0, 0)
+GIO_VAO_CHUAN = time(8, 0)
+GIO_RA_CHUAN = time(17, 0)
 
-def check_in(db: Session, ma_nhan_vien: int):
-    today = datetime.now().date()
+def check_in(db: Session, ma_nv: str):
+    today = date.today()
 
-    record = db.query(ChamCong).filter(
-        ChamCong.ma_nhan_vien == ma_nhan_vien,
-        ChamCong.ngay == today
-    ).first()
+    existed = db.execute(
+        text("""
+            SELECT 1 FROM cham_cong
+            WHERE ma_nhan_vien=:ma AND ngay=:ngay
+        """),
+        {"ma": ma_nv, "ngay": today}
+    ).fetchone()
 
-    if record:
-        raise HTTPException(status_code=400, detail="Hôm nay đã check in rồi")
+    if existed:
+        raise ValueError("Hôm nay đã check-in")
 
-    now = datetime.now()
-    trang_thai = "DI_LAM"
+    db.execute(
+        text("""
+            INSERT INTO cham_cong(ma_nhan_vien, ngay, gio_vao, trang_thai, so_lan_di_muon_ve_som)
+            VALUES (:ma, :ngay, :gio_vao, 'Đi làm', 0)
+        """),
+        {
+            "ma": ma_nv,
+            "ngay": today,
+            "gio_vao": datetime.now().time()
+        }
+    )
+    db.commit()
+    return {"message": "Check-in thành công"}
 
-    if now.time() > GIO_VAO_CHUAN:
-        trang_thai = "DI_MUON"
+def check_out(db: Session, ma_nv: str):
+    today = date.today()
+    now_dt = datetime.now()          # datetime hiện tại
+    now_time = now_dt.time()
 
-    new_record = ChamCong(
-        ma_nhan_vien=ma_nhan_vien,
-        ngay=today,
-        gio_vao=now,
-        trang_thai=trang_thai
+    row = db.execute(
+        text("""
+            SELECT gio_vao
+            FROM cham_cong
+            WHERE ma_nhan_vien = :ma
+              AND ngay = :ngay
+        """),
+        {"ma": ma_nv, "ngay": today}
+    ).fetchone()
+
+    if not row or not row.gio_vao:
+        raise ValueError("Hôm nay chưa check-in")
+
+    # 🔁 gio_vao MySQL (TIME) → timedelta → datetime
+    gio_vao_td = row.gio_vao
+    gio_vao_dt = datetime.combine(
+        today,
+        (datetime.min + gio_vao_td).time()
     )
 
-    db.add(new_record)
+    # ⏱️ 1️⃣ TÍNH SỐ GIỜ LÀM
+    so_gio_lam = round(
+        (now_dt - gio_vao_dt).total_seconds() / 3600,
+        2
+    )
+
+    # ⏱️ 2️⃣ TÍNH GIỜ TĂNG CA (KHÔNG OT → 0)
+    gio_ra_chuan_dt = datetime.combine(today, GIO_RA_CHUAN)
+    so_gio_tang_ca = max(
+        0,
+        round((now_dt - gio_ra_chuan_dt).total_seconds() / 3600, 2)
+    )
+
+    # 🚨 3️⃣ TÍNH VI PHẠM
+    vi_pham = 0
+    if gio_vao_dt.time() > GIO_VAO_CHUAN:
+        vi_pham += 1
+    if now_time < GIO_RA_CHUAN:
+        vi_pham += 1
+
+    # 🔥 4️⃣ UPDATE – KHÔNG ĐỂ NULL
+    db.execute(
+        text("""
+            UPDATE cham_cong
+            SET gio_ra = :gio_ra,
+                so_gio_lam = :so_gio_lam,
+                so_gio_tang_ca = :so_gio_tang_ca,
+                so_lan_di_muon_ve_som = so_lan_di_muon_ve_som + :vp
+            WHERE ma_nhan_vien = :ma
+              AND ngay = :ngay
+        """),
+        {
+            "gio_ra": now_time,
+            "so_gio_lam": so_gio_lam,
+            "so_gio_tang_ca": so_gio_tang_ca,
+            "vp": vi_pham,
+            "ma": ma_nv,
+            "ngay": today
+        }
+    )
     db.commit()
-    db.refresh(new_record)
-    return new_record
 
+    return {
+        "message": "Check-out thành công",
+        "so_gio_lam": so_gio_lam,
+        "so_gio_tang_ca": so_gio_tang_ca
+    }
+       
 
-def check_out(db: Session, ma_nhan_vien: int):
-    today = datetime.now().date()
+def get_cham_cong(db: Session, ma_nv: str, thang: int, nam: int):
+    rows = db.execute(
+        text("""
+            SELECT 
+                ngay,
+                gio_vao,
+                gio_ra,
+                so_gio_lam,
+                trang_thai,
+                so_gio_tang_ca,
+                so_lan_di_muon_ve_som
+            FROM cham_cong
+            WHERE ma_nhan_vien = :ma
+              AND MONTH(ngay) = :thang
+              AND YEAR(ngay) = :nam
+            ORDER BY ngay
+        """),
+        {
+            "ma": ma_nv,
+            "thang": thang,
+            "nam": nam
+        }
+    ).fetchall()
 
-    record = db.query(ChamCong).filter(
-        ChamCong.ma_nhan_vien == ma_nhan_vien,
-        ChamCong.ngay == today
-    ).first()
+    # ✅ KHÔNG CÓ DỮ LIỆU
+    if not rows:
+        return {
+            "message": "Chưa có dữ liệu chấm công cho tháng này",
+            "data": []
+        }
 
-    if not record:
-        raise HTTPException(status_code=400, detail="Chưa check in trong hôm nay")
+    result = []
+    for r in rows:
+        result.append({
+            "ngay": r.ngay,
+            "gio_vao": r.gio_vao,
+            "gio_ra": r.gio_ra,
+            "so_gio_lam": r.so_gio_lam,
+            "trang_thai": r.trang_thai,
+            "so_gio_tang_ca": r.so_gio_tang_ca,
+            "so_lan_di_muon_ve_som": r.so_lan_di_muon_ve_som
+        })
 
-    if record.gio_ra:
-        raise HTTPException(status_code=400, detail="Đã check out rồi")
-
-    now = datetime.now()
-    record.gio_ra = now
-
-    # Tính số giờ làm
-    so_gio = (now - record.gio_vao).total_seconds() / 3600
-    record.so_gio_lam = round(so_gio, 2)
-
-    # Xác định trạng thái
-    if now.time() < GIO_RA_CHUAN:
-        record.trang_thai = "VE_SOM"
-    elif so_gio >= 8:
-        record.trang_thai = "DI_LAM"
-    else:
-        record.trang_thai = "DI_LAM"
-
-    db.commit()
-    db.refresh(record)
-
-    return record
+    return {
+        "message": "Lấy dữ liệu chấm công thành công",
+        "data": result
+    }
