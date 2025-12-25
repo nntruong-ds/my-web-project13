@@ -1,23 +1,60 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./css/hoso.css";
 import { useNavigate, useParams } from "react-router-dom";
-import employeesData from "../data/employees";
+import axios from "axios";
 
 export default function HoSo() {
     const navigate = useNavigate();
     const { id } = useParams();
 
-    // Load từ localStorage
-    const storedData = localStorage.getItem("employees");
-    const employees = storedData ? JSON.parse(storedData) : employeesData;
-
-    const user = employees.find(u => u.id === Number(id));
-
-    // Hooks phải đặt trước return
-    const [formData, setFormData] = useState(user || {});
+    const [formData, setFormData] = useState({});
     const [editing, setEditing] = useState(false);
+    const [loading, setLoading] = useState(true);
 
-    if (!user) return <h2>Không tìm thấy nhân viên</h2>;
+    // Load dữ liệu từ backend
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const token = localStorage.getItem("access_token");
+                const payload = {
+                    ho_ten: formData.ho_ten || null,
+                    email: formData.email || null,
+                    phong_ban_id: formData.phong_ban_id || null,
+                    trang_thai: formData.trang_thai || null,
+                };
+                const res = await axios.get(
+                    `http://127.0.0.1:8000/employee/profile?username=${id.toUpperCase()}`,
+                    payload,
+                    {
+                        headers: { Authorization: `Bearer ${token}` }
+                    }
+                );
+
+                // MAP dữ liệu backend → form frontend
+                setFormData({
+                    ma_nhan_vien: res.data.ma_nhan_vien || "",
+                    ho_ten: res.data.ho_ten || "",
+                    email: res.data.email || "",
+                    phong_ban_id: res.data.phong_ban_id || "",
+                    chuc_vu_id: res.data.chuc_vu_id || "",
+                    chinhanh_id: res.data.chinhanh_id || "",
+                    trang_thai: res.data.trang_thai || "",
+                    ngay_vao_lam: res.data.ngay_vao_lam || "",
+                    avatar: res.data.avatar || require("./css/ava1.png"),
+                });
+
+            } catch (error) {
+                console.log("Lỗi khi lấy dữ liệu nhân viên:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [id]);
+
+    if (loading) return <h2>Đang tải thông tin...</h2>;
+    if (!formData || !formData.ma_nhan_vien) return <h2>Không tìm thấy nhân viên</h2>;
 
     // Thay đổi input
     const handleChange = (e) => {
@@ -37,16 +74,39 @@ export default function HoSo() {
         reader.readAsDataURL(file);
     };
 
-    // Cập nhật và lưu localStorage
-    const handleUpdate = () => {
-        const newData = employees.map(emp =>
-            emp.id === Number(id) ? formData : emp
-        );
+    // Gửi cập nhật về backend
+    const handleUpdate = async () => {
+        try {
+            const token = localStorage.getItem("access_token");
 
-        localStorage.setItem("employees", JSON.stringify(newData));
-        alert("Cập nhật thành công!");
-        setEditing(false);
+            // 🔥 CHỈ GỬI FIELD HỢP LỆ
+            const payload = {
+                ho_ten: formData.ho_ten || null,
+                email: formData.email || null,
+                phong_ban_id: formData.phong_ban_id || null,
+                trang_thai: formData.trang_thai || null,
+            };
+
+            const res = await axios.put(
+                `http://127.0.0.1:8000/employee/profile?username=${id}`,
+                payload,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+
+            alert("Cập nhật thành công!");
+            setEditing(false);
+
+        } catch (error) {
+            console.error("Lỗi cập nhật:", error.response?.data || error);
+            alert("Lỗi khi cập nhật hồ sơ.");
+        }
     };
+
 
     return (
         <div className="hs-container">
@@ -56,6 +116,7 @@ export default function HoSo() {
                 <button className="email-back" onClick={() => navigate(`/employee/${id}`)}>
                     ← Quay lại
                 </button>
+
                 <h2>Hồ sơ của bạn</h2>
 
                 <div className="hs-buttons">
@@ -66,49 +127,87 @@ export default function HoSo() {
 
             {/* FORM */}
             <div className="hs-form-box">
-                <h3 className="hs-title">Thông tin</h3>
-
                 <div className="hs-grid">
 
                     {/* LEFT FORM */}
                     <div className="hs-left">
-                        <label>ID:</label>
-                        <input name="id" value={formData.id} disabled />
+                        <h3 className="hs-title">Thông tin nhân viên</h3>
 
-                        <label>Họ và tên:</label>
-                        <input name="name" value={formData.name} disabled={!editing} onChange={handleChange} />
+                        <div className="hs-grid">
 
-                        <label>Ngày sinh:</label>
-                        <input name="birthday" value={formData.birthday} disabled={!editing} onChange={handleChange} />
+                            {/* LEFT FORM */}
+                            <div className="hs-left">
+                                <label>Mã nhân viên:</label>
+                                <input value={formData.ma_nhan_vien} disabled />
 
-                        <label>Giới tính:</label>
-                        <input name="sex" value={formData.sex} disabled={!editing} onChange={handleChange} />
+                                <label>Họ và tên:</label>
+                                <input
+                                    name="ho_ten"
+                                    value={formData.ho_ten}
+                                    disabled={!editing}
+                                    onChange={handleChange}
+                                />
 
-                        <label>Địa chỉ:</label>
-                        <input name="address" value={formData.address} disabled={!editing} onChange={handleChange} />
+                                <label>Email:</label>
+                                <input
+                                    name="email"
+                                    value={formData.email}
+                                    disabled={!editing}
+                                    onChange={handleChange}
+                                />
 
-                        <label>Email:</label>
-                        <input name="email" value={formData.email} disabled={!editing} onChange={handleChange} />
+                                <label>Phòng ban ID:</label>
+                                <input
+                                    name="phong_ban_id"
+                                    value={formData.phong_ban_id}
+                                    disabled={!editing}
+                                    onChange={handleChange}
+                                />
 
-                        <div className="hs-row">
-                            <div className="hs-col">
-                                <label>CCCD:</label>
-                                <input name="cccd" value={formData.cccd  || ""} disabled={!editing} onChange={handleChange} />
+                                <label>Chức vụ ID:</label>
+                                <input
+                                    name="chuc_vu_id"
+                                    value={formData.chuc_vu_id}
+                                    disabled={!editing}
+                                    onChange={handleChange}
+                                />
+
+                                <label>Ngày vào làm:</label>
+                                <input
+                                    name="ngay_vao_lam"
+                                    value={formData.ngay_vao_lam}
+                                    disabled={!editing}
+                                    onChange={handleChange}
+                                />
+
+                                <label>Trạng thái:</label>
+                                <input
+                                    name="trang_thai"
+                                    value={formData.trang_thai}
+                                    disabled={!editing}
+                                    onChange={handleChange}
+                                />
+
+                                <label>Chi nhánh ID:</label>
+                                <input
+                                    name="chinhanh_id"
+                                    value={formData.chinhanh_id}
+                                    disabled={!editing}
+                                    onChange={handleChange}
+                                />
                             </div>
-                            <div className="hs-col">
-                                <label>SĐT:</label>
-                                <input name="phone" value={formData.phone || ""} disabled={!editing} onChange={handleChange} />
-                            </div>
+
                         </div>
+
 
                         <div className="hs-row">
                             <div className="hs-col">
                                 <label>Trạng thái:</label>
-                                <input name="status" value={formData.status || ""} disabled={!editing} onChange={handleChange} />
+                                <input name="trang_thai" value={formData.trang_thai} disabled={!editing} onChange={handleChange} />
                             </div>
                             <div className="hs-col">
                                 <label>Ngày vào làm:</label>
-                                <input name="ngayvl" value={formData.ngayvl || ""} disabled={!editing} onChange={handleChange} />
+                                <input name="ngay_vao_lam" value={formData.ngay_vao_lam} disabled={!editing} onChange={handleChange} />
                             </div>
                         </div>
                     </div>
@@ -132,8 +231,10 @@ export default function HoSo() {
                             onChange={handleAvatarChange}
                         />
                     </div>
+
                 </div>
             </div>
+
         </div>
     );
 }

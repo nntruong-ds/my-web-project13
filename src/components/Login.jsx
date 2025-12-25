@@ -1,36 +1,42 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import employees from "../data/employees";
 import "./css/dangnhap.css";
+import axios from "axios";
 
 export default function Login() {
-    const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
+
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const navigate = useNavigate();
-    const handleLogin = (e) => {
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleLogin = async (e) => {
         e.preventDefault();
-        const user = employees.find(
-            u => u.username === username && u.password === password
-        );
-        if (!user) {
-            alert("Sai username hoặc mật khẩu!");
-            return;
+
+        try {
+            const res = await axios.post("http://127.0.0.1:8000/auth/login", {
+                username,
+                password
+            });
+
+            if (res.data && res.data.access_token) {
+                localStorage.setItem("access_token", res.data.access_token);
+                localStorage.setItem("role", res.data.role);
+
+                alert("Đăng nhập thành công!");
+                navigate(`/employee/${username}`);
+            }
+
+        } catch (err) {
+            alert("Sai tài khoản hoặc mật khẩu!");
+            console.log(err);
         }
-        // Nếu muốn check password thật thì tạo field password trong employees
-        if (password.length < 1) {
-            alert("Sai username hoặc mật khẩu!");
-            return;
-        }
-        navigate(`/employee/${user.id}`);
     };
 
     return (
         <div className="login-container">
             <div className="login-box">
-                <h1 className="company-title">
-                    CÔNG TY CỔ PHẦN NĂM THÀNH VIÊN A+88
-                </h1>
+                <h1 className="company-title">CÔNG TY CỔ PHẦN NĂM THÀNH VIÊN A+88</h1>
 
                 <div className="login-body">
                     <div className="login-left">
@@ -51,32 +57,24 @@ export default function Login() {
 
                         <form className="login-form" onSubmit={handleLogin}>
                             <div className="input-field">
-                                <img
-                                    src={require("./css/usericon.png")}
-                                    alt="user"
-                                    className="input-icon"
-                                />
+                                <img src={require("./css/usericon.png")} className="input-icon" />
                                 <input
                                     type="text"
-                                    placeholder="Email hoặc Username"
-                                    required
+                                    placeholder="Username"
                                     value={username}
-                                    onChange={(e) => setUsername(e.target.value)}
+                                    onChange={(e)=>setUsername(e.target.value)}
+                                    required
                                 />
                             </div>
 
                             <div className="input-field">
-                                <img
-                                    src={require("./css/keyicon.png")}
-                                    alt="key"
-                                    className="input-icon"
-                                />
+                                <img src={require("./css/keyicon.png")} className="input-icon" />
                                 <input
                                     type={showPassword ? "text" : "password"}
                                     placeholder="Password"
-                                    required
                                     value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
+                                    onChange={(e)=>setPassword(e.target.value)}
+                                    required
                                 />
                                 <span
                                     className="toggle-password"
@@ -89,9 +87,7 @@ export default function Login() {
                             <button type="submit">Log in</button>
                         </form>
 
-                        <a href="/forgot" className="forgot-link">
-                            Forgot password?
-                        </a>
+                        <a href="/forgot" className="forgot-link">Forgot password?</a>
                     </div>
                 </div>
             </div>

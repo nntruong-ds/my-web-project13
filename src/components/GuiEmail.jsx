@@ -1,88 +1,125 @@
 import React, { useState } from "react";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import "./css/guiemail.css";
+import axios from "axios";
 
 export default function GuiEmail() {
     const { id } = useParams();
     const navigate = useNavigate();
     const location = useLocation();
 
-    // Lấy email từ URL (?to=...)
     const params = new URLSearchParams(location.search);
     const defaultEmail = params.get("to") || "";
 
+    const [activeTab, setActiveTab] = useState("home"); // home | compose | inbox | sent
     const [toEmail, setToEmail] = useState(defaultEmail);
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
-    const [success, setSuccess] = useState(false); // popup
+    const [popup, setPopup] = useState(null);
 
-    const handleSubmit = (e) => {
+    const token = localStorage.getItem("access_token");
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // check thiếu
         if (!toEmail || !title || !content) {
-            alert("Vui lòng điền đầy đủ các trường bắt buộc.");
+            setPopup({ type: "error", message: "Vui lòng nhập đủ thông tin" });
             return;
         }
 
-        // bật popup
-        setSuccess(true);
+        try {
+            await axios.post(
+                "http://127.0.0.1:8000/email/send",
+                {
+                    to_email: toEmail,
+                    subject: title,
+                    content: content
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    }
+                }
+            );
 
-        // Tự động trở về trang Employee sau 2 giây
-        setTimeout(() => {
-            navigate(`/employee/${id}`);
-        }, 2000);
+            setPopup({ type: "success", message: "Gửi email thành công!" });
+            setTitle("");
+            setContent("");
+        } catch (err) {
+            setPopup({ type: "error", message: "Không thể gửi email" });
+        }
     };
 
     return (
-        <div className="email-container">
+        <div className="gmail-page">
 
-            <button className="email-back" onClick={() => navigate(`/employee/${id}`)}>
-                ← Quay lại
-            </button>
+            {/* HEADER */}
+            <div className="gmail-header">
+                <button onClick={() => navigate(`/employee/${id}`)}>←</button>
+                <h2>GMAIL</h2>
+            </div>
 
-            <h2 className="email-title">Gửi Email</h2>
+            <div className="gmail-body">
 
-            <form className="email-form" onSubmit={handleSubmit}>
-                <label>Email người nhận <span className="red">*</span></label>
-                <input
-                    type="email"
-                    placeholder="Nhập email."
-                    value={toEmail}
-                    onChange={(e)=>setToEmail(e.target.value)}
-                />
+                {/* SIDEBAR */}
+                <div className="gmail-sidebar">
+                    <button onClick={() => setActiveTab("compose")}>SOẠN THƯ</button>
+                    <button onClick={() => setActiveTab("inbox")}>HỘP THƯ ĐẾN</button>
+                    <button onClick={() => setActiveTab("sent")}>ĐÃ GỬI</button>
+                </div>
 
-                <label>Tiêu đề <span className="red">*</span></label>
-                <input
-                    type="text"
-                    placeholder="Nhập tiêu đề."
-                    value={title}
-                    onChange={(e)=>setTitle(e.target.value)}
-                />
+                {/* CONTENT */}
+                <div className="gmail-content">
 
-                <label>Nội dung <span className="red">*</span></label>
-                <textarea
-                    placeholder="Nhập nội dung email."
-                    value={content}
-                    onChange={(e)=>setContent(e.target.value)}
-                ></textarea>
+                    {activeTab === "compose" && (
+                        <div className="compose-box">
+                            <h3>SOẠN THƯ</h3>
 
-                <button type="submit" className="email-submit">Gửi</button>
-            </form>
+                            <form onSubmit={handleSubmit}>
+                                <label>Địa chỉ người nhận *</label>
+                                <input
+                                    type="text"
+                                    value={toEmail}
+                                    onChange={(e) => setToEmail(e.target.value)}
+                                />
+
+                                <label>Tiêu đề *</label>
+                                <input
+                                    type="text"
+                                    value={title}
+                                    onChange={(e) => setTitle(e.target.value)}
+                                />
+
+                                <label>Nội dung *</label>
+                                <textarea
+                                    rows="6"
+                                    value={content}
+                                    onChange={(e) => setContent(e.target.value)}
+                                />
+
+                                <button type="submit" className="send-btn">
+                                    GỬI
+                                </button>
+                            </form>
+                        </div>
+                    )}
+
+                    {(activeTab === "inbox" || activeTab === "sent") && (
+                        <div className="gmail-placeholder">
+                            Chức năng đang phát triển 🚧
+                        </div>
+                    )}
+                </div>
+            </div>
 
             {/* POPUP */}
-            {success && (
+            {popup && (
                 <div className="popup-overlay">
                     <div className="popup-box">
-                        <h3>🎉 Gửi thành công!</h3>
-                        <p>Email đã được gửi.</p>
-
-                        <button
-                            className="popup-btn"
-                            onClick={() => navigate(`/employee/${id}`)}
-                        >
-                            OK
-                        </button>
+                        <h3>{popup.type === "success" ? "🎉 Thành công" : "❌ Lỗi"}</h3>
+                        <p>{popup.message}</p>
+                        <button onClick={() => setPopup(null)}>OK</button>
                     </div>
                 </div>
             )}

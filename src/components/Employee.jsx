@@ -1,14 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import employeesData from "../data/employees";
+import axios from "axios";
 import "./css/nhanvien.css";
 
 export default function Employee() {
     const { id } = useParams();
     const navigate = useNavigate();
-    const stored = localStorage.getItem("employees");
-    const employees = stored ? JSON.parse(stored) : employeesData;
-    const user = employees.find(u => u.id === Number(id));
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        axios.get(`http://127.0.0.1:8000/employee/profile?username=${id.toUpperCase()}`)
+            .then(res => {
+                setUser(res.data);
+                setLoading(false);
+            })
+            .catch(() => {
+                setUser(null);
+                setLoading(false);
+            });
+    }, [id]);
+
+    if (loading) return <h2>Đang tải...</h2>;
     if (!user) return <h2>Không tìm thấy nhân viên</h2>;
 
     const features = [
@@ -26,19 +39,18 @@ export default function Employee() {
                     Đăng xuất
                 </button>
             </div>
-            <div className="nv-info-box">
 
+            <div className="nv-info-box">
                 <div className="nv-avatar-box">
-                    <img className="nv-avatar" src={user.avatar} alt="avatar" />
+                    <img className="nv-avatar" src={user.avatar || require("./css/ava1.png")} alt="avatar" />
                 </div>
 
                 <div className="nv-text">
-                    <h2 className="nv-name">{user.name}</h2>
-                    <p><b>Chức vụ:</b> {user.position}</p>
-                    <p><b>Phòng ban:</b> {user.department}</p>
-                    <p><b>Chi nhánh:</b> {user.branch}</p>
+                    <h2 className="nv-name">{user.ho_ten}</h2>
+                    <p><b>Chức vụ:</b> {user.chuc_vu_id}</p>
+                    <p><b>Phòng ban:</b> {user.phong_ban_id ?? "Chưa có"}</p>
+                    <p><b>Chi nhánh:</b> {user.chinhanh_id}</p>
                 </div>
-
             </div>
 
             <h2 className="nv-section-title">Tính năng</h2>
@@ -55,7 +67,6 @@ export default function Employee() {
                     </div>
                 ))}
             </div>
-
         </div>
     );
 }

@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import "./css/quenpass.css";
+import axios from "axios";
 
 export default function QuenPass() {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [showPopup, setShowPopup] = useState(false);
+    const [error, setError] = useState("");
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!username || !email) {
@@ -14,14 +16,26 @@ export default function QuenPass() {
             return;
         }
 
-        // Hiện popup
-        setShowPopup(true);
+        try {
+            const res = await axios.post(
+                "http://127.0.0.1:8000/auth/forgot-password",
+                { username, email }
+            );
 
-        // Tự quay lại sau 2 giây
-        setTimeout(() => {
-            setShowPopup(false);
-            window.location.href = "/";
-        }, 2000);
+            if (res.data.success) {
+                setShowPopup(true);
+
+                setTimeout(() => {
+                    setShowPopup(false);
+                    window.location.href = "/";
+                }, 2000);
+            } else {
+                setError("Không thể gửi email. Vui lòng kiểm tra lại thông tin.");
+            }
+        } catch (err) {
+            console.log(err);
+            setError("Username hoặc email không đúng.");
+        }
     };
 
     return (
@@ -85,14 +99,16 @@ export default function QuenPass() {
                             <button type="submit">XÁC NHẬN</button>
                         </form>
 
+                        {error && <p className="error-text">{error}</p>}
+
                         <p className="note">
-                            Chú ý: Hệ thống sẽ gửi mật khẩu mới qua email
+                            Hệ thống sẽ gửi mật khẩu mới vào email của bạn.
                         </p>
                     </div>
                 </div>
             </div>
 
-            {/* POPUP — thêm vào cuối */}
+            {/* POPUP */}
             {showPopup && (
                 <div className="popup-overlay">
                     <div className="popup-box">

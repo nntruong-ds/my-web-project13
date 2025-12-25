@@ -6,16 +6,19 @@
   <component name="ChangeListManager">
     <list default="true" id="0ca6e388-9477-4850-9b2d-ccd37aecb620" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/BangCong.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BangCong.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Employee.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Employee.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/GuiEmail.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/GuiEmail.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/HoSo.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/HoSo.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Login.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/PhieuLuong.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/PhieuLuong.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/QuenPass.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/QuenPass.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/SinhNhat.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SinhNhat.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/css/bang_cong.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/css/bang_cong.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/css/guiemail.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/css/guiemail.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/css/hoso.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/css/hoso.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/css/quenpass.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/css/quenpass.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/employees.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/employees.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/css/phieuluong.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/css/phieuluong.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +75,16 @@
       <workItem from="1760517716496" duration="483000" />
       <workItem from="1760518211908" duration="2002000" />
       <workItem from="1763055734147" duration="572000" />
-      <workItem from="1763562076486" duration="6476000" />
+      <workItem from="1763562076486" duration="6630000" />
+      <workItem from="1763890292232" duration="13000" />
+      <workItem from="1765347278644" duration="169000" />
+      <workItem from="1765452467805" duration="2658000" />
+      <workItem from="1765455576786" duration="2959000" />
+      <workItem from="1765462133397" duration="2378000" />
+      <workItem from="1765662872229" duration="605000" />
+      <workItem from="1765880995439" duration="3092000" />
+      <workItem from="1766073152495" duration="2889000" />
+      <workItem from="1766660529593" duration="5114000" />
     </task>
     <servers />
   </component>

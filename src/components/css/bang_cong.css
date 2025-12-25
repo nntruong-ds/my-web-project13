@@ -1,0 +1,92 @@
+.bc-page {
+    max-width: 900px;
+    margin: auto;
+    font-family: Arial, sans-serif;
+}
+
+.bc-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #eaf2f8;
+    padding: 12px;
+}
+
+.bc-header h2 {
+    flex: 1;
+    text-align: center;
+}
+
+.bc-month {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.bc-summary {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.bc-summary b {
+    font-size: 28px;
+}
+
+.bc-check {
+    border: 1px solid #999;
+    padding: 16px;
+    border-radius: 6px;
+}
+
+.btn-detail {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background: #4a90e2;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.bc-note {
+    font-style: italic;
+    margin-top: 10px;
+}
+
+.bc-detail {
+    margin-top: 40px;
+    border: 1px solid #999;
+}
+
+.bc-detail-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #eaf2f8;
+    padding: 10px;
+}
+
+.bc-detail-header h3 {
+    flex: 1;
+    text-align: center;
+}
+
+.bc-employee {
+    text-align: center;
+    background: #eee;
+    padding: 10px;
+    font-weight: bold;
+}
+
+.bc-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.bc-table th,
+.bc-table td {
+    border: 1px solid #999;
+    padding: 6px;
+    text-align: center;
+}
