@@ -1,8 +1,17 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from app.routers import auth_router, employee_router, email_router, cham_cong_router, salary_router, birthday_router, kpi_router, reward_router, cong_tac_router
 from app.configs.database import init_db
 
 app = FastAPI(title="Employee Management API")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 init_db()
 
