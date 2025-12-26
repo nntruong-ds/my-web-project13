@@ -9,6 +9,7 @@ import HoSo from "./components/HoSo";
 import PhieuLuong from "./components/PhieuLuong";
 import BangCong from "./components/BangCong";
 import GuiEmail from "./components/GuiEmail";
+import ResetPass from "./components/ResetPass";
 
 function App() {
     return (
@@ -16,14 +17,14 @@ function App() {
             <Routes>
                 <Route path="/" element={<Login />} />
                 <Route path="/forgot" element={<QuenPass />} />
-                {/* Trang thông tin nhân viên */}
                 <Route path="/employee/:id" element={<Employee />} />
-                {/* Các tính năng của từng nhân viên */}
+                {/* Các tính năng */}
                 <Route path="/employee/:id/sinhnhat" element={<SinhNhat />} />
                 <Route path="/employee/:id/hoso" element={<HoSo />} />
                 <Route path="/employee/:id/phieuluong" element={<PhieuLuong />} />
                 <Route path="/employee/:id/bangcong" element={<BangCong />} />
                 <Route path="/employee/:id/email" element={<GuiEmail />} />
+                <Route path="/reset-password" element={<ResetPass />} />
             </Routes>
         </Router>
     );

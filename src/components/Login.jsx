@@ -20,23 +20,30 @@ export default function Login() {
             });
 
             if (res.data && res.data.access_token) {
+                // ✅ LƯU TOKEN
                 localStorage.setItem("access_token", res.data.access_token);
                 localStorage.setItem("role", res.data.role);
 
-                alert("Đăng nhập thành công!");
-                navigate(`/employee/${username}`);
-            }
+                // ✅ LƯU MÃ NHÂN VIÊN (QUAN TRỌNG)
+                localStorage.setItem("employee_id", res.data.ma_nhan_vien);
 
+                alert("Đăng nhập thành công!");
+
+                // ✅ ĐIỀU HƯỚNG ĐÚNG
+                navigate(`/employee/${res.data.ma_nhan_vien}`);
+            }
         } catch (err) {
             alert("Sai tài khoản hoặc mật khẩu!");
-            console.log(err);
+            console.error(err);
         }
     };
 
     return (
         <div className="login-container">
             <div className="login-box">
-                <h1 className="company-title">CÔNG TY CỔ PHẦN NĂM THÀNH VIÊN A+88</h1>
+                <h1 className="company-title">
+                    CÔNG TY CỔ PHẦN NĂM THÀNH VIÊN A+88
+                </h1>
 
                 <div className="login-body">
                     <div className="login-left">
@@ -57,23 +64,31 @@ export default function Login() {
 
                         <form className="login-form" onSubmit={handleLogin}>
                             <div className="input-field">
-                                <img src={require("./css/usericon.png")} className="input-icon" />
+                                <img
+                                    src={require("./css/usericon.png")}
+                                    alt="user"
+                                    className="input-icon"
+                                />
                                 <input
                                     type="text"
                                     placeholder="Username"
                                     value={username}
-                                    onChange={(e)=>setUsername(e.target.value)}
+                                    onChange={(e) => setUsername(e.target.value)}
                                     required
                                 />
                             </div>
 
                             <div className="input-field">
-                                <img src={require("./css/keyicon.png")} className="input-icon" />
+                                <img
+                                    src={require("./css/keyicon.png")}
+                                    alt="password"
+                                    className="input-icon"
+                                />
                                 <input
                                     type={showPassword ? "text" : "password"}
                                     placeholder="Password"
                                     value={password}
-                                    onChange={(e)=>setPassword(e.target.value)}
+                                    onChange={(e) => setPassword(e.target.value)}
                                     required
                                 />
                                 <span
@@ -87,7 +102,9 @@ export default function Login() {
                             <button type="submit">Log in</button>
                         </form>
 
-                        <a href="/forgot" className="forgot-link">Forgot password?</a>
+                        <a href="/forgot" className="forgot-link">
+                            Forgot password?
+                        </a>
                     </div>
                 </div>
             </div>

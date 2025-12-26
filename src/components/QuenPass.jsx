@@ -5,36 +5,39 @@ import axios from "axios";
 export default function QuenPass() {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
-    const [showPopup, setShowPopup] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError("");
 
         if (!username || !email) {
-            alert("Vui lòng nhập đủ thông tin!");
+            setError("Vui lòng nhập đầy đủ thông tin!");
             return;
         }
 
         try {
+            setLoading(true);
+
             const res = await axios.post(
                 "http://127.0.0.1:8000/auth/forgot-password",
                 { username, email }
             );
 
-            if (res.data.success) {
-                setShowPopup(true);
-
-                setTimeout(() => {
-                    setShowPopup(false);
-                    window.location.href = "/";
-                }, 2000);
-            } else {
-                setError("Không thể gửi email. Vui lòng kiểm tra lại thông tin.");
+            // Backend trả OK → lưu username + chuyển trang
+            if (res.status === 200) {
+                localStorage.setItem("username", username);
+                window.location.href = "/reset-password";
             }
         } catch (err) {
-            console.log(err);
-            setError("Username hoặc email không đúng.");
+            console.error(err);
+            setError(
+                err.response?.data?.detail ||
+                "Username hoặc email không đúng."
+            );
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -46,6 +49,7 @@ export default function QuenPass() {
                 </h1>
 
                 <div className="login-body">
+                    {/* LEFT */}
                     <div className="login-left">
                         <img
                             src={require("./css/anhnhom.png")}
@@ -54,6 +58,7 @@ export default function QuenPass() {
                         />
                     </div>
 
+                    {/* RIGHT */}
                     <div className="login-right">
                         <a href="/" className="back-link">
                             Quay lại
@@ -96,27 +101,19 @@ export default function QuenPass() {
                                 />
                             </div>
 
-                            <button type="submit">XÁC NHẬN</button>
+                            <button type="submit" disabled={loading}>
+                                {loading ? "ĐANG GỬI..." : "XÁC NHẬN"}
+                            </button>
                         </form>
 
                         {error && <p className="error-text">{error}</p>}
 
                         <p className="note">
-                            Hệ thống sẽ gửi mật khẩu mới vào email của bạn.
+                            Hệ thống sẽ gửi <b>mã OTP</b> vào email của bạn.
                         </p>
                     </div>
                 </div>
             </div>
-
-            {/* POPUP */}
-            {showPopup && (
-                <div className="popup-overlay">
-                    <div className="popup-box">
-                        <h3>✔ Gửi thành công!</h3>
-                        <p>Mật khẩu mới đã được gửi vào email của bạn.</p>
-                    </div>
-                </div>
-            )}
         </div>
     );
 }

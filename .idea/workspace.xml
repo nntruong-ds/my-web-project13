@@ -6,19 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0ca6e388-9477-4850-9b2d-ccd37aecb620" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/BangCong.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BangCong.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Employee.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Employee.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/GuiEmail.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/GuiEmail.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/HoSo.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/HoSo.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Login.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/PhieuLuong.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/PhieuLuong.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/QuenPass.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/QuenPass.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SinhNhat.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SinhNhat.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/css/bang_cong.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/css/bang_cong.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/css/guiemail.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/css/guiemail.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/css/phieuluong.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/css/phieuluong.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +71,7 @@
       <workItem from="1765662872229" duration="605000" />
       <workItem from="1765880995439" duration="3092000" />
       <workItem from="1766073152495" duration="2889000" />
-      <workItem from="1766660529593" duration="5114000" />
+      <workItem from="1766660529593" duration="5524000" />
     </task>
     <servers />
   </component>

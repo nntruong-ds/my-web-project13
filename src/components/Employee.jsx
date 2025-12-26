@@ -10,7 +10,7 @@ export default function Employee() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        axios.get(`http://127.0.0.1:8000/employee/profile?username=${id.toUpperCase()}`)
+        axios.get(`http://127.0.0.1:8000/employee/profile?ma_nhan_vien=${id.toUpperCase()}`)
             .then(res => {
                 setUser(res.data);
                 setLoading(false);

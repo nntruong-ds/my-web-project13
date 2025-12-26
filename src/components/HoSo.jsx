@@ -23,7 +23,7 @@ export default function HoSo() {
                     trang_thai: formData.trang_thai || null,
                 };
                 const res = await axios.get(
-                    `http://127.0.0.1:8000/employee/profile?username=${id.toUpperCase()}`,
+                    `http://127.0.0.1:8000/employee/profile?ma_nhan_vien=${id.toUpperCase()}`,
                     payload,
                     {
                         headers: { Authorization: `Bearer ${token}` }
