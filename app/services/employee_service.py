@@ -7,7 +7,6 @@ from app.models.employee import Employee
 from app.models.department import Department
 from app.models.branch import Branch
 from app.models.enums import TrangThaiNhanVien
-
 from app.services.department_service import DepartmentService
 from app.services.branch_service import BranchService
 from app.schemas.employee_schema import *
@@ -18,6 +17,14 @@ class EmployeeService:
     @staticmethod
     def get_employee_orm(db:Session, id: str):
         return db.query(Employee).filter(Employee.ma_nhan_vien == id).first()
+    
+    # Xem hồ sơ nhân viên
+    @staticmethod
+    def get_employee_by_id(db: Session, id: str):
+        employee = EmployeeService.get_employee_orm(db, id)
+        if not employee:
+            return None
+        return EmployeeResponse.model_validate(employee)
     
     # Lấy danh sách nhân viên
     @staticmethod
@@ -55,14 +62,6 @@ class EmployeeService:
             )
             
         return [EmployeeResponse.model_validate(e) for e in query.all()]
-
-    # Xem hồ sơ nhân viên
-    @staticmethod
-    def get_employee_by_id(db: Session, id: str):
-        employee = EmployeeService.get_employee_orm(db, id)
-        if not employee:
-            return None
-        return EmployeeResponse.model_validate(employee)
 
     # Tạo nhân viên mới
     @staticmethod
@@ -118,7 +117,7 @@ class EmployeeService:
              if not BranchService.get_branch_by_id(db, branch_id):
                 raise ValueError(f"Chi nhánh '{branch_id}' không tồn tại.")
 
-        # Check phòng ban có tồn tại không
+        # Check phòng ban
         if "phong_ban_id" in update_data or "chinhanh_id" in update_data:
             
             # Chỉ cần check nếu nhân viên sẽ thuộc về một phòng ban nào đó (không phải None)
@@ -200,7 +199,7 @@ class EmployeeService:
                     # Kiểm tra: nếu cột trang_thai tồn tại và không rỗng thì lấy, 
                     phong_ban_id=str(row['phong_ban_id']) if pd.notna(row.get('phong_ban_id')) else None,
                     ngay_vao_lam=row['ngay_vao_lam'] if pd.notna(row.get('ngay_vao_lam')) else None,
-                    trang_thai=str(row['trang_thai']) if pd.notna(row.get('trang_thai')) else TrangThaiNhanVien.DANG_LAM
+                    trang_thai=str(row['trang_thai']) if pd.notna(row.get('trang_thai')) else TrangThaiNhanVien.DI_LAM
                 )
 
                 # Gọi hàm tạo nhân viên đã có sẵn để tận dụng các logic kiểm tra (trùng mã, chi nhánh tồn tại...)

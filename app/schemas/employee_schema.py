@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import Optional
 from datetime import date
+
 from app.models.enums import TrangThaiNhanVien
 
 # Schema Base
@@ -27,6 +28,7 @@ class EmployeeUpdate(BaseModel):
     ngay_vao_lam: Optional[date] = None
     trang_thai: None
     chinhanh_id: Optional[int] = None
+    ngay_sinh: Optional[date] = None
 
 # Schema khi trả dữ liệu ra (response)
 class EmployeeResponse(EmployeeBase):

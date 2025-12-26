@@ -1,5 +1,5 @@
-from pydantic import BaseModel, field_validator
-from typing import Optional, List, Union
+from pydantic import BaseModel
+from typing import Optional, Union
 from datetime import datetime
 
 # Schema Base

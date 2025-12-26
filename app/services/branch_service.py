@@ -37,7 +37,7 @@ class BranchService:
             # Check giám đốc có quản lý chi nhánh nào chưa
             director = db.query(Branch).filter(Branch.id_gdoc == data.id_gdoc).first()
             if director:
-                raise ValueError(f"Ông {director.ten_giam_doc} đang làm Giám đốc tại chi nhánh '{director.ten_chi_nhanh}'. Một người không thể quản lý 2 chi nhánh!")
+                raise ValueError(f"Ông/Bà {director.ten_giam_doc} đang làm Giám đốc tại chi nhánh '{director.ten_chi_nhanh}'. Một người không thể quản lý 2 chi nhánh!")
         
 
         # Tạo mới
