@@ -1,0 +1,111 @@
+/* ===== CONG TAC PAGE ===== */
+
+.ct-page {
+    padding: 20px;
+    background: #f4f6f9;
+    min-height: 100vh;
+    font-family: "Segoe UI", sans-serif;
+}
+
+/* HEADER */
+.ct-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: #e8f0f8;
+    border: 1px solid #777;
+    padding: 10px 14px;
+}
+
+.ct-back {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid #333;
+    background: #fff;
+    cursor: pointer;
+}
+
+.ct-header h2 {
+    flex: 1;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+/* MONTH */
+.ct-month {
+    display: flex;
+    align-items: center;
+    border: 1px solid #777;
+    background: #e5e5e5;
+}
+
+.ct-label {
+    padding: 4px 10px;
+    background: #ddd;
+    border-right: 1px solid #777;
+    font-weight: 600;
+}
+
+.ct-month button {
+    width: 28px;
+    border: none;
+    background: #f0f0f0;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.ct-time {
+    padding: 4px 14px;
+    font-weight: 600;
+}
+
+/* EMPLOYEE */
+.ct-employee {
+    margin-top: 10px;
+    background: #ececec;
+    border: 1px solid #777;
+    text-align: center;
+    font-weight: 700;
+    padding: 8px;
+}
+
+/* TABLE */
+.ct-table-wrapper {
+    margin-top: 10px;
+    border: 1px solid #777;
+    background: #fff;
+}
+
+.ct-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.ct-table th {
+    background: #e9f0f7;
+    border-right: 1px solid #777;
+    border-bottom: 1px solid #777;
+    padding: 10px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.ct-table td {
+    border-right: 1px solid #777;
+    border-bottom: 1px solid #777;
+    padding: 10px;
+    text-align: center;
+}
+
+.ct-table th:last-child,
+.ct-table td:last-child {
+    border-right: none;
+}
+
+.ct-empty {
+    height: 200px;
+    font-style: italic;
+    color: #666;
+}

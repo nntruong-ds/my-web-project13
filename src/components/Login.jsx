@@ -5,7 +5,6 @@ import axios from "axios";
 
 export default function Login() {
     const navigate = useNavigate();
-
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
@@ -20,17 +19,11 @@ export default function Login() {
             });
 
             if (res.data && res.data.access_token) {
-                // ✅ LƯU TOKEN
                 localStorage.setItem("access_token", res.data.access_token);
                 localStorage.setItem("role", res.data.role);
-
-                // ✅ LƯU MÃ NHÂN VIÊN (QUAN TRỌNG)
-                localStorage.setItem("employee_id", res.data.ma_nhan_vien);
-
+                localStorage.setItem("ma_nhan_vien", username);
                 alert("Đăng nhập thành công!");
-
-                // ✅ ĐIỀU HƯỚNG ĐÚNG
-                navigate(`/employee/${res.data.ma_nhan_vien}`);
+                navigate(`/employee/${username}`);
             }
         } catch (err) {
             alert("Sai tài khoản hoặc mật khẩu!");

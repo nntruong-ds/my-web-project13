@@ -5,7 +5,7 @@ import "./css/sinhnhat.css";
 
 export default function SinhNhat() {
     const navigate = useNavigate();
-    const { id } = useParams();
+    const { ma_nhan_vien } = useParams();   // 🔴 ĐÚNG PARAM
 
     const [employees, setEmployees] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -43,11 +43,10 @@ export default function SinhNhat() {
 
     return (
         <div className="sn-container">
-            {/* HEADER */}
             <div className="sn-header">
                 <button
                     className="sn-back-btn"
-                    onClick={() => navigate(`/employee/${id}`)}
+                    onClick={() => navigate(`/employee/${ma_nhan_vien}`)}
                 >
                     ←
                 </button>
@@ -85,7 +84,7 @@ export default function SinhNhat() {
                                         alt="email"
                                         onClick={() =>
                                             navigate(
-                                                `/employee/${id}/email?to=${emp.email}`
+                                                `/employee/${ma_nhan_vien}/email?to=${emp.email}`
                                             )
                                         }
                                         style={{ cursor: "pointer" }}

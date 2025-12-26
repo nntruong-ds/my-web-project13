@@ -5,12 +5,34 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0ca6e388-9477-4850-9b2d-ccd37aecb620" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/components/CongTac.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Kpi.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/css/kpi.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/BangCong.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BangCong.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Employee.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Employee.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/GuiEmail.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/GuiEmail.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/HoSo.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/HoSo.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Login.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/PhieuLuong.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/PhieuLuong.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/QuenPass.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/QuenPass.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ResetPass.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ResetPass.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/SinhNhat.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SinhNhat.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/css/resetpass.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/css/resetpass.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+        <option value="JSX File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -72,6 +94,8 @@
       <workItem from="1765880995439" duration="3092000" />
       <workItem from="1766073152495" duration="2889000" />
       <workItem from="1766660529593" duration="5524000" />
+      <workItem from="1766734512279" duration="3250000" />
+      <workItem from="1766738487077" duration="3958000" />
     </task>
     <servers />
   </component>

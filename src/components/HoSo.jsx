@@ -5,32 +5,27 @@ import axios from "axios";
 
 export default function HoSo() {
     const navigate = useNavigate();
-    const { id } = useParams();
+    const { ma_nhan_vien } = useParams();   // 🔴 ĐÚNG PARAM
 
     const [formData, setFormData] = useState({});
     const [editing, setEditing] = useState(false);
     const [loading, setLoading] = useState(true);
 
-    // Load dữ liệu từ backend
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const token = localStorage.getItem("access_token");
-                const payload = {
-                    ho_ten: formData.ho_ten || null,
-                    email: formData.email || null,
-                    phong_ban_id: formData.phong_ban_id || null,
-                    trang_thai: formData.trang_thai || null,
-                };
+
                 const res = await axios.get(
-                    `http://127.0.0.1:8000/employee/profile?ma_nhan_vien=${id.toUpperCase()}`,
-                    payload,
+                    "http://127.0.0.1:8000/employee/profile",
                     {
-                        headers: { Authorization: `Bearer ${token}` }
+                        params: { ma_nhan_vien },
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
                     }
                 );
 
-                // MAP dữ liệu backend → form frontend
                 setFormData({
                     ma_nhan_vien: res.data.ma_nhan_vien || "",
                     ho_ten: res.data.ho_ten || "",
@@ -51,18 +46,16 @@ export default function HoSo() {
         };
 
         fetchData();
-    }, [id]);
+    }, [ma_nhan_vien]);
 
     if (loading) return <h2>Đang tải thông tin...</h2>;
-    if (!formData || !formData.ma_nhan_vien) return <h2>Không tìm thấy nhân viên</h2>;
+    if (!formData?.ma_nhan_vien) return <h2>Không tìm thấy nhân viên</h2>;
 
-    // Thay đổi input
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    // Upload avatar
     const handleAvatarChange = (e) => {
         const file = e.target.files[0];
         if (!file) return;
@@ -74,12 +67,10 @@ export default function HoSo() {
         reader.readAsDataURL(file);
     };
 
-    // Gửi cập nhật về backend
     const handleUpdate = async () => {
         try {
             const token = localStorage.getItem("access_token");
 
-            // 🔥 CHỈ GỬI FIELD HỢP LỆ
             const payload = {
                 ho_ten: formData.ho_ten || null,
                 email: formData.email || null,
@@ -87,10 +78,11 @@ export default function HoSo() {
                 trang_thai: formData.trang_thai || null,
             };
 
-            const res = await axios.put(
-                `http://127.0.0.1:8000/employee/profile?username=${id}`,
+            await axios.put(
+                "http://127.0.0.1:8000/employee/profile",
                 payload,
                 {
+                    params: { ma_nhan_vien },
                     headers: {
                         Authorization: `Bearer ${token}`,
                         "Content-Type": "application/json",
@@ -107,13 +99,15 @@ export default function HoSo() {
         }
     };
 
-
     return (
         <div className="hs-container">
 
             {/* HEADER */}
             <div className="hs-header">
-                <button className="email-back" onClick={() => navigate(`/employee/${id}`)}>
+                <button
+                    className="email-back"
+                    onClick={() => navigate(`/employee/${ma_nhan_vien}`)}
+                >
                     ← Quay lại
                 </button>
 
@@ -125,94 +119,66 @@ export default function HoSo() {
                 </div>
             </div>
 
-            {/* FORM */}
             <div className="hs-form-box">
                 <div className="hs-grid">
-
-                    {/* LEFT FORM */}
                     <div className="hs-left">
-                        <h3 className="hs-title">Thông tin nhân viên</h3>
+                        <label>Mã nhân viên:</label>
+                        <input value={formData.ma_nhan_vien} disabled />
 
-                        <div className="hs-grid">
+                        <label>Họ và tên:</label>
+                        <input
+                            name="ho_ten"
+                            value={formData.ho_ten}
+                            disabled={!editing}
+                            onChange={handleChange}
+                        />
 
-                            {/* LEFT FORM */}
-                            <div className="hs-left">
-                                <label>Mã nhân viên:</label>
-                                <input value={formData.ma_nhan_vien} disabled />
+                        <label>Email:</label>
+                        <input
+                            name="email"
+                            value={formData.email}
+                            disabled={!editing}
+                            onChange={handleChange}
+                        />
 
-                                <label>Họ và tên:</label>
-                                <input
-                                    name="ho_ten"
-                                    value={formData.ho_ten}
-                                    disabled={!editing}
-                                    onChange={handleChange}
-                                />
+                        <label>Phòng ban ID:</label>
+                        <input
+                            name="phong_ban_id"
+                            value={formData.phong_ban_id}
+                            disabled={!editing}
+                            onChange={handleChange}
+                        />
 
-                                <label>Email:</label>
-                                <input
-                                    name="email"
-                                    value={formData.email}
-                                    disabled={!editing}
-                                    onChange={handleChange}
-                                />
+                        <label>Chức vụ ID:</label>
+                        <input
+                            name="chuc_vu_id"
+                            value={formData.chuc_vu_id}
+                            disabled
+                        />
 
-                                <label>Phòng ban ID:</label>
-                                <input
-                                    name="phong_ban_id"
-                                    value={formData.phong_ban_id}
-                                    disabled={!editing}
-                                    onChange={handleChange}
-                                />
+                        <label>Ngày vào làm:</label>
+                        <input
+                            name="ngay_vao_lam"
+                            value={formData.ngay_vao_lam}
+                            disabled
+                        />
 
-                                <label>Chức vụ ID:</label>
-                                <input
-                                    name="chuc_vu_id"
-                                    value={formData.chuc_vu_id}
-                                    disabled={!editing}
-                                    onChange={handleChange}
-                                />
+                        <label>Trạng thái:</label>
+                        <input
+                            name="trang_thai"
+                            value={formData.trang_thai}
+                            disabled={!editing}
+                            onChange={handleChange}
+                        />
 
-                                <label>Ngày vào làm:</label>
-                                <input
-                                    name="ngay_vao_lam"
-                                    value={formData.ngay_vao_lam}
-                                    disabled={!editing}
-                                    onChange={handleChange}
-                                />
-
-                                <label>Trạng thái:</label>
-                                <input
-                                    name="trang_thai"
-                                    value={formData.trang_thai}
-                                    disabled={!editing}
-                                    onChange={handleChange}
-                                />
-
-                                <label>Chi nhánh ID:</label>
-                                <input
-                                    name="chinhanh_id"
-                                    value={formData.chinhanh_id}
-                                    disabled={!editing}
-                                    onChange={handleChange}
-                                />
-                            </div>
-
-                        </div>
-
-
-                        <div className="hs-row">
-                            <div className="hs-col">
-                                <label>Trạng thái:</label>
-                                <input name="trang_thai" value={formData.trang_thai} disabled={!editing} onChange={handleChange} />
-                            </div>
-                            <div className="hs-col">
-                                <label>Ngày vào làm:</label>
-                                <input name="ngay_vao_lam" value={formData.ngay_vao_lam} disabled={!editing} onChange={handleChange} />
-                            </div>
-                        </div>
+                        <label>Chi nhánh ID:</label>
+                        <input
+                            name="chinhanh_id"
+                            value={formData.chinhanh_id}
+                            disabled
+                        />
                     </div>
 
-                    {/* RIGHT - AVATAR */}
                     <div className="hs-right">
                         <img
                             src={formData.avatar}

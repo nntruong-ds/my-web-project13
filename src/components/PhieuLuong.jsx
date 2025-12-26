@@ -4,14 +4,12 @@ import axios from "axios";
 import "./css/phieuluong.css";
 
 export default function PhieuLuong() {
-    const { id } = useParams();
+    const { ma_nhan_vien } = useParams();   // 🔴 ĐÚNG PARAM
     const navigate = useNavigate();
-
     const [data, setData] = useState(null);
     const [month, setMonth] = useState(12);
     const [year, setYear] = useState(2024);
     const [loading, setLoading] = useState(true);
-
     const token = localStorage.getItem("access_token");
 
     const loadSalary = async () => {
@@ -21,11 +19,13 @@ export default function PhieuLuong() {
                 "http://127.0.0.1:8000/salary",
                 {
                     params: {
-                        ma_nhan_vien: id,
+                        ma_nhan_vien,
                         thang: month,
                         nam: year
                     },
-                    headers: { Authorization: `Bearer ${token}` }
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
                 }
             );
             setData(res.data);
@@ -37,12 +37,12 @@ export default function PhieuLuong() {
         }
     };
 
-    // ✅ TỰ LOAD KHI THÁNG / NĂM ĐỔI
     useEffect(() => {
-        loadSalary();
-    }, [month, year]);
+        if (ma_nhan_vien) {
+            loadSalary();
+        }
+    }, [month, year, ma_nhan_vien]);
 
-    // ⬅️ THÁNG TRƯỚC
     const prevMonth = () => {
         if (month === 1) {
             setMonth(12);
@@ -52,7 +52,6 @@ export default function PhieuLuong() {
         }
     };
 
-    // ➡️ THÁNG SAU
     const nextMonth = () => {
         if (month === 12) {
             setMonth(1);
@@ -70,7 +69,6 @@ export default function PhieuLuong() {
         return <h3 style={{ textAlign: "center" }}>Không tìm thấy phiếu lương</h3>;
     }
 
-    // ✅ TÍNH TOÁN
     const tongThuNhap =
         data.luong_co_ban * data.he_so_luong +
         data.phu_cap +
@@ -88,9 +86,8 @@ export default function PhieuLuong() {
 
     return (
         <div className="pl-wrapper">
-            {/* HEADER */}
             <div className="pl-header">
-                <button onClick={() => navigate(`/employee/${id}`)}>←</button>
+                <button onClick={() => navigate(`/employee/${ma_nhan_vien}`)}>←</button>
                 <h2>Phiếu lương</h2>
 
                 <div className="pl-month">
@@ -99,8 +96,6 @@ export default function PhieuLuong() {
                     <button onClick={nextMonth}>›</button>
                 </div>
             </div>
-
-            {/* TABLE */}
             <table className="pl-table">
                 <tbody>
                 <tr><th colSpan="2">Thông tin nhân viên</th></tr>

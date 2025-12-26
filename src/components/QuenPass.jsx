@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import "./css/quenpass.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function QuenPass() {
+    const navigate = useNavigate();
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(false);
@@ -22,14 +24,19 @@ export default function QuenPass() {
 
             const res = await axios.post(
                 "http://127.0.0.1:8000/auth/forgot-password",
-                { username, email }
+                {
+                    username,
+                    email
+                }
             );
 
-            // Backend trả OK → lưu username + chuyển trang
             if (res.status === 200) {
-                localStorage.setItem("username", username);
-                window.location.href = "/reset-password";
+                localStorage.setItem("username_reset", username);
+
+                alert("Đã gửi mã OTP về email!");
+                navigate("/reset-password");
             }
+
         } catch (err) {
             console.error(err);
             setError(
@@ -49,7 +56,6 @@ export default function QuenPass() {
                 </h1>
 
                 <div className="login-body">
-                    {/* LEFT */}
                     <div className="login-left">
                         <img
                             src={require("./css/anhnhom.png")}
@@ -58,11 +64,13 @@ export default function QuenPass() {
                         />
                     </div>
 
-                    {/* RIGHT */}
                     <div className="login-right">
-                        <a href="/" className="back-link">
+                        <button
+                            className="back-link"
+                            onClick={() => navigate("/")}
+                        >
                             Quay lại
-                        </a>
+                        </button>
 
                         <img
                             src={require("./css/ava1.png")}

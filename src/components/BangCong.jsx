@@ -4,8 +4,9 @@ import "./css/bang_cong.css";
 import axios from "axios";
 
 export default function BangCong() {
-    const { id } = useParams();
+    const { ma_nhan_vien } = useParams();   // 🔴 ĐÚNG PARAM
     const navigate = useNavigate();
+
     const [records, setRecords] = useState([]);
     const [loading, setLoading] = useState(true);
     const [month, setMonth] = useState(12);
@@ -21,11 +22,13 @@ export default function BangCong() {
                 "http://127.0.0.1:8000/cham-cong",
                 {
                     params: {
-                        ma_nhan_vien: id,
+                        ma_nhan_vien,   // 🔴 ĐÚNG BACKEND
                         thang: month,
                         nam: year
                     },
-                    headers: { Authorization: `Bearer ${token}` }
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
                 }
             );
             setRecords(res.data.data || []);
@@ -38,28 +41,60 @@ export default function BangCong() {
     };
 
     useEffect(() => {
-        loadBangCong();
-    }, []);
+        if (ma_nhan_vien) {
+            loadBangCong();
+        }
+    }, [month, year, ma_nhan_vien]);
 
     if (loading) return <h2>Đang tải dữ liệu...</h2>;
 
     // ================= SUMMARY =================
     const workDays = records.length;
-    const overtime = records.reduce((s, r) => s + (r.so_gio_tang_ca || 0), 0);
-    const late = records.reduce((s, r) => s + (r.so_lan_di_muon_ve_som || 0), 0);
+    const overtime = records.reduce(
+        (s, r) => s + (r.so_gio_tang_ca || 0),
+        0
+    );
+    const late = records.reduce(
+        (s, r) => s + (r.so_lan_di_muon_ve_som || 0),
+        0
+    );
 
     return (
         <div className="bc-page">
 
             {/* HEADER */}
             <div className="bc-header">
-                <button onClick={() => navigate(`/employee/${id}`)}>←</button>
+                <button onClick={() => navigate(`/employee/${ma_nhan_vien}`)}>←</button>
                 <h2>BẢNG CÔNG</h2>
 
                 <div className="bc-month">
-                    <button onClick={() => setMonth(m => m - 1)}>‹</button>
+                    <button
+                        onClick={() => {
+                            if (month === 1) {
+                                setMonth(12);
+                                setYear(y => y - 1);
+                            } else {
+                                setMonth(m => m - 1);
+                            }
+                        }}
+                    >
+                        ‹
+                    </button>
+
                     <span>{month} / {year}</span>
-                    <button onClick={() => setMonth(m => m + 1)}>›</button>
+
+                    <button
+                        onClick={() => {
+                            if (month === 12) {
+                                setMonth(1);
+                                setYear(y => y + 1);
+                            } else {
+                                setMonth(m => m + 1);
+                            }
+                        }}
+                    >
+                        ›
+                    </button>
                 </div>
             </div>
 
@@ -88,7 +123,6 @@ export default function BangCong() {
                 <p>🕘 Bạn đã chấm công đầu lúc <b>08:00</b></p>
                 <p>🕔 Bạn đã chấm công về lúc <b>17:00</b></p>
 
-                {/* 👉 CHỮ CHI TIẾT Ở TRANG ĐẦU */}
                 <button
                     className="btn-detail"
                     onClick={() => {
@@ -116,14 +150,38 @@ export default function BangCong() {
                         <h3>BẢNG CÔNG CHI TIẾT</h3>
 
                         <div className="bc-month">
-                            <button onClick={() => setMonth(m => m - 1)}>‹</button>
+                            <button
+                                onClick={() => {
+                                    if (month === 1) {
+                                        setMonth(12);
+                                        setYear(y => y - 1);
+                                    } else {
+                                        setMonth(m => m - 1);
+                                    }
+                                }}
+                            >
+                                ‹
+                            </button>
+
                             <span>{month} / {year}</span>
-                            <button onClick={() => setMonth(m => m + 1)}>›</button>
+
+                            <button
+                                onClick={() => {
+                                    if (month === 12) {
+                                        setMonth(1);
+                                        setYear(y => y + 1);
+                                    } else {
+                                        setMonth(m => m + 1);
+                                    }
+                                }}
+                            >
+                                ›
+                            </button>
                         </div>
                     </div>
 
                     <div className="bc-employee">
-                        {id}
+                        {ma_nhan_vien}
                     </div>
 
                     <table className="bc-table">

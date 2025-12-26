@@ -4,14 +4,14 @@ import "./css/guiemail.css";
 import axios from "axios";
 
 export default function GuiEmail() {
-    const { id } = useParams();
+    const { ma_nhan_vien } = useParams();
     const navigate = useNavigate();
     const location = useLocation();
 
     const params = new URLSearchParams(location.search);
     const defaultEmail = params.get("to") || "";
 
-    const [activeTab, setActiveTab] = useState("home"); // home | compose | inbox | sent
+    const [activeTab, setActiveTab] = useState("home");
     const [toEmail, setToEmail] = useState(defaultEmail);
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
@@ -54,22 +54,18 @@ export default function GuiEmail() {
     return (
         <div className="gmail-page">
 
-            {/* HEADER */}
             <div className="gmail-header">
-                <button onClick={() => navigate(`/employee/${id}`)}>←</button>
+                <button onClick={() => navigate(`/employee/${ma_nhan_vien}`)}>←</button>
                 <h2>GMAIL</h2>
             </div>
 
             <div className="gmail-body">
-
-                {/* SIDEBAR */}
                 <div className="gmail-sidebar">
                     <button onClick={() => setActiveTab("compose")}>SOẠN THƯ</button>
                     <button onClick={() => setActiveTab("inbox")}>HỘP THƯ ĐẾN</button>
                     <button onClick={() => setActiveTab("sent")}>ĐÃ GỬI</button>
                 </div>
 
-                {/* CONTENT */}
                 <div className="gmail-content">
 
                     {activeTab === "compose" && (
@@ -113,7 +109,6 @@ export default function GuiEmail() {
                 </div>
             </div>
 
-            {/* POPUP */}
             {popup && (
                 <div className="popup-overlay">
                     <div className="popup-box">

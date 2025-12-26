@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./css/resetpass.css";
+import { useNavigate } from "react-router-dom";
 
 export default function ResetPass() {
+    const navigate = useNavigate();
+
     const [otp, setOtp] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -10,12 +13,16 @@ export default function ResetPass() {
     const [showConfirm, setShowConfirm] = useState(false);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
-
-    const username = localStorage.getItem("username");
+    const username = localStorage.getItem("username_reset");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
+
+        if (!username) {
+            setError("Phiên đặt lại mật khẩu đã hết hạn. Vui lòng thực hiện lại.");
+            return;
+        }
 
         if (!otp || !newPassword || !confirmPassword) {
             setError("Vui lòng nhập đầy đủ thông tin");
@@ -35,11 +42,12 @@ export default function ResetPass() {
                 new_password: newPassword
             });
 
-            alert("Đổi mật khẩu thành công");
-            localStorage.removeItem("username");
-            window.location.href = "/";
+            alert("Đổi mật khẩu thành công!");
+            localStorage.removeItem("username_reset");
+
+            navigate("/");
         } catch (err) {
-            setError(err.response?.data?.detail || "OTP không đúng");
+            setError(err.response?.data?.detail || "OTP không đúng hoặc đã hết hạn");
         } finally {
             setLoading(false);
         }
@@ -48,7 +56,12 @@ export default function ResetPass() {
     return (
         <div className="reset-container">
             <div className="reset-box">
-                <a href="/forgot" className="back-link">Quay lại</a>
+                <button
+                    className="back-link"
+                    onClick={() => navigate("/forgot")}
+                >
+                    Quay lại
+                </button>
 
                 <img
                     src={require("./css/ava1.png")}
@@ -61,7 +74,7 @@ export default function ResetPass() {
                 <form className="reset-form" onSubmit={handleSubmit}>
                     <input
                         type="text"
-                        placeholder="Mã OTP"
+                        placeholder="Mã OTP (XXXXXX)"
                         value={otp}
                         onChange={(e) => setOtp(e.target.value)}
                     />
@@ -81,8 +94,6 @@ export default function ResetPass() {
                             {showPassword ? "🙈" : "👁️"}
                         </span>
                     </div>
-
-                    {/* Xác nhận mật khẩu */}
                     <div className="password-field">
                         <input
                             type={showConfirm ? "text" : "password"}
