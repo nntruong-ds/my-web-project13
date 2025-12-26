@@ -6,6 +6,7 @@ import "./css/nhanvien.css";
 export default function Employee() {
     const { ma_nhan_vien } = useParams();
     const navigate = useNavigate();
+
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -16,14 +17,15 @@ export default function Employee() {
         }
 
         axios.get("http://127.0.0.1:8000/employee/profile", {
-            params: { ma_nhan_vien }
+            params: { username: ma_nhan_vien }
         })
             .then(res => {
+                console.log("EMPLOYEE DATA:", res.data);
                 setUser(res.data);
                 setLoading(false);
             })
             .catch(err => {
-                console.error(err);
+                console.error("API ERROR:", err);
                 setUser(null);
                 setLoading(false);
             });
@@ -60,7 +62,7 @@ export default function Employee() {
                 <div className="nv-avatar-box">
                     <img
                         className="nv-avatar"
-                        src={user.avatar || require("./css/ava1.png")}
+                        src={require("./css/ava1.png")}
                         alt="avatar"
                     />
                 </div>
@@ -81,7 +83,9 @@ export default function Employee() {
                     <div
                         key={index}
                         className="nv-feature-item"
-                        onClick={() => navigate(`/employee/${ma_nhan_vien}/${item.path}`)}
+                        onClick={() =>
+                            navigate(`/employee/${ma_nhan_vien}/${item.path}`)
+                        }
                     >
                         <img src={item.icon} alt={item.name} />
                         <p>{item.name}</p>

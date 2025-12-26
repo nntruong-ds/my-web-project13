@@ -5,7 +5,7 @@ import axios from "axios";
 
 export default function HoSo() {
     const navigate = useNavigate();
-    const { ma_nhan_vien } = useParams();   // 🔴 ĐÚNG PARAM
+    const { ma_nhan_vien } = useParams();
 
     const [formData, setFormData] = useState({});
     const [editing, setEditing] = useState(false);
@@ -19,7 +19,7 @@ export default function HoSo() {
                 const res = await axios.get(
                     "http://127.0.0.1:8000/employee/profile",
                     {
-                        params: { ma_nhan_vien },
+                        params: { username: ma_nhan_vien },
                         headers: {
                             Authorization: `Bearer ${token}`,
                         },
@@ -35,7 +35,7 @@ export default function HoSo() {
                     chinhanh_id: res.data.chinhanh_id || "",
                     trang_thai: res.data.trang_thai || "",
                     ngay_vao_lam: res.data.ngay_vao_lam || "",
-                    avatar: res.data.avatar || require("./css/ava1.png"),
+                    avatar: require("./css/ava1.png"),
                 });
 
             } catch (error) {
@@ -56,17 +56,6 @@ export default function HoSo() {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleAvatarChange = (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-
-        const reader = new FileReader();
-        reader.onload = () => {
-            setFormData(prev => ({ ...prev, avatar: reader.result }));
-        };
-        reader.readAsDataURL(file);
-    };
-
     const handleUpdate = async () => {
         try {
             const token = localStorage.getItem("access_token");
@@ -82,7 +71,7 @@ export default function HoSo() {
                 "http://127.0.0.1:8000/employee/profile",
                 payload,
                 {
-                    params: { ma_nhan_vien },
+                    params: { username: ma_nhan_vien },
                     headers: {
                         Authorization: `Bearer ${token}`,
                         "Content-Type": "application/json",
@@ -101,8 +90,6 @@ export default function HoSo() {
 
     return (
         <div className="hs-container">
-
-            {/* HEADER */}
             <div className="hs-header">
                 <button
                     className="email-back"
@@ -150,18 +137,10 @@ export default function HoSo() {
                         />
 
                         <label>Chức vụ ID:</label>
-                        <input
-                            name="chuc_vu_id"
-                            value={formData.chuc_vu_id}
-                            disabled
-                        />
+                        <input value={formData.chuc_vu_id} disabled />
 
                         <label>Ngày vào làm:</label>
-                        <input
-                            name="ngay_vao_lam"
-                            value={formData.ngay_vao_lam}
-                            disabled
-                        />
+                        <input value={formData.ngay_vao_lam} disabled />
 
                         <label>Trạng thái:</label>
                         <input
@@ -172,11 +151,7 @@ export default function HoSo() {
                         />
 
                         <label>Chi nhánh ID:</label>
-                        <input
-                            name="chinhanh_id"
-                            value={formData.chinhanh_id}
-                            disabled
-                        />
+                        <input value={formData.chinhanh_id} disabled />
                     </div>
 
                     <div className="hs-right">
@@ -184,23 +159,10 @@ export default function HoSo() {
                             src={formData.avatar}
                             alt="avatar"
                             className="hs-avatar"
-                            onClick={() => editing && document.getElementById("uploadAvatar").click()}
-                            style={{ cursor: editing ? "pointer" : "default" }}
-                        />
-
-                        <input
-                            id="uploadAvatar"
-                            type="file"
-                            accept="image/*"
-                            style={{ display: "none" }}
-                            disabled={!editing}
-                            onChange={handleAvatarChange}
                         />
                     </div>
-
                 </div>
             </div>
-
         </div>
     );
 }
