@@ -109,3 +109,38 @@
     font-style: italic;
     color: #666;
 }
+.kpi-status {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.kpi-status.evaluating {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.kpi-status.fail {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.kpi-status.pass {
+    background: #d4edda;
+    color: #155724;
+}
+.thuong-box {
+    margin: 12px 0;
+    padding: 10px;
+    border-radius: 6px;
+    font-weight: 600;
+}
+.thuong-box.pass {
+    background: #e6fffa;
+    color: #065f46;
+}
+.thuong-box.fail {
+    background: #fee2e2;
+    color: #7f1d1d;
+}

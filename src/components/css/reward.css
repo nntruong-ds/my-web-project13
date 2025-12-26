@@ -1,0 +1,27 @@
+.reward-page {
+    padding: 20px;
+}
+
+.reward-month {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.reward-box {
+    padding: 16px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.reward-box.success {
+    background: #d4edda;
+    color: #155724;
+}
+
+.reward-box.fail {
+    background: #f8d7da;
+    color: #721c24;
+}
