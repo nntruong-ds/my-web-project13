@@ -11,8 +11,8 @@ class TrangThaiChamCong(str, enum.Enum):
     NGHI_KHONG_PHEP = "Nghỉ không phép"
     LAM_THEM = "Làm thêm"
 
-# class VaiTroEnum(str, enum.Enum):
-#     TONG_GIAM_DOC = "tonggiamdoc"
-#     GIAM_DOC_CN = "giamdoc_cn"
-#     TRUONG_PHONG = "truongphong"
-#     NHAN_VIEN = "nhanvien"
+class VaiTro(str, enum.Enum):
+    TGD = "tonggiamdoc"
+    GDCN = "giamdoc_cn"
+    TP = "truongphong"
+    NV = "nhanvien"
