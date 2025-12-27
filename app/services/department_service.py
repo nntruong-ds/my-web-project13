@@ -65,7 +65,10 @@ class DepartmentService:
             # Check xem Trưởng phòng đã quản lý phòng ban nào chưa
             head = db.query(Department).filter(Department.truong_phong_id == data.truong_phong_id).first()
             if head:
-                raise ValueError(f"Ông {head.ten_truong_phong} đang làm Trưởng phòng tại phòng '{head.ten_phong}'. Một người không thể quản lý 2 phòng ban!")
+                if head.gioi_tinh_truong_phong == "Nam":
+                    raise ValueError(f"Ông {head.ten_truong_phong} đang làm Trưởng phòng tại phòng '{head.ten_phong}'. Một người không thể quản lý 2 phòng ban!")
+                else:
+                    raise ValueError(f"Bà {head.ten_truong_phong} đang làm Trưởng phòng tại phòng '{head.ten_phong}'. Một người không thể quản lý 2 phòng ban!")
     
         # Tạo mới
         new_department = Department(**data.model_dump())
@@ -118,7 +121,10 @@ class DepartmentService:
                         Department.mapb != mapb
                     ).first()
                     if head:
-                        raise ValueError(f"Ông/Bà {head.ten_truong_phong} đang làm Trưởng phòng tại '{head.ten_phong}'.")
+                        if head.gioi_tinh_truong_phong == "Nam":
+                            raise ValueError(f"Ông {head.ten_truong_phong} đang làm Trưởng phòng tại phòng '{head.ten_phong}'. Một người không thể quản lý 2 phòng ban!")
+                        else:
+                            raise ValueError(f"Bà {head.ten_truong_phong} đang làm Trưởng phòng tại phòng '{head.ten_phong}'. Một người không thể quản lý 2 phòng ban!")
 
         # LOGIC ĐỒNG BỘ CHỨC VỤ (MỚI THÊM)
         if "truong_phong_id" in update_data:
