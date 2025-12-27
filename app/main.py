@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.configs.database import init_db
-from app.routers import department_router, employee_router, branch_router, attendance_router, position_router, user_router
+from app.routers import department_router, employee_router, branch_router, attendance_router, position_router, user_router, business_trip_router
 from sqlalchemy.exc import IntegrityError
 from app.utils.exception_handlers import (
     value_error_handler, 
@@ -33,6 +33,7 @@ app.include_router(branch_router.router)
 app.include_router(attendance_router.router)
 app.include_router(position_router.router)
 app.include_router(user_router.router)
+app.include_router(business_trip_router.router)
 
 # Cấu hình CORS
 app.add_middleware(

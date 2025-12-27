@@ -35,7 +35,7 @@ class Employee(Base):
     # Relationship 1-n: Một nhân viên có danh sách chấm công
     ds_cham_cong = relationship("Attendance", back_populates="nhan_vien")
 
-    #Relationship: Một nhân viên có 1 chức vụ
+    # Relationship: Một nhân viên có 1 chức vụ
     chuc_vu = relationship("Position", back_populates="ds_nhan_vien", foreign_keys=[chuc_vu_id])
 
     def __repr__(self):
