@@ -12,6 +12,7 @@ import GuiEmail from "./components/GuiEmail";
 import ResetPass from "./components/ResetPass";
 import Kpi from "./components/Kpi";
 import CongTac from "./components/CongTac";
+import ChatBot from "./components/ChatBot";
 function App() {
     return (
         <Router>
@@ -32,6 +33,7 @@ function App() {
                 <Route path="/employee/:ma_nhan_vien/congtac" element={<CongTac />}/>
                 <Route path="/reset-password" element={<ResetPass />} />
             </Routes>
+            <ChatBot />
         </Router>
     );
 }

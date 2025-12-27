@@ -18,11 +18,19 @@ export default function Login() {
                 password
             });
 
-            if (res.data && res.data.access_token) {
+            if (res.data?.access_token) {
                 localStorage.setItem("access_token", res.data.access_token);
                 localStorage.setItem("role", res.data.role);
                 localStorage.setItem("ma_nhan_vien", username);
-                alert("Đăng nhập thành công!");
+
+                // 🔥 GỌI PROFILE ĐỂ LẤY HỌ TÊN
+                const profileRes = await axios.get(
+                    `http://127.0.0.1:8000/employee/profile?username=${username.toUpperCase()}`
+                );
+
+                // 👉 LƯU HỌ TÊN
+                localStorage.setItem("ho_ten", profileRes.data.ho_ten);
+
                 navigate(`/employee/${username}`);
             }
         } catch (err) {
@@ -30,6 +38,7 @@ export default function Login() {
             console.error(err);
         }
     };
+
 
     return (
         <div className="login-container">
