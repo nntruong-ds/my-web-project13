@@ -1,10 +1,10 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
+
 from app.models.branch import Branch
 from app.models.department import Department
 from app.models.employee import Employee
 from app.schemas.department_schema import *
 from app.services.branch_service import BranchService
-from sqlalchemy.orm import joinedload
 
 class DepartmentService:
     # Truy vấn phòng ban theo mapb
@@ -81,6 +81,9 @@ class DepartmentService:
         if not department:
             return None
         
+        # lưu lại mã trưởng phòng hiện tại (Trước khi bị ghi đè bởi data mới)
+        current_manager_id = department.truong_phong_id
+
         # Lấy dict các trường có gửi lên (loại bỏ các trường None)
         # exclude_unset=True: Chỉ lấy những gì user gửi
         update_data = data.model_dump(exclude_unset=True)
@@ -116,6 +119,25 @@ class DepartmentService:
                     ).first()
                     if head:
                         raise ValueError(f"Ông/Bà {head.ten_truong_phong} đang làm Trưởng phòng tại '{head.ten_phong}'.")
+
+        # LOGIC ĐỒNG BỘ CHỨC VỤ (MỚI THÊM)
+        if "truong_phong_id" in update_data:
+            new_manager_id = update_data["truong_phong_id"]
+
+            # Nếu có sự thay đổi người lãnh đạo
+            if new_manager_id != current_manager_id:
+                
+                # Thăng chức cho người MỚI (lên Trưởng phòng)
+                if new_manager_id:
+                    new_emp = db.query(Employee).filter(Employee.ma_nhan_vien == new_manager_id).first()
+                    if new_emp:
+                        new_emp.chuc_vu_id = "TP" 
+
+                # Giáng chức người CŨ (về Nhân viên)
+                if current_manager_id:
+                    old_emp = db.query(Employee).filter(Employee.ma_nhan_vien == current_manager_id).first()
+                    if old_emp:
+                        old_emp.chuc_vu_id = "NV"
 
         # Cập nhật dữ liệu
         for key, value in update_data.items():
