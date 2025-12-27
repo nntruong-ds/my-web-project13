@@ -88,6 +88,7 @@ class SocialInsuranceService:
             raise ValueError("Không tìm thấy bản ghi BHXH này!")
             
         record.trang_thai = data.trang_thai
+        record.thang = data.thang # Cho phép sửa lại tháng nếu nhập sai
         
         db.commit()
         db.refresh(record)

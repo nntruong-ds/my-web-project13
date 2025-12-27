@@ -6,17 +6,8 @@ from app.services.social_insurance_service import SocialInsuranceService
 class SocialInsuranceController:
     
     @staticmethod
-    def search(
-        db: Session, 
-        keyword: str, 
-        thang: int, 
-        nam: int, 
-        mapb: str, 
-        macn: int
-    ):
-        return SocialInsuranceService.search_insurance(
-            db, keyword, thang, nam, mapb, macn
-        )
+    def search(db: Session, keyword: str, thang: int, nam: int, mapb: str, macn: int):
+        return SocialInsuranceService.search_insurance(db, keyword, thang, nam, mapb, macn)
 
     @staticmethod
     def create(db: Session, data):
@@ -33,9 +24,5 @@ class SocialInsuranceController:
             raise HTTPException(status_code=404, detail=str(e))
         
     @staticmethod
-    def export_excel(
-        db: Session, 
-        keyword: str, thang: int, nam: int, 
-        mapb: str, macn: int, 
-    ):
+    def export_excel(db: Session, keyword: str, thang: int, nam: int, mapb: str, macn: int):
         return SocialInsuranceService.export_to_excel(db, keyword, thang, nam, mapb, macn)

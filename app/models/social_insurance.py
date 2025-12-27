@@ -19,7 +19,7 @@ class SocialInsurance(Base):
     thang = Column(Integer, nullable=False) # Lưu số tháng (1-12)
 
     # Relationship để lấy tên nhân viên (dùng lazy='joined' cho nhanh)
-    nhan_vien = relationship("Employee", foreign_keys=[ma_nhan_vien],lazy="joined")
+    nhan_vien = relationship("Employee", foreign_keys=[ma_nhan_vien], lazy="joined")
 
     @property
     def ten_nhan_vien(self):
