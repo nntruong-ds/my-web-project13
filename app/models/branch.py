@@ -20,6 +20,10 @@ class Branch(Base):
     def ten_giam_doc(self):
         # Kiểm tra: Nếu có giám đốc thì trả về tên, nếu không (None) thì trả về None
         return self.giam_doc.ho_ten if self.giam_doc else None
+    
+    @property
+    def gioi_tinh_giam_doc(self):
+        return self.giam_doc.gioi_tinh if self.giam_doc else None
 
     # Relationship 1-nhiều (1 chi nhánh có nhiều nhân viên)
     ds_nhan_vien = relationship("Employee", back_populates="chi_nhanh_lam_viec", foreign_keys="Employee.chinhanh_id")

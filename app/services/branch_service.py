@@ -37,7 +37,10 @@ class BranchService:
             # Check giám đốc có quản lý chi nhánh nào chưa
             director = db.query(Branch).filter(Branch.id_gdoc == data.id_gdoc).first()
             if director:
-                raise ValueError(f"Ông/Bà {director.ten_giam_doc} đang làm Giám đốc tại chi nhánh '{director.ten_chi_nhanh}'. Một người không thể quản lý 2 chi nhánh!")
+                if director.gioi_tinh_giam_doc == "Nam":
+                    raise ValueError(f"Ông {director.ten_giam_doc} đang làm Giám đốc tại chi nhánh '{director.ten_chi_nhanh}'.")
+                else:
+                    raise ValueError(f"Bà {director.ten_giam_doc} đang làm Giám đốc tại chi nhánh '{director.ten_chi_nhanh}'.")
         
 
         # Tạo mới
@@ -55,6 +58,9 @@ class BranchService:
         if not branch:
             return None
         
+        # Snapshot Giám đốc cũ
+        cur_gdoc_id = branch.id_gdoc
+
         # Lấy dữ liệu thực tế người dùng gửi lên
         update_data = data.model_dump(exclude_unset=True)
 
@@ -73,7 +79,35 @@ class BranchService:
                 ).first()
 
                 if director:
-                    raise ValueError(f"Ông/Bà {director.ten_giam_doc} đang làm Giám đốc tại chi nhánh '{director.ten_chi_nhanh}'.")
+                    if director.gioi_tinh_giam_doc == "Nam":
+                        raise ValueError(f"Ông {director.ten_giam_doc} đang làm Giám đốc tại chi nhánh '{director.ten_chi_nhanh}'.")
+                    else:
+                        raise ValueError(f"Bà {director.ten_giam_doc} đang làm Giám đốc tại chi nhánh '{director.ten_chi_nhanh}'.")
+
+        if "id_gdoc" in update_data:
+            new_gdoc_id = update_data["id_gdoc"]
+
+            # Nếu có thay đổi lãnh đạo
+            if new_gdoc_id != cur_gdoc_id:
+                
+                # Xử lý giám đốc mới (Thăng chức + Chuyển về chi nhánh này)
+                if new_gdoc_id:
+                    new_emp = db.query(Employee).filter(Employee.ma_nhan_vien == new_gdoc_id).first()
+                    if new_emp:
+                        # Thăng chức: Thay "GD" bằng mã chức vụ Giám Đốc trong DB của bạn
+                        new_emp.chuc_vu_id = "GD" 
+                        
+                        # Nếu đang ở chi nhánh khác thì kéo về đây
+                        if new_emp.chinhanh_id != branch_id:
+                            new_emp.chinhanh_id = branch_id
+                            new_emp.phong_ban_id = None
+
+                # Xử lý giám đốc cũ (Giáng chức)
+                if cur_gdoc_id:
+                    old_emp = db.query(Employee).filter(Employee.ma_nhan_vien == cur_gdoc_id).first()
+                    if old_emp:
+                        # Giáng xuống nhân viên: Thay "NV" bằng mã chức vụ tương ứng
+                        old_emp.chuc_vu_id = "NV"
 
         # CẬP NHẬT TỰ ĐỘNG
         for key, value in update_data.items():
