@@ -131,7 +131,10 @@ class DepartmentService:
                 if new_manager_id:
                     new_emp = db.query(Employee).filter(Employee.ma_nhan_vien == new_manager_id).first()
                     if new_emp:
-                        new_emp.chuc_vu_id = "TP" 
+                        new_emp.chuc_vu_id = "TP"
+
+                        if new_emp.phong_ban_id != mapb:
+                            new_emp.phong_ban_id = mapb
 
                 # Giáng chức người CŨ (về Nhân viên)
                 if current_manager_id:
