@@ -16,3 +16,11 @@ class VaiTro(str, enum.Enum):
     GDCN = "giamdoc_cn"
     TP = "truongphong"
     NV = "nhanvien"
+
+class TrangThaiBHXH(str, enum.Enum):
+    HOAT_DONG = "hoat_dong"
+    TAM_NGUNG = "tam_ngung"
+
+class TrangThaiBHYT(str, enum.Enum):
+    HOAT_DONG = "hoat_dong"
+    HET_HAN = "het_han"

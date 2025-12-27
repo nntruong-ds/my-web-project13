@@ -143,9 +143,9 @@ class BusinessTripService:
         for trip in trips:
             data_list.append({
                 "Mã NV": trip.ma_nhan_vien,
-                "Họ và tên": trip.nhan_vien.ho_ten if trip.nhan_vien else "",
-                "Phòng ban": trip.phong_ban.ten_phong if trip.phong_ban else "",
-                "Chức vụ": trip.chuc_vu.ten_chuc_vu if trip.chuc_vu else "",
+                "Họ và tên": trip.nhan_vien.ho_ten or "",
+                "Phòng ban": trip.phong_ban.ten_phong or "",
+                "Chức vụ": trip.chuc_vu.ten_chuc_vu or "",
                 "Chi nhánh": trip.chi_nhanh,
                 "Địa điểm": trip.dia_diem,
                 "Từ ngày": trip.tu_ngay,

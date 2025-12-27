@@ -20,3 +20,15 @@ class BusinessTrip(Base):
     nhan_vien = relationship("Employee", lazy="joined")  
     phong_ban = relationship("Department", lazy="joined")
     chuc_vu = relationship("Position", lazy="joined")
+
+    @property
+    def ten_nhan_vien(self):
+        return self.nhan_vien.ho_ten if self.nhan_vien else None
+
+    @property
+    def ten_phong_ban(self):
+        return self.phong_ban.ten_phong if self.phong_ban else None
+
+    @property
+    def ten_chuc_vu(self):
+        return self.chuc_vu.ten_chuc_vu if self.chuc_vu else None
