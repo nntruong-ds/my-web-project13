@@ -24,3 +24,8 @@ class TrangThaiBHXH(str, enum.Enum):
 class TrangThaiBHYT(str, enum.Enum):
     HOAT_DONG = "hoat_dong"
     HET_HAN = "het_han"
+
+class TrangThaiKPI(str, enum.Enum):
+    DAT = "dat"
+    KHONG_DAT = "khong_dat"
+    DANG_DANH_GIA = "dang_danh_gia"
