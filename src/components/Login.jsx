@@ -17,9 +17,6 @@ export default function Login() {
         try {
             setLoading(true);
 
-            // ===============================
-            // 1️⃣ LOGIN FASTAPI
-            // ===============================
             const authRes = await axios.post(
                 "http://127.0.0.1:8000/auth/login",
                 { username, password }
@@ -34,9 +31,6 @@ export default function Login() {
             localStorage.setItem("role", authRes.data.role);
             localStorage.setItem("ma_nhan_vien", username);
 
-            // ===============================
-            // 2️⃣ LẤY PROFILE (PHẢI GỬI BEARER)
-            // ===============================
             const profileRes = await axios.get(
                 `http://127.0.0.1:8000/employee/profile?username=${username.toUpperCase()}`,
                 {
@@ -50,9 +44,6 @@ export default function Login() {
                 localStorage.setItem("ho_ten", profileRes.data.ho_ten);
             }
 
-            // ===============================
-            // 3️⃣ LOGIN NODE CHATBOT
-            // ===============================
             const chatLoginRes = await axios.post(
                 "http://localhost:3000/api/login",
                 { username }
@@ -65,9 +56,6 @@ export default function Login() {
             // 🔥 TOKEN DÙNG CHO /api/chat
             localStorage.setItem("token", chatLoginRes.data.token);
 
-            // ===============================
-            // 4️⃣ ĐIỀU HƯỚNG
-            // ===============================
             navigate(`/employee/${username}`);
         } catch (err) {
             console.error("LOGIN FLOW ERROR:", err.response?.data || err.message);
