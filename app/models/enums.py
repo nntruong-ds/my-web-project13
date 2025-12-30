@@ -29,3 +29,7 @@ class TrangThaiKPI(str, enum.Enum):
     DAT = "dat"
     KHONG_DAT = "khong_dat"
     DANG_DANH_GIA = "dang_danh_gia"
+
+class ThuongPhat(str, enum.Enum):
+    KHEN_THUONG = "Khen thưởng"
+    KY_LUAT = "Kỷ luật"
