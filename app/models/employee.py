@@ -42,5 +42,8 @@ class Employee(Base):
     # Relationship: Một nhân viên có 1 chức vụ
     chuc_vu = relationship("Position", back_populates="ds_nhan_vien", foreign_keys=[chuc_vu_id])
 
+    # Relationshi: Một nhân viên có nhiều lương
+    ds_luong = relationship("Salary", back_populates="nhan_vien", foreign_keys="Salary.ma_nhan_vien")
+
     def __repr__(self):
         return f"<NhanVien(manv='{self.ma_nhan_vien}', ho_ten='{self.ho_ten}')>"
