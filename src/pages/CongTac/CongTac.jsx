@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styles from "./CongTac.module.css";
 import { getWorkTrips, createWorkTrip, exportWorkTrips, updateCT} from "../../api/congtac";
-import {updateBHXH} from "../../api/bhxh";
 export default function CongTac() {
+    const role = localStorage.getItem("role");
     const [workTrips, setWorkTrips] = useState([]);
 
     const [searchKeyword, setSearchKeyword] = useState(""); // keyword - Tên hoặc Mã NV
@@ -21,8 +21,17 @@ export default function CongTac() {
                 phong_ban_id: searchDept,
                 chi_nhanh: searchBranch
             });
+            let filtered = data;
 
-            setWorkTrips(data);
+            if (role === "truongphong") {
+                filtered = data.filter(
+                    item =>
+                        item.ten_chuc_vu !== "Tổng Giám đốc" &&
+                        item.ten_chuc_vu !== "Giám đốc Chi nhánh"
+                );
+            }
+
+            setWorkTrips(filtered);
         } catch (err) {
             console.error(err);
             setWorkTrips([]);
@@ -142,7 +151,7 @@ export default function CongTac() {
                 thang: searchMonth ? Number(searchMonth) : null,
                 nam: searchYear ? Number(searchYear) : null,
                 phong_ban_id: searchDept.trim(),
-                chi_nhanh: searchBranch.trim()
+                chi_nhanh: searchBranch.trim(),
             };
 
             const blob = await exportWorkTrips(filters);

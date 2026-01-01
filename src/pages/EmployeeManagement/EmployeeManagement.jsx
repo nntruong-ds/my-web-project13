@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from "react";
 import styles from "./EmployeeManagement.module.css";
 import {getEmployee, deleteEmployee, updateEmployee, createEmployee, importEmployee} from "../../api/employee";
-import Papa from "papaparse";
+
 
 
 export default function EmployeeManagement() {
+    const role = localStorage.getItem("role");
     const [employees, setEmployees] = useState([]);
     const [filteredEmployees, setFilteredEmployees] = useState([]);
     const [selectedEmployee, setSelectedEmployee] = useState(null);
@@ -25,8 +26,17 @@ export default function EmployeeManagement() {
     const fetchEmployees = async () => {
         try {
             const data = await getEmployee();
-            setEmployees(data);
-            setFilteredEmployees(data);
+            let filtered = data;
+
+            if (role === "truongphong") {
+                filtered = data.filter(
+                    item =>
+                        item.chuc_vu_id !== "TGD" &&
+                        item.chuc_vu_id !== "GDCN"
+                );
+            }
+            setEmployees(filtered);
+            setFilteredEmployees(filtered);
         } catch (error) {
             console.error(error);
         }
@@ -199,7 +209,7 @@ export default function EmployeeManagement() {
             return;
         }
 
-        if (!window.confirm('Bạn có chắc muốn xóa nhân viên ${selectedEmployee.ho_ten}?')) {
+        if (!window.confirm(`Bạn có chắc muốn xóa nhân viên ${selectedEmployee.ho_ten}?`)) {
             return;
         }
 

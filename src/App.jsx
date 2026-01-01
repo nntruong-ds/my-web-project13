@@ -8,8 +8,6 @@ import SalaryStatistics from "./pages/SalaryStatistics/SalaryStatistics";
 
 import BHXH from "./pages/Insurance/BHXH/BHXH";
 import BHYT from "./pages/Insurance/BHYT/BHYT";
-import Khen from "./pages/KhenThuong/Khen/Khen";
-import Phat from "./pages/KhenThuong/Phat/Phat";
 import CT from "./pages/CongTac/CongTac";
 import KPI from "./pages/KPI/KPI";
 import MainLayout from "./layouts/MainLayout";
@@ -55,8 +53,6 @@ export default function App() {
                     <Route path="/salaries" element={<SalaryStatistics />} />
                     <Route path="/bhxh" element={<BHXH/>} />
                     <Route path="/bhyt" element={<BHYT/>} />
-                    <Route path="/thuong" element={<Khen/>} />
-                    <Route path="/kiluat" element={<Phat/>} />
                     <Route path="/congtac" element={<CT/>} />
                     <Route path="/kpi" element={<KPI/>} />
                 </Route>

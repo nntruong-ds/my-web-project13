@@ -10,25 +10,12 @@ import Salary from "../image/SalaryStatistics.png"
 import BH from "../image/BaoHiem.png"
 import BHXH from "../image/BHXH.png"
 import BHYT from "../image/BHYT.png"
-import TP from "../image/ThuongPhat.png"
-import Khen from "../image/Khen.jpg"
-import Phat from "../image/kiluat.jpg"
 import CT from "../image/CongTac.png"
 import KPI from "../image/KPI.png"
 
 
-
-
-
-
-
-
-
-
-
 export default function SideBar() {
     const [openBaoHiem, setOpenBaoHiem] = useState(false);
-    const [openThuongPhat, setOpenThuongPhat] = useState(false);
     const role = localStorage.getItem("role");
     const isAdmin = role === "tonggiamdoc";
     const isBranch = role === "giamdoc_cn";
@@ -87,29 +74,6 @@ export default function SideBar() {
                             <li>
                                 <img src={BHYT} alt="" />
                                 <Link to="/bhyt">BHYT</Link>
-                            </li>
-                        </ul>
-                    )}
-                </ul>
-                <ul>
-                    <li
-                        className="menu-parent"
-                        onClick={() => setOpenThuongPhat(!openThuongPhat)}
-                        style={{ cursor: "pointer" }}
-                    >
-                        <img src={TP} alt="" />
-                        <span>Khen Thưởng</span>
-                    </li>
-
-                    {openThuongPhat && (
-                        <ul className="submenu">
-                            <li>
-                                <img src={Khen} alt="" />
-                                <Link to="/thuong">Khen Thưởng</Link>
-                            </li>
-                            <li>
-                                <img src={Phat} alt="" />
-                                <Link to="/kiluat">Kỉ Luật</Link>
                             </li>
                         </ul>
                     )}

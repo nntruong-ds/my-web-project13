@@ -3,6 +3,7 @@ import styles from "../KPI/KPI.module.css";
 import {getKPI, exportKPI, updateKpi, createKpi, getKpi1} from "../../api/kpi";
 
 export default function KPI(){
+    const role = localStorage.getItem("role");
     const [kpiList, setKpiList] = useState([]);
     const [kpiDetail, setKpiDetail] = useState([]);
 
@@ -24,6 +25,7 @@ export default function KPI(){
                 macn: searchBranch,
                 keyword: searchKeyword
             });
+
             setKpiList(data);
         } catch (err) {
             console.error(err);
