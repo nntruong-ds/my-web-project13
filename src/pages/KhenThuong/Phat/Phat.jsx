@@ -5,7 +5,7 @@ export default function Phat() {
     return (
         <div className={styles.container}>
             <div className={styles.content}>
-                <div className={styles.header}>DANH SACH KỈ LUẬT</div>
+                <div className={styles.header}>DANH SÁCH KỈ LUẬT</div>
                 <table>
                     <thead>
                     <tr>

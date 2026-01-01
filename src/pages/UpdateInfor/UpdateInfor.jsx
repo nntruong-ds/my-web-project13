@@ -66,7 +66,7 @@ export default function UpdateInfor() {
 
                     <button type="submit">Cập Nhật</button>
                 </form>
-                </div>
+            </div>
         </div>
     );
 }

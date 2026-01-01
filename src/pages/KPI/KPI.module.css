@@ -84,7 +84,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 999;
 }
 .updateBox {
     display: flex;
@@ -92,13 +91,11 @@
     background: #fff;
     padding: 16px;
     border-radius: 8px;
-    margin-top: 20px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    gap: 8px;
     width: 50%;
-    text-align: center;
-    gap: 5px;
 }
-.updateBox select {
-    height: 45px;
-    border-radius: 5px;
+.actions {
+    display: flex;
+    gap: 10px;
 }

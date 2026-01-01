@@ -5,7 +5,7 @@ export default function Khen() {
     return (
         <div className={styles.container}>
             <div className={styles.content}>
-                <div className={styles.header}>DANH SACH KHEN THƯỞNG</div>
+                <div className={styles.header}>DANH SÁCH KHEN THƯỞNG</div>
                 <table>
                     <thead>
                     <tr>
