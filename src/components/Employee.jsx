@@ -9,6 +9,7 @@ export default function Employee() {
 
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+
     const role = localStorage.getItem("role");
     const managerRoles = ["tonggiamdoc", "giamdoc_cn", "truongphong"];
     const isManager = managerRoles.includes(role);
@@ -19,16 +20,16 @@ export default function Employee() {
             return;
         }
 
-        axios.get("http://127.0.0.1:8000/employee/profile", {
-            params: { username: ma_nhan_vien }
-        })
-            .then(res => {
-                console.log("EMPLOYEE DATA:", res.data);
+        axios
+            .get("http://127.0.0.1:8000/employee/profile", {
+                params: { username: ma_nhan_vien },
+            })
+            .then((res) => {
                 setUser(res.data);
                 setLoading(false);
             })
-            .catch(err => {
-                console.error("API ERROR:", err);
+            .catch((err) => {
+                console.error(err);
                 setUser(null);
                 setLoading(false);
             });
@@ -49,7 +50,22 @@ export default function Employee() {
 
     return (
         <div className="nv-container">
+            {/* HEADER */}
             <div className="nv-header">
+                {isManager && (
+                    <span
+                        className="manager-text"
+                        onClick={() =>
+                            window.open(
+                                `http://localhost:3000/overview?role=${role}`,
+                                "_blank"
+                            )
+                        }
+                    >
+                        Quản lý
+                    </span>
+                )}
+
                 <button
                     className="btn-logout"
                     onClick={() => {
@@ -61,6 +77,7 @@ export default function Employee() {
                 </button>
             </div>
 
+            {/* INFO */}
             <div className="nv-info-box">
                 <div className="nv-avatar-box">
                     <img
@@ -76,23 +93,10 @@ export default function Employee() {
                     <p><b>Chức vụ:</b> {user.chuc_vu_id}</p>
                     <p><b>Phòng ban:</b> {user.phong_ban_id ?? "Chưa có"}</p>
                     <p><b>Chi nhánh:</b> {user.chinhanh_id}</p>
-                    {isManager && (
-                        <button
-                            type="button"
-                            className="btn-manager"
-                            onClick={() =>
-                                window.open(
-                                    `http://localhost:3000/overview?role=${role}`,
-                                    "_blank"
-                                )
-                            }
-                        >
-                            Quản lý
-                        </button>
-                    )}
                 </div>
             </div>
 
+            {/* FEATURES */}
             <h2 className="nv-section-title">Tính năng</h2>
 
             <div className="nv-feature-grid">

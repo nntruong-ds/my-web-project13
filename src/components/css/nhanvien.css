@@ -1,9 +1,58 @@
-/* CONTTAINER CĂN GIỮA */
+/* RESET – NGĂN TRÀN */
+* {
+    box-sizing: border-box;
+}
+
+/* CONTAINER CĂN GIỮA */
 .nv-container {
     max-width: 1100px;
     margin: auto;
     padding: 40px 20px;
     font-family: "Segoe UI", sans-serif;
+}
+
+/* HEADER (QUẢN LÝ + ĐĂNG XUẤT) */
+.nv-header {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 15px;
+}
+
+/* CHỮ QUẢN LÝ */
+.manager-text {
+    color: #1677ff;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+
+    background-color: #e6f4ff;
+    padding: 6px 14px;
+    border-radius: 20px;
+    transition: 0.2s;
+}
+
+.manager-text:hover {
+    background-color: #cce4ff;
+}
+
+/* NÚT ĐĂNG XUẤT */
+.btn-logout {
+    padding: 10px 18px;
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.btn-logout:hover {
+    background: #e60000;
 }
 
 /* BOX THÔNG TIN */
@@ -84,31 +133,4 @@
 
 .nv-feature-item:hover img {
     transform: scale(1.08);
-}
-
-/* NGĂN TRÀN */
-* {
-    box-sizing: border-box;
-}
-.nv-header {
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 15px;
-}
-
-.btn-logout {
-    padding: 10px 18px;
-    background: #ff4d4d;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 15px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: 0.2s;
-}
-
-.btn-logout:hover {
-    background: #e60000;
 }

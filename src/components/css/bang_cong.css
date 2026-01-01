@@ -1,92 +1,220 @@
+/* ========== PAGE ========== */
 .bc-page {
     max-width: 900px;
     margin: auto;
-    font-family: Arial, sans-serif;
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: #1f2937;
 }
 
+/* ========== HEADER ========== */
 .bc-header {
     display: flex;
     align-items: center;
     gap: 12px;
-    background: #eaf2f8;
-    padding: 12px;
+    background: #eef5fb;
+    padding: 14px 16px;
+    border-radius: 10px;
+}
+
+.bc-header button {
+    border: 1px solid #cbd5e1;
+    background: white;
+    padding: 4px 10px;
+    border-radius: 6px;
+    cursor: pointer;
 }
 
 .bc-header h2 {
     flex: 1;
     text-align: center;
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
 }
 
+/* ========== MONTH ========== */
 .bc-month {
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
-.bc-summary {
-    display: flex;
-    justify-content: space-around;
-    margin: 20px 0;
-    text-align: center;
-}
-
-.bc-summary b {
-    font-size: 28px;
-}
-
-.bc-check {
-    border: 1px solid #999;
-    padding: 16px;
+.bc-month button {
+    border: 1px solid #cbd5e1;
+    background: white;
+    padding: 2px 8px;
     border-radius: 6px;
-}
-
-.btn-detail {
-    margin-top: 10px;
-    padding: 8px 16px;
-    background: #4a90e2;
-    color: white;
-    border: none;
     cursor: pointer;
 }
 
+.bc-month span {
+    font-weight: 600;
+}
+
+/* ========== SUMMARY ========== */
+.bc-summary {
+    display: flex;
+    justify-content: space-between;
+    margin: 24px 0;
+    text-align: center;
+}
+
+.bc-summary div {
+    flex: 1;
+}
+
+.bc-summary b {
+    font-size: 30px;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.bc-summary p {
+    margin: 0;
+    font-size: 14px;
+    color: #475569;
+}
+
+/* ========== CHECK BOX ========== */
+.bc-check {
+    background: white;
+    border: 1px solid #e5e7eb;
+    padding: 18px 20px;
+    border-radius: 14px;
+}
+
+/* DÒNG CHECK */
+.bc-check-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+}
+
+.bc-check-row + .bc-check-row {
+    border-top: 1px dashed #e5e7eb;
+}
+
+.bc-check-left {
+    font-size: 15px;
+}
+
+/* NÚT CHECK-IN */
+.btn-checkin {
+    background: #22c55e;
+    color: white;
+    border: none;
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-checkin:disabled {
+    background: #a7f3d0;
+    cursor: not-allowed;
+}
+
+/* NÚT CHECK-OUT */
+.btn-checkout {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-checkout:disabled {
+    background: #bfdbfe;
+    cursor: not-allowed;
+}
+
+/* FOOTER CHECK */
+.bc-check-footer {
+    text-align: center;
+    margin-top: 16px;
+}
+
+/* CHI TIẾT */
+.btn-detail {
+    padding: 8px 28px;
+    background: #e5e7eb;
+    color: #1f2937;
+    border: none;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-detail:hover {
+    background: #d1d5db;
+}
+
+/* NOTE */
 .bc-note {
     font-style: italic;
     margin-top: 10px;
+    color: #475569;
 }
 
+/* ========== DETAIL ========== */
 .bc-detail {
     margin-top: 40px;
-    border: 1px solid #999;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
 }
 
+/* HEADER DETAIL */
 .bc-detail-header {
     display: flex;
     align-items: center;
     gap: 12px;
-    background: #eaf2f8;
-    padding: 10px;
+    background: #eef5fb;
+    padding: 12px;
+}
+
+.bc-detail-header button {
+    border: 1px solid #cbd5e1;
+    background: white;
+    padding: 4px 10px;
+    border-radius: 6px;
+    cursor: pointer;
 }
 
 .bc-detail-header h3 {
     flex: 1;
     text-align: center;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
 }
 
+/* EMPLOYEE */
 .bc-employee {
     text-align: center;
-    background: #eee;
+    background: #f1f5f9;
     padding: 10px;
-    font-weight: bold;
+    font-weight: 600;
 }
 
+/* TABLE */
 .bc-table {
     width: 100%;
     border-collapse: collapse;
+    font-size: 14px;
+}
+
+.bc-table th {
+    background: #f8fafc;
+    font-weight: 700;
 }
 
 .bc-table th,
 .bc-table td {
-    border: 1px solid #999;
-    padding: 6px;
+    border: 1px solid #e5e7eb;
+    padding: 8px;
     text-align: center;
 }

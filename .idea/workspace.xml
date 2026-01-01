@@ -5,9 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0ca6e388-9477-4850-9b2d-ccd37aecb620" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/api/ChatBotAPI.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/api/FastAPI.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/BangCong.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BangCong.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Employee.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Employee.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/css/nhanvien.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/css/nhanvien.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,7 +89,8 @@
       <workItem from="1766822830328" duration="2328000" />
       <workItem from="1766847200565" duration="4316000" />
       <workItem from="1766890084286" duration="2704000" />
-      <workItem from="1767263524202" duration="1302000" />
+      <workItem from="1767263524202" duration="2210000" />
+      <workItem from="1767275781354" duration="1932000" />
     </task>
     <servers />
   </component>
