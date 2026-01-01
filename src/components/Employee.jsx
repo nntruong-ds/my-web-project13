@@ -9,6 +9,9 @@ export default function Employee() {
 
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const role = localStorage.getItem("role");
+    const managerRoles = ["tonggiamdoc", "giamdoc_cn", "truongphong"];
+    const isManager = managerRoles.includes(role);
 
     useEffect(() => {
         if (!ma_nhan_vien) {
@@ -73,6 +76,20 @@ export default function Employee() {
                     <p><b>Chức vụ:</b> {user.chuc_vu_id}</p>
                     <p><b>Phòng ban:</b> {user.phong_ban_id ?? "Chưa có"}</p>
                     <p><b>Chi nhánh:</b> {user.chinhanh_id}</p>
+                    {isManager && (
+                        <button
+                            type="button"
+                            className="btn-manager"
+                            onClick={() =>
+                                window.open(
+                                    `http://localhost:3000/overview?role=${role}`,
+                                    "_blank"
+                                )
+                            }
+                        >
+                            Quản lý
+                        </button>
+                    )}
                 </div>
             </div>
 

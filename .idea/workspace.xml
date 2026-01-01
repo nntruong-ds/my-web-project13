@@ -5,9 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0ca6e388-9477-4850-9b2d-ccd37aecb620" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/api/ChatBotAPI.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/api/FastAPI.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ChatBot.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ChatBot.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Login.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,8 +17,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="JSX File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -87,7 +87,8 @@
       <workItem from="1766764614208" duration="6523000" />
       <workItem from="1766822830328" duration="2328000" />
       <workItem from="1766847200565" duration="4316000" />
-      <workItem from="1766890084286" duration="1981000" />
+      <workItem from="1766890084286" duration="2704000" />
+      <workItem from="1767263524202" duration="1302000" />
     </task>
     <servers />
   </component>
