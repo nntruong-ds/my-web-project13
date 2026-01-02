@@ -5,7 +5,8 @@ from app.schemas.email_schema import InternalEmailRequest
 from app.services.email_service import (
     send_internal_email_service,
     inbox_service,
-    mark_as_read_service
+    mark_as_read_service,
+    sent_items_service
 )
 from app.utils.deps import get_current_user
 from app.configs.database import get_db
@@ -48,4 +49,5 @@ def mark_as_read(
     db: Session = Depends(get_db)
 ):
     return mark_as_read_service(email_id, current_user, db)
+
 
