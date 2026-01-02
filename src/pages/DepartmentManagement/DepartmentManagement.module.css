@@ -27,6 +27,11 @@
     font-size: 20px;
     text-align: center;
 }
+.table_wrapper{
+    display: block;
+    overflow-y: auto;
+    max-height: 400px;
+}
 .row{
     width: 50px;
     height: 17px;

@@ -9,6 +9,11 @@
     font-size: 20px;
     text-align: center;
 }
+.table_wrapper{
+    display: block;
+    overflow-y: auto;
+    max-height: 400px;
+}
 .container1{
     margin-top: 20px;
     display: grid;
@@ -55,4 +60,29 @@
 }
 .action button{
     margin: 5px;
+}
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;     /* căn dọc */
+    justify-content: center; /* căn ngang */
+    z-index: 999;
+}
+.createBox {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    padding: 16px;
+    border-radius: 8px;
+    margin-top: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    width: 50%;
+    text-align: center;
+    gap: 5px;
+}
+.actions {
+    display: flex;
+    gap: 10px;
 }

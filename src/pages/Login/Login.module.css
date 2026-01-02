@@ -1,14 +1,15 @@
 
-.login-container {
+.loginContainer {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     background-color: #f5f8fc;
     font-family: "Segoe UI", sans-serif;
+
 }
 
-.login-box {
+.loginBox {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -21,7 +22,7 @@
 }
 
 /* Tiêu đề công ty */
-.company-title {
+.companyTitle {
     color: #0066cc;
     font-size: 22px;
     font-weight: 700;
@@ -29,7 +30,7 @@
     margin-bottom: 30px;
 }
 
-.login-body {
+.loginBody {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -37,14 +38,14 @@
     width: 100%;
 }
 
-.login-left {
+.loginLeft {
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.login-img {
+.loginImg {
     width: 90%;
     max-width: 500px;
     height: auto;
@@ -52,7 +53,7 @@
     object-fit: contain;
 }
 
-.login-right {
+.loginRight {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -66,7 +67,7 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-.login-avatar {
+.loginAvatar {
     width: 80px;
     height: 80px;
     border-radius: 8px;
@@ -74,13 +75,13 @@
     object-fit: cover;
 }
 
-.login-title {
+.loginTitle {
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 15px;
 }
 
-.login-form {
+.loginForm {
     width: 80%;
     max-width: 280px;
     display: flex;
@@ -88,7 +89,7 @@
     gap: 10px;
 }
 
-.login-form input {
+.loginForm input {
     padding: 8px 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -96,7 +97,7 @@
     font-size: 14px;
 }
 
-.login-form button {
+.loginForm button {
     background-color: #007bff;
     color: white;
     font-weight: 600;
@@ -106,21 +107,21 @@
     cursor: pointer;
 }
 
-.login-form button:hover {
+.loginForm button:hover {
     background-color: #0056b3;
 }
 
-.forgot-link {
+.forgotLink {
     margin-top: 10px;
     font-size: 13px;
     color: #007bff;
     text-decoration: none;
 }
 
-.forgot-link:hover {
+.forgotLink:hover {
     text-decoration: underline;
 }
-.password-field {
+.passwordField {
     position: relative;
     width: 100%;
     max-width: 280px;
@@ -128,7 +129,7 @@
     align-items: center;
 }
 
-.password-field input {
+.passwordField input {
     width: 100%;
     padding: 8px 35px 8px 10px;
     border: 1px solid #ccc;
@@ -137,11 +138,11 @@
     font-size: 14px;
 }
 
-.password-field input:focus {
+.passwordField input:focus {
     border-color: #007bff;
 }
 
-.toggle-password {
+.togglePassword {
     position: absolute;
     right: 10px;
     top: 50%;
@@ -158,22 +159,19 @@
     transition: color 0.2s ease;
 }
 
-.toggle-password:hover {
+.togglePassword:hover {
     color: #007bff;
 }
 
 
-.toggle-password:hover {
-    color: #007bff;
-}
-.input-field {
+.inputField {
     position: relative;
     width: 100%;
     max-width: 280px;
     margin-bottom: 10px;
 }
 
-.input-field input {
+.inputField input {
     width: 100%;
     padding: 8px 36px 8px 10px;
     border: 1px solid #ccc;
@@ -183,11 +181,11 @@
     box-sizing: border-box;
 }
 
-.input-field input:focus {
+.inputField input:focus {
     border-color: #007bff;
 }
 
-.input-icon {
+.inputIcon {
     position: absolute;
     left: -28px;
     top: 50%;
@@ -199,7 +197,7 @@
 }
 
 
-.toggle-password {
+.togglePassword {
     position: absolute;
     right: 10px;
     top: 50%;

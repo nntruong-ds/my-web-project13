@@ -8,36 +8,62 @@
 .left{
     flex: 2;
 }
+
 .right{
     flex: 0.8;
 }
+
+/* container bảng */
 .container_ds{
     border: 1px solid #0066CC;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
+    max-height: 500px;
+    overflow: hidden;
 }
+
+/* tiêu đề */
 .title_ds{
-    margin: 0;
     padding: 10px;
     background-color: #0066CC4A;
-    color: black;
-    font-style: italic;
-    font-weight: 300;
     font-size: 20px;
+    font-style: italic;
     text-align: center;
+
 }
-table{
+
+.table_wrapper{
+    display: block;
+    overflow-y: auto;
+    max-height: 400px;
+}
+.table_wrapper1{
+    display: block;
+    overflow-y: auto;
+    max-height: 650px;
+}
+.table_wrapper table{
     width: 95%;
+    margin: 0 auto;
     border-collapse: collapse;
-    margin: 10px 20px 10px 20px;
 }
+.table_wrapper thread th{
+    position: sticky;
+    top: 0;
+    background-color: #0066CC4A;
+    z-index: 2;
+    padding: 10px;
+}
+
+
 table th, table td{
     border: 1px solid #000;
-    border-radius: 5px;
     padding: 8px;
     text-align: center;
 }
+
+
 .action{
 
 }

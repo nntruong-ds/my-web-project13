@@ -2,12 +2,28 @@
     border: 1px solid #0066CC;
 }
 .header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: #0066CC4A;
-    margin: 0px;
+    margin: 0;
     padding: 10px;
+    font-weight: bold;
     font-style: italic;
     font-size: 20px;
     text-align: center;
+    gap: 4px;
+}
+.navBtn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 20px;
+    padding: 0 6px;
+}
+
+.navBtn:hover {
+    color: #0066cc;
 }
 .container1{
     margin-top: 20px;
@@ -55,4 +71,34 @@
 }
 .action button{
     margin: 5px;
+}
+.table_wrapper{
+    display: block;
+    overflow-y: auto;
+    max-height: 400px;
+}
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+.updateBox {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    padding: 16px;
+    border-radius: 8px;
+    margin-top: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    width: 50%;
+    text-align: center;
+    gap: 5px;
+}
+.updateBox select {
+    height: 45px;
+    border-radius: 5px;
 }

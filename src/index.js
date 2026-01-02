@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
@@ -17,6 +18,8 @@ root.render(
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
 
+
+
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
@@ -26,5 +29,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
         <App />
     </React.StrictMode>,
+<<<<<<< HEAD
 )
 
+=======
+)
+>>>>>>> origin/frontend/nnquan
