@@ -1,0 +1,146 @@
+/* ===== KPI PAGE ===== */
+
+.kpi-page {
+    padding: 20px;
+    background: #f4f6f9;
+    min-height: 100vh;
+    font-family: "Segoe UI", sans-serif;
+}
+
+/* HEADER */
+.kpi-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: #e8f0f8;
+    border: 1px solid #999;
+    padding: 10px 14px;
+}
+
+.kpi-back {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid #333;
+    background: white;
+    cursor: pointer;
+}
+
+.kpi-header h2 {
+    flex: 1;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+/* MONTH CONTROL */
+.kpi-month {
+    display: flex;
+    align-items: center;
+    border: 1px solid #777;
+    background: #e5e5e5;
+}
+
+.kpi-label {
+    padding: 4px 10px;
+    background: #ddd;
+    border-right: 1px solid #777;
+    font-weight: 600;
+}
+
+.kpi-month button {
+    width: 28px;
+    border: none;
+    background: #f0f0f0;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.kpi-time {
+    padding: 4px 14px;
+    font-weight: 600;
+}
+
+/* EMPLOYEE INFO */
+.kpi-employee {
+    margin-top: 10px;
+    background: #ececec;
+    border: 1px solid #777;
+    text-align: center;
+    font-weight: 700;
+    padding: 8px;
+}
+
+/* TABLE */
+.kpi-table-wrapper {
+    margin-top: 10px;
+    border: 1px solid #777;
+    background: white;
+}
+
+.kpi-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.kpi-table th {
+    background: #e9e9e9;
+    border-right: 1px solid #777;
+    border-bottom: 1px solid #777;
+    padding: 8px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.kpi-table td {
+    border-right: 1px solid #777;
+    border-bottom: 1px solid #777;
+    padding: 8px;
+    text-align: center;
+}
+
+.kpi-table th:last-child,
+.kpi-table td:last-child {
+    border-right: none;
+}
+
+.kpi-empty {
+    height: 200px;
+    font-style: italic;
+    color: #666;
+}
+.kpi-status {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.kpi-status.evaluating {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.kpi-status.fail {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.kpi-status.pass {
+    background: #d4edda;
+    color: #155724;
+}
+.thuong-box {
+    margin: 12px 0;
+    padding: 10px;
+    border-radius: 6px;
+    font-weight: 600;
+}
+.thuong-box.pass {
+    background: #e6fffa;
+    color: #065f46;
+}
+.thuong-box.fail {
+    background: #fee2e2;
+    color: #7f1d1d;
+}

@@ -1,0 +1,145 @@
+.hs-container {
+    width: 100%;
+    padding: 30px 50px;
+    font-family: "Segoe UI", sans-serif;
+}
+
+/* HEADER */
+.hs-header {
+    display: flex;
+    align-items: center;
+    background: #e8eff7;
+    padding: 15px 20px;
+    border-radius: 8px;
+    justify-content: space-between;
+}
+
+.hs-back {
+    font-size: 23px;
+    background: white;
+    border: none;
+    cursor: pointer;
+    padding: 5px 12px;
+    border-radius: 6px;
+}
+
+.hs-buttons button {
+    margin-left: 10px;
+    padding: 10px 20px;
+    border: none;
+    background: #0d6efd;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.hs-edit {
+    background: #1367c2;
+}
+
+/* FORM BOX */
+.hs-form-box {
+    margin-top: 20px;
+    padding: 25px;
+    border: 1px solid #bcd1ea;
+    border-radius: 10px;
+    background: #f7fbff;
+}
+
+.hs-title {
+    background: #cfe2ff;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.hs-grid {
+    margin-top: 20px;
+    display: flex;
+    gap: 40px;
+}
+
+/* LEFT FORM */
+.hs-left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.hs-left label {
+    font-weight: 600;
+    margin-top: 12px;
+}
+
+.hs-left input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 3px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: #e9ecef;
+}
+
+/* ROWS (CCCD / SDT, trạng thái / ngày vào làm) */
+/* ROW CHA */
+.hs-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 25px;
+    margin-top: 15px;
+}
+
+/* CỘT TRONG ROW */
+.hs-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.hs-col label {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.hs-col input {
+    width: 100%;
+    padding: 10px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: #e9ecef;
+}
+
+
+.hs-avatar {
+    width: 140px;
+    height: 140px;
+    border-radius: 8px;
+    background: #ccc;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+.popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.25);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.popup-box {
+    background: white;
+    padding: 20px 35px;
+    border-radius: 10px;
+    font-size: 18px;
+    animation: fadeIn 0.25s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+.hs-avatar:hover {
+    opacity: 0.85;
+    transition: 0.2s;
+}
