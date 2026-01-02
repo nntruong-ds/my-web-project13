@@ -1,26 +1,26 @@
-from fastapi import APIRouter, Depends, Header
+from fastapi import HTTPException
 from sqlalchemy.orm import Session
-from app.schemas.auth_schema import LoginRequest, LoginResponse, ForgotPasswordRequest, ResetPasswordRequest
-from app.configs.database import get_db
-from app.services import auth_service
+from app.services.auth_service import (
+    login_service, logout_service,
+    forgot_password_service, reset_password_service
+)
 
-router = APIRouter()
+def login_controller(data, db: Session):
+    if not data.username or not data.password:
+        raise HTTPException(400, "Thiếu username hoặc password")
+    return login_service(data, db)
 
-@router.post("/login", response_model=LoginResponse)
-def login(data: LoginRequest, db: Session = Depends(get_db)):
-    return auth_service.login(data, db)
+def logout_controller(token: str):
+    if not token:
+        raise HTTPException(400, "Thiếu token")
+    return logout_service(token)
 
-@router.post("/logout")
-def logout(authorization: str = Header(None)):
-    if not authorization:
-        return {"message": "Token không hợp lệ"}
-    token = authorization.replace("Bearer ", "")
-    return auth_service.logout(token)
+def forgot_password_controller(data, db: Session):
+    if not data.username:
+        raise HTTPException(400, "Thiếu username")
+    return forgot_password_service(data, db)
 
-@router.post("/forgot-password")
-def forgot_password(data: ForgotPasswordRequest, db: Session = Depends(get_db)):
-    return auth_service.forgot_password(data, db)
-
-@router.post("/reset-password")
-def reset_password(data: ResetPasswordRequest, db: Session = Depends(get_db)):
-    return auth_service.reset_password(data, db)
+def reset_password_controller(data, db: Session):
+    if not data.username or not data.otp or not data.new_password:
+        raise HTTPException(400, "Thiếu dữ liệu đặt lại mật khẩu")
+    return reset_password_service(data, db)
