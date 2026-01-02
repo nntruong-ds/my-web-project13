@@ -20,9 +20,9 @@ class Employee(Base):
     chinhanh_id = Column(Integer, ForeignKey("chi_nhanh.ma_chi_nhanh"), nullable=False)
     ngay_sinh = Column(Date, nullable=False)
     gioi_tinh = Column(String(10), nullable=False)
-    dia_chi = Column(String(255))
-    so_dien_thoai = Column(String(15))
-    cccd = Column(String)
+    # dia_chi = Column(String(255))
+    # so_dien_thoai = Column(String(15))
+    # cccd = Column(String)
 
     # Relationship: Nhân viên thuộc về 1 phòng ban
     phong_truc_thuoc = relationship("Department", back_populates="ds_nhan_vien", foreign_keys=[phong_ban_id])

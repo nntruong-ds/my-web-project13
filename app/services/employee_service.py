@@ -178,7 +178,7 @@ class EmployeeService:
             raise ValueError("Định dạng file Excel không hợp lệ hoặc bị hỏng.")
 
         # Định nghĩa danh sách các cột bắt buộc (khớp với Excel của bạn)
-        required_columns = ['ma_nhan_vien', 'ho_ten', 'email', 'chuc_vu_id', 'chinhanh_id', 'ngay_sinh']
+        required_columns = ['ma_nhan_vien', 'ho_ten', 'email', 'chuc_vu_id', 'chinhanh_id', 'ngay_sinh', 'gioi_tinh']
         for col in required_columns:
             if col not in df.columns:
                 raise ValueError(f"Thiếu cột bắt buộc trong file Excel: {col}")
@@ -199,7 +199,8 @@ class EmployeeService:
                     # Kiểm tra: nếu cột trang_thai tồn tại và không rỗng thì lấy, 
                     phong_ban_id=str(row['phong_ban_id']) if pd.notna(row.get('phong_ban_id')) else None,
                     ngay_vao_lam=row['ngay_vao_lam'] if pd.notna(row.get('ngay_vao_lam')) else None,
-                    trang_thai=str(row['trang_thai']) if pd.notna(row.get('trang_thai')) else TrangThaiNhanVien.DI_LAM
+                    trang_thai=str(row['trang_thai']) if pd.notna(row.get('trang_thai')) else TrangThaiNhanVien.DANG_LAM,
+                    gioi_tinh=row['gioi_tinh'] if pd.notna(row.get('gioi_tinh')) else None
                 )
 
                 # Gọi hàm tạo nhân viên đã có sẵn để tận dụng các logic kiểm tra (trùng mã, chi nhánh tồn tại...)

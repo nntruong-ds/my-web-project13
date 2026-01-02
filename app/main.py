@@ -14,7 +14,8 @@ from app.routers import (
     social_insurance_router,
     health_insurance_router,
     kpi_router,
-    salary_router
+    salary_router,
+    reward_discipline_router
 )
 from sqlalchemy.exc import IntegrityError
 from app.utils.exception_handlers import (
@@ -50,6 +51,7 @@ app.include_router(social_insurance_router.router)
 app.include_router(health_insurance_router.router)
 app.include_router(kpi_router.router)
 app.include_router(salary_router.router)
+app.include_router(reward_discipline_router.router)
 
 # Cấu hình CORS
 app.add_middleware(

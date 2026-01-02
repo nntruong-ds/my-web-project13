@@ -10,13 +10,10 @@ from app.schemas.attendance_schema import *
 
 class AttendanceService:
     
-    # ---------------------------------------------------------
-    # CẤU HÌNH THỜI GIAN (HARD CODE)
-    # Sau này có thể chuyển vào bảng Settings trong DB
-    # ---------------------------------------------------------
+    # Cấu hình thời gian
     START_TIME = time(8, 0, 0)   # 08:00:00
     END_TIME = time(17, 0, 0)   # 17:00:00
-    START_BREAK = time(12, 0, 0)    #12:00:00
+    START_BREAK = time(12, 0, 0)    # 12:00:00
     END_BREAK = time(13, 0, 0) # 13:00:00
 
     @staticmethod
@@ -49,7 +46,8 @@ class AttendanceService:
             trang_thai=TrangThaiChamCong.DI_LAM,
             so_gio_lam=0,
             so_gio_tang_ca=0,
-            so_lan_di_muon_ve_som=0 # Khởi tạo bằng 0
+            so_lan_di_muon_ve_som=0,
+            so_ngay_da_nghi_phep=0
         )
 
         db.add(new_attendance)
@@ -85,12 +83,14 @@ class AttendanceService:
         attendance.so_gio_lam = result["so_gio_lam"]
         attendance.so_gio_tang_ca = result["so_gio_tang_ca"]
         attendance.so_lan_di_muon_ve_som = result["so_lan_di_muon_ve_som"]
+        attendance.so_ngay_da_nghi_phep = result["so_ngay_da_nghi_phep"]
         attendance.trang_thai = result["trang_thai"]
 
         db.commit()
         db.refresh(attendance)
         return attendance
     
+    # Hàm tính toán các thuộc tính
     @staticmethod
     def calculate_attendance(gio_vao: time, gio_ra: time):
         """
@@ -117,7 +117,7 @@ class AttendanceService:
         effective_start = max(dt_checkin, dt_start_time) # Vào sớm hơn 08:00 vẫn tính từ 08:00
         effective_end = min(dt_checkout, dt_end_time)     # Về muộn hơn 17:00 vẫn tính đến 17:00
         
-        # Nếu vào sau giờ về (ví dụ vào 18:00) -> Không có giờ làm chính thức
+        # Nếu vào sau giờ về (ví dụ vào 18:00) -> Nhân viên hôm đấy chỉ tăng ca không làm giờ hành chính
         if effective_start >= effective_end:
             time_work = 0
         else:
@@ -132,11 +132,10 @@ class AttendanceService:
         if overlap_start < overlap_end:
             deduction_time = (overlap_end - overlap_start).total_seconds()
 
-        # GIỜ LÀM THỰC TẾ = Tổng thô - Thời gian nghỉ trưa
-        # Làm tròn 2 chữ số và đảm bảo không âm
-        time_work = round(max(0, (time_work - deduction_time) / 3600), 2)
+        # Giờ làm thực tế = Tổng thời gian tính toán - Thời gian nghỉ trưa
+        time_work = round(max(0, (time_work - deduction_time) / 3600), 2)   # Làm tròn 2 chữ số và đảm bảo không âm
 
-        # --- TÍNH TĂNG CA (Overtime) ---
+        # Tính giờ tăng ca
         # Chỉ tính nếu Giờ ra thực tế > 17:00
         ot_seconds = (dt_checkout - dt_end_time).total_seconds()
         ot_time = round(max(0, ot_seconds / 3600), 2)
