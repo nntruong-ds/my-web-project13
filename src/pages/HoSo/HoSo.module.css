@@ -1,0 +1,79 @@
+.container {
+    border: black solid 1px;
+    border-radius: 5px;
+    width: 90%;
+    margin: auto;
+}
+.title{
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    background-color: #0066CC14;
+    margin: 0;
+    padding: 10px;
+}
+.btn{
+    display: flex;
+    flex-direction: row;
+    margin-left: auto;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    gap: 30px;
+}
+.titleTable{
+    margin-left: 50px;
+}
+.table{
+    display: flex;
+    flex-direction: column;
+    border: #0066CC4A solid 1px;
+    border-radius: 5px;
+    width: 90%;
+    margin: 10px auto 10px auto;
+}
+.titleTable1{
+    background: #b0d0f0;
+    margin: 0;
+    padding: 10px;
+    font-size: 18px;
+    text-align: left;
+    font-style: italic;
+}
+.left{
+    flex: 7;
+}
+.right{
+    flex: 3;
+}
+.content{
+    display: flex;
+    padding: 20px;
+    gap: 20px;
+}
+.row {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+}
+
+.col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+.right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.right img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 1px solid #aaa;
+    border-radius: 6px;
+    background: #eee;
+}
+

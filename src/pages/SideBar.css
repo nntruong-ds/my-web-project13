@@ -1,0 +1,60 @@
+.sidebar{
+    width: 250px;
+    height: 100vh;
+    overflow-y: auto;
+    background: #2EA1FF;
+    padding: 10px;
+}
+.logo{
+    text-align: center;
+    padding-top: 10px;
+}
+.logo img{
+    width: 60px;
+    border-radius: 5px;
+}
+.sidebar ul{
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    cursor: pointer;
+}
+.sidebar ul li img{
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+}
+.sidebar ul li:hover{
+    border: 1px solid #2a78e4;
+    border-radius: 5px;
+}
+.sidebar ul li.active{
+    color: black;
+}
+a {
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+}
+li a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+li:hover {
+    background-color: blue;
+}
+.menu-parent:hover {
+    background-color: blue;
+}
+span{
+    font-weight: bold;
+    color: white;
+}

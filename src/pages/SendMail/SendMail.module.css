@@ -1,0 +1,22 @@
+.tittle{
+    text-align: center;
+    color: black;
+    font-size: 28px;
+    font-weight: 700;
+    margin-top: 20px;
+    letter-spacing: 1px;
+}
+.form {
+    width: 80%;
+    margin: auto;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-top: 10px;
+    padding: 20px;
+}
+.form label{
+    font-style: italic;
+}
+.star{
+    color: red;
+}
