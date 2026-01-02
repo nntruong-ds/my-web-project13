@@ -5,7 +5,6 @@ from app.routers import auth_router, employee_router, email_router, cham_cong_ro
 from app.configs.database import init_db
 from app.routers import (
     department_router,
-    employee_router,
     branch_router,
     attendance_router,
     position_router,
@@ -13,8 +12,6 @@ from app.routers import (
     business_trip_router,
     social_insurance_router,
     health_insurance_router,
-    kpi_router,
-    salary_router,
     reward_discipline_router
 )
 
@@ -82,3 +79,4 @@ def root():
 # Cấu hình chạy server (nếu chạy trực tiếp file này)
 if __name__ == "__main__":
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
+
