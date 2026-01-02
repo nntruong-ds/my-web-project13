@@ -1,6 +1,6 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
 
-class EmailRequest(BaseModel):
-    to_email: EmailStr
+class InternalEmailRequest(BaseModel):
+    receiver_ma_nv: str
     subject: str
     content: str
