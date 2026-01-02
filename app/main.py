@@ -61,7 +61,6 @@ app.include_router(reward_router.router)
 app.include_router(cong_tac_router.router)
 
 app.include_router(department_router.router)
-app.include_router(employee_router.router)
 app.include_router(branch_router.router)
 app.include_router(attendance_router.router)
 app.include_router(position_router.router)
@@ -69,7 +68,6 @@ app.include_router(user_router.router)
 app.include_router(business_trip_router.router)
 app.include_router(social_insurance_router.router)
 app.include_router(health_insurance_router.router)
-app.include_router(kpi_router.router)
 app.include_router(reward_discipline_router.router)
 
 @app.get("/")
@@ -79,4 +77,5 @@ def root():
 # Cấu hình chạy server (nếu chạy trực tiếp file này)
 if __name__ == "__main__":
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
+
 
