@@ -88,3 +88,29 @@ def mark_as_read_service(email_id: int, user, db):
         raise Exception("Email không tồn tại hoặc không có quyền")
 
     return {"message": "Đã đánh dấu email là đã đọc"}
+
+def sent_items_service(user, db):
+    ma_nv = user.TenDangNhap
+
+    emails = db.execute(
+        text("""
+            SELECT id, receiver_ma_nv, subject, content, created_at
+            FROM email_logs
+            WHERE sender_ma_nv = :ma
+            ORDER BY created_at DESC
+        """),
+        {"ma": ma_nv}
+    ).fetchall()
+
+    return {
+        "total": len(emails),
+        "emails": [
+            {
+                "id": e.id,
+                "to": e.receiver_ma_nv,
+                "subject": e.subject,
+                "content": e.content,
+                "time": e.created_at
+            } for e in emails
+        ]
+    }
