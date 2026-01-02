@@ -26,6 +26,9 @@ export default function Employee() {
             })
             .then((res) => {
                 setUser(res.data);
+                localStorage.setItem("ho_ten", res.data.ho_ten);
+                window.dispatchEvent(new Event("storage"));
+
                 setLoading(false);
             })
             .catch((err) => {
@@ -70,6 +73,7 @@ export default function Employee() {
                     className="btn-logout"
                     onClick={() => {
                         localStorage.clear();
+                        window.dispatchEvent(new Event("storage"));
                         navigate("/");
                     }}
                 >
