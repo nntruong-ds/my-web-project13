@@ -1,5 +1,5 @@
-from pydantic import BaseModel, field_validator
-from typing import Optional, List, Union
+from pydantic import BaseModel
+from typing import Optional, Union
 from datetime import datetime
 
 # Schema Base
@@ -26,6 +26,9 @@ class DepartmentResponse(DepartmentBase):
 
     # Hiển thị tên trưởng phòng
     ten_truong_phong: Optional[str] = None
+
+    # Hiển thị tên chi nhánh
+    ten_chi_nhanh: str
 
     # Hiển thị số lượng nhân viên của phòng
     so_luong_nhan_vien: int

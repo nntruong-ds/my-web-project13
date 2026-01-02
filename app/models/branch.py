@@ -14,12 +14,16 @@ class Branch(Base):
     ngay_thanh_lap = Column(Date)
 
     # Relationship: Một chi nhánh có 1 Giám đốc
-    giam_doc = relationship("Employee", foreign_keys=[id_gdoc], lazy="joined")
+    giam_doc = relationship("Employee", back_populates="chi_nhanh_quan_ly", foreign_keys=[id_gdoc], lazy="joined")
 
     @property
     def ten_giam_doc(self):
         # Kiểm tra: Nếu có giám đốc thì trả về tên, nếu không (None) thì trả về None
         return self.giam_doc.ho_ten if self.giam_doc else None
+    
+    @property
+    def gioi_tinh_giam_doc(self):
+        return self.giam_doc.gioi_tinh if self.giam_doc else None
 
     # Relationship 1-nhiều (1 chi nhánh có nhiều nhân viên)
     ds_nhan_vien = relationship("Employee", back_populates="chi_nhanh_lam_viec", foreign_keys="Employee.chinhanh_id")

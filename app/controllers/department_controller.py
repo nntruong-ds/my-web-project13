@@ -22,10 +22,7 @@ class DepartmentController:
 
     @staticmethod
     def create_department(db: Session, data: DepartmentCreate):
-        try:
-            return DepartmentService.create_department(db, data)
-        except ValueError as e:
-            raise HTTPException(status_code=400, detail=str(e))
+        return DepartmentService.create_department(db, data)
         
     @staticmethod
     def update_department(db: Session, id: str, data: DepartmentUpdate):
@@ -42,8 +39,6 @@ class DepartmentController:
     @staticmethod
     def delete_department(db: Session, id: str):
         result = DepartmentService.delete_department(db, id)
-
         if not result:
             raise HTTPException(status_code=404, detail="Phòng ban không tồn tại")
-
         return {"message": "Xóa phòng ban thành công"}

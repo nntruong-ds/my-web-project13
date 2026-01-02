@@ -4,18 +4,23 @@ from app.models.employee import Employee
 from app.schemas.branch_schema import BranchCreate, BranchUpdate, BranchResponse
 
 class BranchService:
+    # Truy vấn chi nhánh theo ma_chi_nhanh
+    @staticmethod
+    def get_branch_orm(db: Session, macn: int):
+        return db.query(Branch).filter(Branch.ma_chi_nhanh == macn).first()
+
+    # Lấy thông tin chi nhánh
+    @staticmethod
+    def get_branch_by_id(db: Session, id: int):
+        branch = BranchService.get_branch_orm(db, id)
+        if not branch:
+            return None
+        return BranchResponse.model_validate(branch)
+
     # Lấy danh sách chi nhánh
     @staticmethod
     def get_all_branches(db: Session):
         return [BranchResponse.model_validate(b) for b in db.query(Branch).all()]
-    
-    # Lấy thông tin chi nhánh
-    @staticmethod
-    def get_branch_by_id(db: Session, id: str):
-        department = BranchService.get_branch_orm(db, id)
-        if not department:
-            return None
-        return BranchResponse.model_validate(department)
 
     # Thêm chi nhánh mới
     @staticmethod
@@ -32,7 +37,10 @@ class BranchService:
             # Check giám đốc có quản lý chi nhánh nào chưa
             director = db.query(Branch).filter(Branch.id_gdoc == data.id_gdoc).first()
             if director:
-                raise ValueError(f"Ông {director.ten_giam_doc} đang làm Giám đốc tại chi nhánh '{director.ten_chi_nhanh}'. Một người không thể quản lý 2 chi nhánh!")
+                if director.gioi_tinh_giam_doc == "Nam":
+                    raise ValueError(f"Ông {director.ten_giam_doc} đang làm Giám đốc tại chi nhánh '{director.ten_chi_nhanh}'.")
+                else:
+                    raise ValueError(f"Bà {director.ten_giam_doc} đang làm Giám đốc tại chi nhánh '{director.ten_chi_nhanh}'.")
         
 
         # Tạo mới
@@ -49,29 +57,61 @@ class BranchService:
         branch = BranchService.get_branch_orm(db, branch_id)
         if not branch:
             return None
+        
+        # Snapshot Giám đốc cũ
+        cur_gdoc_id = branch.id_gdoc
 
-        # Check giám đốc mới nếu có update
-        if data.id_gdoc is not None:
-            # Check giám đốc có tồn tại không
-            if not db.query(Employee).filter(Employee.ma_nhan_vien == data.id_gdoc).first():
-                raise ValueError(f"Mã giám đốc {data.id_gdoc} không tồn tại!")
-            
-            # Check người này đã quản lý chi nhánh nào khác chưa
-            director = db.query(Branch).filter(
-                Branch.id_gdoc == data.id_gdoc,
-                Branch.ma_chi_nhanh != branch_id #Bỏ bản thân người đang check
-            ).first()
+        # Lấy dữ liệu thực tế người dùng gửi lên
+        update_data = data.model_dump(exclude_unset=True)
 
-            if director:
-                raise ValueError(f"Ông {director.ten_giam_doc} đang làm Giám đốc tại chi nhánh khác ({director.ten_chi_nhanh}). Một người không thể quản lý 2 chi nhánh!!")
+        # LOGIC KIỂM TRA
+        if "id_gdoc" in update_data:
+            new_gdoc_id = update_data["id_gdoc"]
+            if new_gdoc_id is not None:
+                # Kiểm tra Giám đốc tồn tại
+                if not db.query(Employee).filter(Employee.ma_nhan_vien == new_gdoc_id).first():
+                    raise ValueError(f"Mã giám đốc {new_gdoc_id} không tồn tại!")
+                
+                # Kiểm tra tính duy nhất (1 người chỉ quản lý 1 chi nhánh)
+                director = db.query(Branch).filter(
+                    Branch.id_gdoc == new_gdoc_id,
+                    Branch.ma_chi_nhanh != branch_id
+                ).first()
 
-            branch.id_gdoc = data.id_gdoc
+                if director:
+                    if director.gioi_tinh_giam_doc == "Nam":
+                        raise ValueError(f"Ông {director.ten_giam_doc} đang làm Giám đốc tại chi nhánh '{director.ten_chi_nhanh}'.")
+                    else:
+                        raise ValueError(f"Bà {director.ten_giam_doc} đang làm Giám đốc tại chi nhánh '{director.ten_chi_nhanh}'.")
 
-        if data.ten_chi_nhanh is not None: branch.ten_chi_nhanh = data.ten_chi_nhanh
-        if data.dia_chi is not None: branch.dia_chi = data.dia_chi
-        if data.so_dien_thoai is not None: branch.so_dien_thoai = data.so_dien_thoai
-        if data.email is not None: branch.email = data.email
-        if data.ngay_thanh_lap is not None: branch.ngay_thanh_lap = data.ngay_thanh_lap
+        if "id_gdoc" in update_data:
+            new_gdoc_id = update_data["id_gdoc"]
+
+            # Nếu có thay đổi lãnh đạo
+            if new_gdoc_id != cur_gdoc_id:
+                
+                # Xử lý giám đốc mới (Thăng chức + Chuyển về chi nhánh này)
+                if new_gdoc_id:
+                    new_emp = db.query(Employee).filter(Employee.ma_nhan_vien == new_gdoc_id).first()
+                    if new_emp:
+                        # Thăng chức: Thay "GD" bằng mã chức vụ Giám Đốc trong DB của bạn
+                        new_emp.chuc_vu_id = "GD" 
+                        
+                        # Nếu đang ở chi nhánh khác thì kéo về đây
+                        if new_emp.chinhanh_id != branch_id:
+                            new_emp.chinhanh_id = branch_id
+                            new_emp.phong_ban_id = None
+
+                # Xử lý giám đốc cũ (Giáng chức)
+                if cur_gdoc_id:
+                    old_emp = db.query(Employee).filter(Employee.ma_nhan_vien == cur_gdoc_id).first()
+                    if old_emp:
+                        # Giáng xuống nhân viên: Thay "NV" bằng mã chức vụ tương ứng
+                        old_emp.chuc_vu_id = "NV"
+
+        # CẬP NHẬT TỰ ĐỘNG
+        for key, value in update_data.items():
+            setattr(branch, key, value)
 
         db.commit()
         db.refresh(branch)
@@ -88,8 +128,3 @@ class BranchService:
         db.delete(branch)
         db.commit()
         return True
-    
-    # Truy vấn chi nhánh theo ma_chi_nhanh
-    @staticmethod
-    def get_branch_orm(db: Session, macn: int):
-        return db.query(Branch).filter(Branch.ma_chi_nhanh == macn).first()

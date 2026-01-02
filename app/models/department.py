@@ -26,9 +26,18 @@ class Department(Base):
     @property
     def ten_truong_phong(self):
         return self.truong_phong.ho_ten if self.truong_phong else None
+    
+    @property
+    def gioi_tinh_truong_phong(self):
+        return self.truong_phong.gioi_tinh if self.truong_phong else None
 
     # Relationship: Phòng ban thuộc về 1 chi nhánh
     chi_nhanh_truc_thuoc = relationship("Branch", back_populates="ds_phong_ban", foreign_keys=[ma_cn])
+
+    # Lấy tên chi nhánh
+    @property
+    def ten_chi_nhanh(self):
+        return self.chi_nhanh_truc_thuoc.ten_chi_nhanh
 
     def __repr__(self):
         return f"<PhongBan(mapb='{self.mapb}', ten_phong='{self.ten_phong}')>"

@@ -22,10 +22,7 @@ class BranchController:
 
     @staticmethod
     def create_branch(db: Session, data: BranchCreate):
-        try:
-            return BranchService.create_branch(db, data)
-        except ValueError as e:
-            raise HTTPException(status_code=400, detail=str(e))
+        return BranchService.create_branch(db, data)
 
     @staticmethod
     def update_branch(db: Session, id: int, data: BranchUpdate):
