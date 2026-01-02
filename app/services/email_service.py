@@ -1,7 +1,9 @@
 from sqlalchemy import text
 from app.schemas.email_schema import InternalEmailRequest
 
+# ===============================
 # GỬI EMAIL NỘI BỘ
+# ===============================
 def send_internal_email_service(data: InternalEmailRequest, user, db):
     sender_ma_nv = user.TenDangNhap
 
@@ -40,7 +42,10 @@ def send_internal_email_service(data: InternalEmailRequest, user, db):
         "to": data.receiver_ma_nv
     }
 
+
+# ===============================
 # INBOX CỦA NHÂN VIÊN
+# ===============================
 def inbox_service(user, db):
     ma_nv = user.TenDangNhap
 
@@ -69,7 +74,9 @@ def inbox_service(user, db):
     }
 
 
+# ===============================
 # ĐÁNH DẤU ĐÃ ĐỌC
+# ===============================
 def mark_as_read_service(email_id: int, user, db):
     ma_nv = user.TenDangNhap
 

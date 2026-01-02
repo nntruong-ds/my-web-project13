@@ -1,27 +1,21 @@
 from datetime import datetime, timedelta
 from jose import JWTError, jwt
-from typing import Union, Any
 
-from app.configs.settings import settings
+SECRET_KEY = "your-secret-key"
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
-class JWTUtils:
-    # Hàm tạo JWT Token (Login thành công thì gọi cái này)
-    @staticmethod
-    def create_access_token(subject: Union[str, Any]) -> str:
-        expire = datetime.utcnow() + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
-        
-        # Payload: Dữ liệu nhét vào token
-        to_encode = {"exp": expire, "sub": str(subject)}
-        
-        # Tạo chữ ký
-        encoded_jwt = jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
-        return encoded_jwt
+def create_access_token(data: dict):
+    to_encode = data.copy()
+    expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    to_encode.update({"exp": expire})
+    token = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    return token
 
-    # Giải mã và kiểm tra Token
-    @staticmethod
-    def verify_token(token: str):
-        try:
-            payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
-            return payload
-        except JWTError:
-            return None
+def verify_access_token(token: str):
+    from fastapi import HTTPException
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        return payload
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Token không hợp lệ")

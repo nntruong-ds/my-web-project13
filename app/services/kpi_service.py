@@ -1,142 +1,233 @@
-from sqlalchemy.orm import Session, contains_eager
-from sqlalchemy import or_, extract, func
-from itertools import groupby
-import pandas as pd
-from io import BytesIO
+from sqlalchemy.orm import Session
+from sqlalchemy import text
+from datetime import date
 
-from app.models.kpi import EmployeeKPI, TrangThaiKPI
-from app.models.employee import Employee
-from app.schemas.kpi_schema import KPICreate, KPIUpdate, KPIOverviewResponse
 
-class KPIService:
+# =====================================================
+# 1️⃣ GET KPI NHÂN VIÊN
+# =====================================================
+def get_kpi_nhan_vien(
+    db: Session,
+    ma_nhan_vien: str,
+    thang: int,
+    nam: int
+):
+    rows = db.execute(
+        text("""
+            SELECT
+                ten_kpi,
+                muc_tieu,
+                thuc_te,
+                ty_le_hoan_thanh,
+                trang_thai,
+                don_vi_tinh,
+                ghi_chu
+            FROM kpi_nhan_vien
+            WHERE ma_nhan_vien = :ma
+              AND thang = :thang
+              AND nam = :nam
+        """),
+        {
+            "ma": ma_nhan_vien,
+            "thang": thang,
+            "nam": nam
+        }
+    ).fetchall()
 
-    # API cho màn hình 1
-    # Gom nhóm theo nhân viên và tính trung bình
-    @staticmethod
-    def get_overview(db: Session, thang: int, nam: int, mapb: str = None, macn: int = None, keyword: str = None):
-        # Lấy tất cả KPI trong tháng đó
-        query = db.query(EmployeeKPI)\
-          .join(EmployeeKPI.nhan_vien)\
-          .options(contains_eager(EmployeeKPI.nhan_vien))\
-          .outerjoin(Employee.phong_truc_thuoc)\
-          .outerjoin(Employee.chi_nhanh_lam_viec)
+    if not rows:
+        return {
+            "message": "Chưa có dữ liệu KPI cho tháng này",
+            "data": []
+        }
 
-        # Filter cơ bản
-        if thang: query = query.filter(EmployeeKPI.thang == thang)
-        if nam: query = query.filter(EmployeeKPI.nam == nam)
-        if mapb: query = query.filter(Employee.phong_ban_id == mapb)
-        if macn: query = query.filter(Employee.chinhanh_id == macn)
-        
-        if keyword:
-            key = f"%{keyword}%"
-            query = query.filter(or_(Employee.ma_nhan_vien.ilike(key), Employee.ho_ten.ilike(key)))
+    return {
+        "message": "Lấy KPI thành công",
+        "data": [
+            {
+                "ten_kpi": r.ten_kpi,
+                "muc_tieu": r.muc_tieu,
+                "thuc_te": r.thuc_te,
+                "ty_le_hoan_thanh": r.ty_le_hoan_thanh,
+                "trang_thai": r.trang_thai,
+                "don_vi_tinh": r.don_vi_tinh,
+                "ghi_chu": r.ghi_chu
+            }
+            for r in rows
+        ]
+    }
 
-        # Sắp xếp theo Mã NV để phục vụ cho việc Group By
-        records = query.order_by(EmployeeKPI.ma_nhan_vien).all()
 
-        results = []
-        # Dùng itertools.groupby để gom nhóm KPI theo nhân viên
-        for ma_nv, group in groupby(records, key=lambda x: x.ma_nhan_vien):
-            kpi_list = list(group)
-            first_record = kpi_list[0] # Lấy thông tin nhân viên từ bản ghi đầu tiên
+# =====================================================
+# 2️⃣ UPDATE KPI CHUYÊN CẦN
+# =====================================================
+def update_kpi_chuyen_can(
+    db: Session,
+    ma_nhan_vien: str,
+    thang: int,
+    nam: int,
+    ghi_chu: str | None = None
+):
+    TEN_KPI = "Chuyên cần"
+    MUC_TIEU = 26
+    DON_VI = "ngày"
 
-            # Tính toán tổng hợp
-            total_score = sum(k.ty_le_hoan_thanh or 0 for k in kpi_list)
-            count = len(kpi_list)
-            avg_score = total_score / count if count > 0 else 0
+    # 1️⃣ Đếm số ngày đi làm đúng giờ
+    row = db.execute(
+        text("""
+            SELECT COUNT(*) AS tong_ngay
+            FROM cham_cong
+            WHERE ma_nhan_vien = :ma
+              AND MONTH(ngay) = :thang
+              AND YEAR(ngay) = :nam
+              AND trang_thai = 'Đi làm'
+              AND so_lan_di_muon_ve_som = 0
+        """),
+        {
+            "ma": ma_nhan_vien,
+            "thang": thang,
+            "nam": nam
+        }
+    ).fetchone()
 
-            # Logic đánh giá chung
-            status_text = "ĐẠT" if avg_score >= 80 else "KHÔNG ĐẠT"
+    thuc_te = row.tong_ngay if row else 0
 
-            results.append(KPIOverviewResponse(
-                ma_nhan_vien=ma_nv,
-                ten_nhan_vien=first_record.ten_nhan_vien or "",
-                ten_phong_ban=first_record.ten_phong_ban,
-                ten_chi_nhanh=first_record.ten_chi_nhanh,
-                kpi_trung_binh=round(avg_score, 2),
-                danh_gia_chung=status_text,
-                so_luong_tieu_chi=count
-            ))
-        
-        return results
-    
-    @staticmethod
-    def export_overview_excel(db: Session, thang: int, nam: int, mapb: str = None, macn: int = None, keyword: str = None):
-        overview_data = KPIService.get_overview(db, thang, nam, mapb, macn, keyword)
+    # 2️⃣ Tính tỷ lệ hoàn thành
+    ty_le = round((thuc_te / MUC_TIEU) * 100, 2)
+    ty_le = min(ty_le, 100)
 
-        # Chuyển đổi list Pydantic object thành list Dictionary cho Pandas
-        data_list = []
-        for item in overview_data:
-            data_list.append({
-                "Mã Nhân Viên": item.ma_nhan_vien,
-                "Họ và Tên": item.ten_nhan_vien,
-                "Phòng Ban": item.ten_phong_ban or "",
-                "Chi Nhánh": item.ten_chi_nhanh or "",
-                "KPI Trung Bình (%)": round(item.kpi_trung_binh, 2),
-                "Đánh Giá Chung": item.danh_gia_chung
-            })
+    # 3️⃣ Xác định trạng thái
+    today = date.today()
+    if nam > today.year or (nam == today.year and thang >= today.month):
+        trang_thai = "dang_danh_gia"
+    else:
+        trang_thai = "dat" if ty_le >= 80 else "khong_dat"
 
-        # Tạo DataFrame và ghi vào Excel
-        df = pd.DataFrame(data_list)
-        output = BytesIO()
-        
-        with pd.ExcelWriter(output, engine='openpyxl') as writer:
-            sheet_name = f'KPI_Thang{thang}_{nam}'
-            df.to_excel(writer, index=False, sheet_name=sheet_name)
-            
-            # Format độ rộng cột cho đẹp
-            worksheet = writer.sheets[sheet_name]
-            for column_cells in worksheet.columns:
-                length = max(len(str(cell.value)) for cell in column_cells)
-                worksheet.column_dimensions[column_cells[0].column_letter].width = min(length + 2, 50)
+    # 4️⃣ UPSERT KPI
+    db.execute(
+        text("""
+            INSERT INTO kpi_nhan_vien (
+                ma_nhan_vien,
+                ten_kpi,
+                muc_tieu,
+                thuc_te,
+                don_vi_tinh,
+                ghi_chu,
+                trang_thai,
+                thang,
+                nam
+            )
+            VALUES (
+                :ma, :ten_kpi, :muc_tieu, :thuc_te,
+                :don_vi, :ghi_chu, :trang_thai,
+                :thang, :nam
+            )
+            ON DUPLICATE KEY UPDATE
+                muc_tieu = VALUES(muc_tieu),
+                thuc_te = VALUES(thuc_te),
+                don_vi_tinh = VALUES(don_vi_tinh),
+                ghi_chu = VALUES(ghi_chu),
+                trang_thai = VALUES(trang_thai)
+        """),
+        {
+            "ma": ma_nhan_vien,
+            "ten_kpi": TEN_KPI,
+            "muc_tieu": MUC_TIEU,
+            "thuc_te": thuc_te,
+            "don_vi": DON_VI,
+            "ghi_chu": ghi_chu,
+            "trang_thai": trang_thai,
+            "thang": thang,
+            "nam": nam
+        }
+    )
 
-        output.seek(0)
-        return output
+    # 5️⃣ Nếu ĐẠT KPI → THƯỞNG
+    if trang_thai == "dat":
+        insert_thuong_kpi(
+            db=db,
+            ma_nhan_vien=ma_nhan_vien,
+            thang=thang,
+            nam=nam,
+            ly_do="Hoàn thành KPI chuyên cần"
+        )
 
-    # API cho màn hình 2
-    @staticmethod
-    def get_details(db: Session, ma_nv: str, thang: int, nam: int):
-        return db.query(EmployeeKPI).filter(
-            EmployeeKPI.ma_nhan_vien == ma_nv,
-            EmployeeKPI.thang == thang,
-            EmployeeKPI.nam == nam
-        ).all()
+    db.commit()
 
-    # Thêm KPI
-    @staticmethod
-    def create(db: Session, data: KPICreate):
-        # Check trùng (Mã NV + Tên KPI + Kỳ)
-        exists = db.query(EmployeeKPI).filter(
-            EmployeeKPI.ma_nhan_vien == data.ma_nhan_vien,
-            EmployeeKPI.ten_kpi == data.ten_kpi,
-            EmployeeKPI.ky_danh_gia == data.ky_danh_gia
-        ).first()
-        
-        if exists:
-            raise ValueError(f"KPI '{data.ten_kpi}' đã tồn tại trong kỳ này!")
+    return {
+        "message": "Cập nhật KPI Chuyên cần thành công",
+        "data": {
+            "ma_nhan_vien": ma_nhan_vien,
+            "thuc_te": thuc_te,
+            "muc_tieu": MUC_TIEU,
+            "ty_le_hoan_thanh": ty_le,
+            "trang_thai": trang_thai
+        }
+    }
 
-        new_kpi = EmployeeKPI(**data.model_dump())
-        db.add(new_kpi)
-        db.commit()
-        db.refresh(new_kpi)
-        return new_kpi
 
-    # Cập nhật KPI
-    @staticmethod
-    def update(db: Session, ma_nv: str, ten_kpi: str, ky_danh_gia: str, data: KPIUpdate):
-        kpi = db.query(EmployeeKPI).filter(
-            EmployeeKPI.ma_nhan_vien == ma_nv,
-            EmployeeKPI.ten_kpi == ten_kpi,
-            EmployeeKPI.ky_danh_gia == ky_danh_gia
-        ).first()
-        
-        if not kpi:
-            raise ValueError("Không tìm thấy chỉ tiêu KPI này!")
-            
-        update_data = data.model_dump(exclude_unset=True)
-        for key, value in update_data.items():
-            setattr(kpi, key, value)
-            
-        db.commit()
-        db.refresh(kpi)
-        return kpi
+# =====================================================
+# 3️⃣ INSERT THƯỞNG KPI
+# =====================================================
+def insert_thuong_kpi(
+    db: Session,
+    ma_nhan_vien: str,
+    thang: int,
+    nam: int,
+    ly_do: str | None = None
+):
+    row = db.execute(
+        text("""
+            SELECT MAX(ngay) AS ngay_cuoi
+            FROM cham_cong
+            WHERE ma_nhan_vien = :ma
+              AND MONTH(ngay) = :thang
+              AND YEAR(ngay) = :nam
+        """),
+        {"ma": ma_nhan_vien, "thang": thang, "nam": nam}
+    ).fetchone()
+
+    if not row or not row.ngay_cuoi:
+        return
+
+    exists = db.execute(
+        text("""
+            SELECT 1 FROM khen_thuong_ky_luat
+            WHERE ma_nhan_vien = :ma
+              AND loai = 'Khen thưởng'
+              AND hinh_thuc = 'Thưởng KPI'
+              AND thang = :thang
+        """),
+        {"ma": ma_nhan_vien, "thang": thang}
+    ).fetchone()
+
+    if exists:
+        return
+
+    db.execute(
+        text("""
+            INSERT INTO khen_thuong_ky_luat (
+                ma_nhan_vien,
+                loai,
+                ngay,
+                hinh_thuc,
+                ly_do,
+                so_tien,
+                thang
+            )
+            VALUES (
+                :ma,
+                'Khen thưởng',
+                :ngay,
+                'Thưởng KPI',
+                :ly_do,
+                5000000,
+                :thang
+            )
+        """),
+        {
+            "ma": ma_nhan_vien,
+            "ngay": row.ngay_cuoi,
+            "ly_do": ly_do,
+            "thang": thang
+        }
+    )

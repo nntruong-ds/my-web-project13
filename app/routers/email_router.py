@@ -16,7 +16,9 @@ router = APIRouter(
     tags=["Email nội bộ"]
 )
 
+# ===============================
 # GỬI EMAIL NỘI BỘ
+# ===============================
 @router.post("/send-internal")
 def send_internal_email(
     data: InternalEmailRequest,
@@ -25,14 +27,18 @@ def send_internal_email(
 ):
     return send_internal_email_service(data, current_user, db)
 
+
 @router.get("/sent")
 def get_sent_items(
     current_user = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
     return sent_items_service(current_user, db)
-    
+
+
+# ===============================
 # INBOX NHÂN VIÊN
+# ===============================
 @router.get("/inbox")
 def get_inbox(
     current_user = Depends(get_current_user),
@@ -41,7 +47,9 @@ def get_inbox(
     return inbox_service(current_user, db)
 
 
+# ===============================
 # ĐÁNH DẤU ĐÃ ĐỌC
+# ===============================
 @router.put("/read/{email_id}")
 def mark_as_read(
     email_id: int,
@@ -49,5 +57,6 @@ def mark_as_read(
     db: Session = Depends(get_db)
 ):
     return mark_as_read_service(email_id, current_user, db)
+
 
 
