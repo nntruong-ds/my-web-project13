@@ -6,7 +6,7 @@ def get_upcoming_birthdays(db: Session):
         SELECT 
             ho_ten,
             DATE_FORMAT(ngay_sinh, '%d/%m') AS sinh_nhat,
-            email
+            ma_nhan_vien
         FROM nhan_vien
         WHERE MONTH(ngay_sinh) = MONTH(CURDATE())
         ORDER BY DAY(ngay_sinh);
@@ -18,7 +18,7 @@ def get_upcoming_birthdays(db: Session):
         {
             "ho_ten": row[0],
             "sinh_nhat": row[1],
-            "email": row[2]
+            "ma_nhan_vien": row[2]
         }
         for row in result
     ]
