@@ -101,7 +101,7 @@ export default function PhieuLuong() {
                 <tr><th colSpan="2">Thông tin nhân viên</th></tr>
                 <tr><td>Họ và tên</td><td>{data.ho_ten || "—"}</td></tr>
                 <tr><td>Mã NV</td><td>{data.ma_nhan_vien}</td></tr>
-                <tr><td>Chức vụ</td><td>{data.chuc_vu || "—"}</td></tr>
+                <tr><td>Chức vụ</td><td>{data.chuc_vu_id || "—"}</td></tr>
 
                 <tr><th colSpan="2">Các khoản thu nhập</th></tr>
                 <tr><td>Lương cơ bản</td><td>{data.luong_co_ban.toLocaleString()}</td></tr>

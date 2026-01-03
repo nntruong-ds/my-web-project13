@@ -84,7 +84,7 @@ export default function SinhNhat() {
                                         alt="email"
                                         onClick={() =>
                                             navigate(
-                                                `/employee/${ma_nhan_vien}/email?to=${emp.email}`
+                                                `/employee/${ma_nhan_vien}/email?to=${emp.ma_nhan_vien}`
                                             )
                                         }
                                         style={{ cursor: "pointer" }}
