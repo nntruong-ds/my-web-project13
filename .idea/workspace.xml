@@ -7,9 +7,7 @@
     <list default="true" id="0ca6e388-9477-4850-9b2d-ccd37aecb620" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/ChatBot.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ChatBot.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Employee.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Employee.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/GuiEmail.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/GuiEmail.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/css/guiemail.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/css/guiemail.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,25 +33,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;frontend/vdquy&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/thudo/my-wed-project13&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;coverage&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "frontend/vdquy",
+    "junie.onboarding.icon.badge.shown": "true",
+    "last_opened_file_path": "C:/Users/thudo/my-wed-project13",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "coverage",
+    "to.speed.mode.migration.done": "true",
+    "ts.external.directory.path": "D:\\code\\python\\WebStorm 2025.2.3\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -95,7 +94,8 @@
       <workItem from="1767337519855" duration="621000" />
       <workItem from="1767339736332" duration="296000" />
       <workItem from="1767348635395" duration="6578000" />
-      <workItem from="1767360415313" duration="400000" />
+      <workItem from="1767360415313" duration="768000" />
+      <workItem from="1767385021060" duration="5387000" />
     </task>
     <servers />
   </component>

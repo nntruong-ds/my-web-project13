@@ -4,7 +4,7 @@ import botIcon from "./css/chatbot.png";
 
 /* ================= CHAT API ================= */
 async function sendChatToAPI(message) {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access_token");
     if (!token) throw new Error("No token");
 
     const res = await fetch("http://localhost:3000/api/chat", {

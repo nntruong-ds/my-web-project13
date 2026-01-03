@@ -24,7 +24,6 @@ export default function GuiEmail() {
     const token = localStorage.getItem("access_token");
     const unreadCount = emails.filter(m => m.is_read === 0).length;
 
-    /* ===== LOAD INBOX ===== */
     const loadInbox = async () => {
         try {
             const res = await axios.get(
