@@ -48,7 +48,7 @@ export default function Employee() {
         { name: "Bảng công", path: "bangcong", icon: require("./css/bangcong.png") },
         { name: "KPI", path: "kpi", icon: require("./css/kpi.png") },
         { name: "Công tác", path: "congtac", icon: require("./css/congtac.png") },
-        { name: "Email", path: "email", icon: require("./css/email.png") },
+        { name: "Inbox", path: "email", icon: require("./css/email.png") },
     ];
 
     return (

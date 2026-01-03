@@ -221,7 +221,7 @@ export default function GuiEmail() {
                     {activeTab === "sent" && (
                         <div className="inbox-list">
                             {sentEmails.length === 0 && (
-                                <p className="empty">Chưa gửi email nào</p>
+                                <p className="empty">Chưa gửi tin nhắn nào</p>
                             )}
 
                             {sentEmails.map((m) => (
